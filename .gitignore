@@ -8,6 +8,14 @@ yarn-error.log
 .env.local
 .env.*.local
 
+# Next.js
+.next/
+next-env.d.ts.bak
+
+# Supabase local dev
+supabase/.branches/
+supabase/.temp/
+
 # IDE
 .vscode/
 .idea/
