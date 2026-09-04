@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: Set up Claude Code as senior engineer for Yellow AI *)"
+    ]
+  }
+}
