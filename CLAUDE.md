@@ -207,6 +207,28 @@ npm run debug:access      # Debug role-based access control
 
 ---
 
+## 9.5 Learning Graph — leitura obrigatória
+
+O ativo defensável deste produto NÃO é o chat socrático (commoditizado em ~24
+meses por qualquer modelo de fronteira). É o histórico longitudinal por aluno e
+por conceito: `docs/LEARNING_GRAPH.md`.
+
+Regras que não se negociam ao mexer nessa área:
+
+- `learning_events` é append-only. Nunca `update`, nunca `delete`.
+- `concept_mastery` é derivado e tem que continuar 100% recomputável dos eventos.
+- O tagger de conceito nunca entra no caminho crítico da resposta ao aluno.
+- Toda interação de tutoria tem que virar evidência ancorada em `concept_id`.
+  Transcrição sem âncora de conceito é dado perdido — não é recuperável depois.
+- Professor vê domínio agregado; nunca `learning_events`, nunca `messages`.
+
+Modelo de negócio que o schema reflete: contrato de **rede**, cobrado por aluno
+matriculado, assinado com a mantenedora. `enrollments` ativo = assento faturável.
+
+Plano de execução: `docs/LEARNING_GRAPH_IMPLEMENTATION.md`.
+
+---
+
 ## 10. What Matters Most Right Now
 
 **Phase 1 Priority**: Get the core loop working
@@ -225,3 +247,13 @@ npm run debug:access      # Debug role-based access control
 - Educational Philosophy: Socratic method, spaced repetition research
 - Privacy Compliance: LGPD (Brazil), GDPR (EU)
 - Competitor Analysis: Plurall, Sokrates AI
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
