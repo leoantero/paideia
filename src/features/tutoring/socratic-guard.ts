@@ -12,12 +12,14 @@
 
 const DIRECT_ANSWER_PATTERNS: RegExp[] = [
   /^(the answer is|it is|the result is|that equals|equals)\b/i,
+  /^(a resposta (é|e|seria)|o resultado (é|e|seria)|isso (é|e) igual a|portanto,? \d)/i,
   /^\d+(\.\d+)?\s*$/, // a bare number and nothing else
   /^(yes|no)\.?\s*$/i, // a bare yes/no with no follow-up question
+  /^(sim|não|nao)\.?\s*$/i, // "sim"/"não" seco, sem pergunta de continuação
 ];
 
 export const SOCRATIC_FALLBACK =
-  "That's worth exploring — what have you tried so far? What do you already know that might apply here?";
+  "Isso vale a pena explorar — o que você já tentou até agora? O que você já sabe que poderia se aplicar aqui?";
 
 export interface GuardResult {
   text: string;

@@ -1,6 +1,8 @@
 import "server-only";
+import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { GradeBand } from "@/src/core/auth/types";
+import { generateStructuredCompletion } from "@/src/core/ai-integration/anthropic-client";
 import type { Concept, LearningEvent } from "./types";
 
 /**
@@ -75,22 +77,41 @@ REGRAS:
   ele produziu de raciocinio.`;
 }
 
+/** Teto de confianca pra evidencia vinda de chat -- ruidoso por natureza. */
+const TUTOR_TURN_CONFIDENCE_CAP = 0.6;
+
+const clamp01 = (n: number) => Math.min(Math.max(n, 0), 1);
+
+const taggerEventSchema = z.object({
+  concept_id: z.string(),
+  signal: z.enum(["correct", "partial", "incorrect", "struggling", "insight"]),
+  confidence: z.coerce.number(),
+  difficulty: z.coerce.number().optional(),
+});
+
+const taggerResponseSchema = z.object({
+  events: z.array(taggerEventSchema),
+});
+
+/** Extrai o primeiro bloco `{...}` -- o modelo as vezes embrulha em prosa/markdown. */
+function extractJsonObject(raw: string): string | null {
+  const start = raw.indexOf("{");
+  const end = raw.lastIndexOf("}");
+  if (start === -1 || end === -1 || end <= start) return null;
+  return raw.slice(start, end + 1);
+}
+
 /**
- * TODO(claude-code): implementar.
+ * O TAGGER. Converte um turno de conversa em evidencia ancorada em conceito.
  *
- * 1. montar candidatos via getCandidateConcepts()
- * 2. chamar TAGGER_MODEL com buildTaggerPrompt() + o turno (aluno e tutor)
- * 3. parsear o JSON com zod (ja e dependencia do projeto)
- * 4. DESCARTAR qualquer concept_id que nao esteja em candidates -- o modelo
- *    alucina uuid; isso nao e opcional, e integridade referencial
- * 5. clampar confidence em [0,1] e teto de 0.6 pra source 'tutor_turn'
- *    (chat e ruidoso por natureza -- ver docs/LEARNING_GRAPH.md)
- * 6. devolver com source='tutor_turn' e source_ref = id da mensagem
- *
- * Falha do tagger NAO pode derrubar o chat: devolva { events: [], conceptIds: [] }
- * e logue. O aluno nunca pode ver um erro porque a instrumentacao caiu.
+ * Contrato (ver docs/LEARNING_GRAPH.md):
+ * - NAO entra no caminho critico -- o chamador dispara via `after()`.
+ * - Falha NUNCA derruba o chat: qualquer erro -> { events: [], conceptIds: [] } + log.
+ * - Descarta todo concept_id que nao esteja nos candidatos (modelo alucina uuid;
+ *   isso e integridade referencial, nao opcional).
+ * - confidence de 'tutor_turn' fica no teto de 0.6.
  */
-export async function tagTurn(_args: {
+export async function tagTurn(args: {
   supabase: SupabaseClient;
   studentMessage: string;
   tutorReply: string;
@@ -98,5 +119,69 @@ export async function tagTurn(_args: {
   gradeBand: GradeBand;
   messageId: string;
 }): Promise<TaggedEvidence> {
-  throw new Error("Nao implementado -- ver docs/LEARNING_GRAPH.md, passo 3");
+  const empty: TaggedEvidence = { events: [], conceptIds: [] };
+
+  try {
+    const candidates = await getCandidateConcepts(
+      args.supabase,
+      args.subject,
+      args.gradeBand
+    );
+    if (candidates.length === 0) return empty;
+
+    const validIds = new Set(candidates.map((c) => c.id));
+    const difficultyById = new Map(
+      candidates.map((c) => [c.id, c.intrinsic_difficulty])
+    );
+
+    const raw = await generateStructuredCompletion({
+      model: TAGGER_MODEL,
+      systemPrompt: buildTaggerPrompt(candidates),
+      userContent: `TURNO:\nAluno: ${args.studentMessage}\nTutor: ${args.tutorReply}`,
+      maxTokens: 400,
+    });
+
+    const jsonText = extractJsonObject(raw);
+    if (!jsonText) {
+      console.warn("[concept-tagger] resposta sem JSON parseavel; turno ignorado");
+      return empty;
+    }
+
+    const parsed = taggerResponseSchema.safeParse(JSON.parse(jsonText));
+    if (!parsed.success) {
+      console.warn(`[concept-tagger] JSON fora do schema: ${parsed.error.message}`);
+      return empty;
+    }
+
+    const seen = new Set<string>();
+    const events: LearningEvent[] = [];
+
+    for (const e of parsed.data.events) {
+      // integridade referencial: uuid alucinado nao entra, ponto final
+      if (!validIds.has(e.concept_id) || seen.has(e.concept_id)) continue;
+      seen.add(e.concept_id);
+
+      events.push({
+        concept_id: e.concept_id,
+        source: "tutor_turn",
+        signal: e.signal,
+        // floor em 0.05: a coluna tem check (confidence > 0)
+        confidence: Math.min(
+          Math.max(clamp01(e.confidence), 0.05),
+          TUTOR_TURN_CONFIDENCE_CAP
+        ),
+        difficulty:
+          e.difficulty !== undefined
+            ? clamp01(e.difficulty)
+            : difficultyById.get(e.concept_id),
+        source_ref: args.messageId,
+        metadata: { subject: args.subject },
+      });
+    }
+
+    return { events, conceptIds: events.map((e) => e.concept_id) };
+  } catch (err) {
+    console.warn(`[concept-tagger] falhou (nao-fatal): ${(err as Error).message}`);
+    return empty;
+  }
 }

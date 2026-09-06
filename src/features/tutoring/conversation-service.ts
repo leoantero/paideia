@@ -78,22 +78,27 @@ export async function getRecentMessages(
     }));
 }
 
+/** Returns the new message's id — the tagger anchors evidence to it via `source_ref`. */
 export async function appendMessage(
   supabase: SupabaseClient,
   conversationId: string,
   role: "student" | "assistant",
   content: string
-): Promise<void> {
-  const { error } = await supabase
+): Promise<string> {
+  const { data, error } = await supabase
     .from("messages")
-    .insert({ conversation_id: conversationId, role, content });
+    .insert({ conversation_id: conversationId, role, content })
+    .select("id")
+    .single();
 
-  if (error) {
-    throw new Error(`Failed to persist message: ${error.message}`);
+  if (error || !data) {
+    throw new Error(`Failed to persist message: ${error?.message}`);
   }
 
   await supabase
     .from("conversations")
     .update({ updated_at: new Date().toISOString() })
     .eq("id", conversationId);
+
+  return data.id as string;
 }

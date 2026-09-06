@@ -47,3 +47,30 @@ export async function generateTutorResponse(
   const textBlock = response.content.find((block) => block.type === "text");
   return textBlock && textBlock.type === "text" ? textBlock.text : "";
 }
+
+/**
+ * Cheap structured call used by the concept-tagger. Runs on a small model and
+ * a tight token budget: it executes on every tutor turn of every student, so
+ * it is the COGS line that decides gross margin (see concept-tagger.ts).
+ *
+ * Never put this on the critical path of the student's reply — the caller must
+ * invoke it from `after()` and swallow every failure.
+ */
+export async function generateStructuredCompletion(args: {
+  model: string;
+  systemPrompt: string;
+  userContent: string;
+  maxTokens?: number;
+}): Promise<string> {
+  const anthropic = getClient();
+
+  const response = await anthropic.messages.create({
+    model: args.model,
+    max_tokens: args.maxTokens ?? 400,
+    system: args.systemPrompt,
+    messages: [{ role: "user", content: args.userContent }],
+  });
+
+  const textBlock = response.content.find((block) => block.type === "text");
+  return textBlock && textBlock.type === "text" ? textBlock.text : "";
+}

@@ -9,6 +9,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "."),
+      // `server-only` lança ao ser importado fora de um bundle de servidor.
+      "server-only": path.resolve(__dirname, "src/tests/stubs/server-only.ts"),
     },
   },
 });

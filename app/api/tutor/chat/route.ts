@@ -1,5 +1,7 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { createClient } from "@/src/lib/supabase/server";
+import { tagTurn } from "@/src/features/learning-graph/concept-tagger";
+import { recordEvidence } from "@/src/features/learning-graph/evidence-recorder";
 import { generateTutorResponse } from "@/src/core/ai-integration/anthropic-client";
 import { buildSocraticSystemPrompt } from "@/src/features/tutoring/socratic-system-prompt";
 import { detectSubject } from "@/src/features/tutoring/curriculum-snippets";
@@ -82,8 +84,28 @@ export async function POST(request: Request) {
     logGuardViolation(conversation.id);
   }
 
-  await appendMessage(supabase, conversation.id, "assistant", guarded.text);
+  const assistantMessageId = await appendMessage(
+    supabase,
+    conversation.id,
+    "assistant",
+    guarded.text
+  );
   await recordTutoringSession(supabase, subject);
+
+  // Instrumentação do learning graph — FORA do caminho crítico da resposta.
+  // Roda depois que a resposta já foi enviada ao aluno; qualquer falha aqui
+  // é engolida em tagTurn/recordEvidence e nunca chega ao aluno.
+  after(async () => {
+    const { events } = await tagTurn({
+      supabase,
+      studentMessage: message,
+      tutorReply: guarded.text,
+      subject,
+      gradeBand,
+      messageId: assistantMessageId,
+    });
+    await recordEvidence(supabase, events);
+  });
 
   return NextResponse.json({
     conversationId: conversation.id,

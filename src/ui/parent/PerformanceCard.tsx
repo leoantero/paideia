@@ -1,5 +1,5 @@
 import type { PerformanceRecord, StudentProfile } from "@/src/core/auth/types";
-import { GRADE_BAND_LABELS } from "@/src/core/auth/types";
+import { GRADE_BAND_LABELS_PT as GRADE_BAND_LABELS } from "@/src/core/auth/types";
 
 const STRENGTH_STYLES: Record<PerformanceRecord["strength_level"], string> = {
   strong: "bg-strong-bg text-strong",

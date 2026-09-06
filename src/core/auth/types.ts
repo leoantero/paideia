@@ -32,6 +32,13 @@ export const GRADE_BAND_LABELS: Record<GradeBand, string> = {
   high_school: "High School",
 };
 
+/** Rótulos em pt-BR — usados no prompt do tutor e na UI (ver docs/MVP_SPEC.md §1). */
+export const GRADE_BAND_LABELS_PT: Record<GradeBand, string> = {
+  elementary_1: "Ensino Fundamental I",
+  elementary_2: "Ensino Fundamental II",
+  high_school: "Ensino Médio",
+};
+
 /** Daily spaced-repetition goal in minutes, per docs/PEDAGOGY.md. */
 export const DAILY_GOAL_MINUTES: Record<GradeBand, number> = {
   elementary_1: 5,

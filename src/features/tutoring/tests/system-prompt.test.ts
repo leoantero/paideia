@@ -10,15 +10,20 @@ describe("buildSocraticSystemPrompt", () => {
     (gradeBand) => {
       const prompt = buildSocraticSystemPrompt(gradeBand, "math");
 
-      expect(prompt).toMatch(/never state the final answer/i);
-      expect(prompt).toMatch(/guiding question/i);
+      expect(prompt).toMatch(/nunca diga a resposta final/i);
+      expect(prompt).toMatch(/pergunta que guie o aluno/i);
     }
   );
 
+  it("instructs the tutor to answer in pt-BR", () => {
+    const prompt = buildSocraticSystemPrompt("elementary_2", "math");
+    expect(prompt).toMatch(/português do brasil/i);
+  });
+
   it("includes the photosynthesis few-shot example", () => {
     const prompt = buildSocraticSystemPrompt("elementary_2", "science");
-    expect(prompt).toContain("What is photosynthesis?");
-    expect(prompt).toContain("do you think happens when plants get sunlight");
+    expect(prompt).toContain("O que é fotossíntese?");
+    expect(prompt).toContain("acontece quando a planta recebe luz do sol");
   });
 
   it("varies grade-appropriate framing by grade band", () => {

@@ -8,27 +8,33 @@ describe("applySocraticGuard", () => {
     expect(result.text).toBe(SOCRATIC_FALLBACK);
   });
 
+  it("flags a bare direct answer in pt-BR with no question", () => {
+    const result = applySocraticGuard("A resposta é 42 porque é o múltiplo de 6 e 7.");
+    expect(result.flagged).toBe(true);
+    expect(result.text).toBe(SOCRATIC_FALLBACK);
+  });
+
   it("flags a bare number response", () => {
     const result = applySocraticGuard("96");
     expect(result.flagged).toBe(true);
   });
 
   it("flags a bare yes/no with no follow-up", () => {
-    const result = applySocraticGuard("Yes.");
-    expect(result.flagged).toBe(true);
+    expect(applySocraticGuard("Yes.").flagged).toBe(true);
+    expect(applySocraticGuard("Não.").flagged).toBe(true);
   });
 
   it("does not flag a genuine Socratic question", () => {
     const result = applySocraticGuard(
-      "Great question! What do you think happens when plants get sunlight?"
+      "Boa pergunta! O que você acha que acontece quando a planta recebe luz do sol?"
     );
     expect(result.flagged).toBe(false);
-    expect(result.text).toContain("What do you think");
+    expect(result.text).toContain("O que você acha");
   });
 
   it("does not flag a response with a question even if it starts like an answer pattern", () => {
     const result = applySocraticGuard(
-      "It is worth thinking about — what would happen if you tried a smaller example first?"
+      "A resposta depende — o que aconteceria se você tentasse um exemplo menor primeiro?"
     );
     expect(result.flagged).toBe(false);
   });
