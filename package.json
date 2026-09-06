@@ -9,7 +9,10 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:pedagogy": "vitest run src/features/tutoring"
+    "test:pedagogy": "vitest run src/features/tutoring",
+    "seed:curriculum": "tsx scripts/seed-curriculum.ts",
+    "seed:demo": "tsx scripts/seed-demo.ts",
+    "seed": "npm run seed:curriculum && npm run seed:demo"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",
@@ -27,11 +30,13 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "jsdom": "^25.0.0",
     "supabase": "^2.116.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5",
     "vitest": "^3.2.0"
   }
