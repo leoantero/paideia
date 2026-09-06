@@ -4,7 +4,8 @@ import {
   getPerformanceForStudents,
 } from "@/src/features/user-profiles/parent-profile-service";
 import { StudentPerformanceSection } from "@/src/ui/parent/PerformanceCard";
-import { Callout, LinkButton } from "@/src/ui/kit";
+import { PageTitle } from "@/src/ui/AppShell";
+import { Callout } from "@/src/ui/kit";
 
 export default async function ParentDashboardPage() {
   const supabase = await createClient();
@@ -16,31 +17,16 @@ export default async function ParentDashboardPage() {
   );
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-8">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-semibold">Your children</h1>
-          <p className="text-sm text-muted">
-            Subject strengths and progress trends — updated after each tutoring
-            session.
-          </p>
-        </div>
-        {students.length > 0 && (
-          <LinkButton href="/parent/link-student" variant="secondary">
-            + Link another child
-          </LinkButton>
-        )}
-      </div>
+    <>
+      <PageTitle>Painel</PageTitle>
+      <p className="mb-4 text-sm text-muted">
+        Força e tendência por matéria — atualizado após cada sessão de estudo.
+      </p>
 
       {students.length === 0 ? (
-        <Callout className="flex flex-col gap-3">
-          <p>
-            No children linked yet. Ask your child for the 6-character code from
-            their onboarding screen to get started.
-          </p>
-          <LinkButton href="/parent/link-student" variant="gold">
-            Enter your child&apos;s code
-          </LinkButton>
+        <Callout>
+          Nenhuma criança vinculada ainda. O vínculo é feito pela escola, a
+          partir do e-mail informado na matrícula.
         </Callout>
       ) : (
         <div className="flex flex-col gap-4">
@@ -53,6 +39,6 @@ export default async function ParentDashboardPage() {
           ))}
         </div>
       )}
-    </main>
+    </>
   );
 }

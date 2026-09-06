@@ -1,7 +1,14 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/server";
-import { Wordmark } from "@/src/ui/Wordmark";
-import { LinkButton } from "@/src/ui/kit";
+import { ROLE_HOME, type Role } from "@/src/core/auth/types";
+import { ContrastDemo } from "@/src/ui/ContrastDemo";
+
+const ROLES: { href: string; label: string; blurb: string }[] = [
+  { href: "/entrar/aluno", label: "Sou aluno", blurb: "Entrar com a matrícula" },
+  { href: "/entrar/responsavel", label: "Sou responsável", blurb: "Acompanhar meu filho" },
+  { href: "/entrar/professor", label: "Sou professor", blurb: "Ver a turma" },
+];
 
 export default async function Home() {
   const supabase = await createClient();
@@ -15,69 +22,60 @@ export default async function Home() {
       .select("role")
       .eq("id", user.id)
       .single();
-
-    if (profile?.role === "student") redirect("/student/tutor");
-    if (profile?.role === "parent") redirect("/parent/dashboard");
+    const home = ROLE_HOME[profile?.role as Role];
+    if (home) redirect(home);
   }
 
   return (
-    <div className="flex flex-1 flex-col">
-      <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-6 py-4">
-        <Wordmark />
-        <LinkButton href="/login" variant="secondary">
-          Log in
-        </LinkButton>
-      </header>
+    <main className="mx-auto flex w-full max-w-md flex-1 flex-col gap-6 px-6 py-8">
+      <ContrastDemo />
 
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8 px-6 py-16 text-center">
-        <div className="flex flex-col items-center gap-4">
-          <span className="rounded-full bg-mist px-3 py-1 text-xs font-medium text-ink">
-            Socratic AI tutoring
+      {/* linha grossa separando a demonstração da entrada */}
+      <div className="h-1 rounded-full bg-ink" />
+
+      <div className="flex flex-col gap-5">
+        <div className="flex items-center gap-2">
+          <span
+            aria-hidden
+            className="grid h-9 w-9 place-items-center rounded-lg bg-ink text-lg font-semibold text-gold"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Π
           </span>
-          <h1 className="max-w-2xl text-4xl leading-tight font-semibold sm:text-5xl">
-            Learning that asks the next question
-          </h1>
-          <p className="max-w-xl text-base text-muted">
-            Paideia guides students to their own answers instead of handing them
-            over — and gives parents clear, privacy-respecting visibility into how
-            their child is progressing.
+          <span
+            className="text-2xl font-semibold text-ink"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Paideia
+          </span>
+          <span
+            aria-hidden
+            className="ml-auto select-none text-5xl font-semibold text-gold/40"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            ?
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          {ROLES.map((r) => (
+            <Link
+              key={r.href}
+              href={r.href}
+              className="flex items-center justify-between rounded-[var(--radius)] border border-line bg-surface p-4 transition-colors hover:border-ink"
+            >
+              <span>
+                <span className="block text-sm font-semibold text-ink">{r.label}</span>
+                <span className="block text-xs text-muted">{r.blurb}</span>
+              </span>
+              <span aria-hidden className="text-ink">→</span>
+            </Link>
+          ))}
+          <p className="mt-1 text-center text-xs text-muted">
+            Coordenação e direção — em breve
           </p>
         </div>
-
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <LinkButton href="/signup" variant="primary">
-            Get started
-          </LinkButton>
-          <LinkButton href="/login" variant="secondary">
-            I already have an account
-          </LinkButton>
-        </div>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          {[
-            {
-              title: "Guides, never answers",
-              body: "Every reply is a question that moves the student one step forward.",
-            },
-            {
-              title: "Built for their level",
-              body: "Tone and pacing adapt to elementary through high school.",
-            },
-            {
-              title: "Parents see progress, not chats",
-              body: "Subject strengths and trends — never the conversation itself.",
-            },
-          ].map((f) => (
-            <div
-              key={f.title}
-              className="rounded-[var(--radius)] border border-line bg-surface p-4 text-left"
-            >
-              <h3 className="text-sm font-semibold">{f.title}</h3>
-              <p className="mt-1 text-xs text-muted">{f.body}</p>
-            </div>
-          ))}
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

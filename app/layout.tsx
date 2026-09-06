@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,26 +7,23 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-// Humanist serif for the wordmark and headings — a nod to the classical
-// roots of "Paideia" without feeling like a textbook.
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// Grotesca contemporânea com personalidade — a identidade tipográfica do
+// Paideia. Evita o clichê da serifa "IA premium".
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Paideia",
   description:
-    "Socratic AI tutoring that builds understanding, with privacy-respecting visibility for parents.",
+    "Tutoria socrática por IA que constrói entendimento, com visibilidade que respeita a privacidade para famílias e escolas.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${fraunces.variable} h-full`}
-    >
+    <html lang="pt-BR" className={`${inter.variable} ${bricolage.variable} h-full`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

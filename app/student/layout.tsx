@@ -1,19 +1,18 @@
 import { requireRole } from "@/src/core/auth/require-role";
-import { AppHeader } from "@/src/ui/AppHeader";
+import { AppShell } from "@/src/ui/AppShell";
+import { icons, type NavItem } from "@/src/ui/BottomNav";
+
+const NAV: NavItem[] = [
+  { href: "/student/tutor", label: "Tutor", icon: icons.chat },
+  { href: "/student/revisao", label: "Revisão", icon: icons.cards },
+  { href: "/student/ajustes", label: "Ajustes", icon: icons.settings },
+];
 
 export default async function StudentLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // Server-side role guard — redirects to /login or /parent/dashboard if the
-  // signed-in user isn't a student. See src/core/auth/require-role.ts.
   await requireRole("student");
-
-  return (
-    <div className="flex flex-1 flex-col">
-      <AppHeader context="Student" />
-      <div className="flex flex-1 flex-col">{children}</div>
-    </div>
-  );
+  return <AppShell nav={NAV}>{children}</AppShell>;
 }

@@ -9,7 +9,20 @@
  * so adding them later doesn't require migrating existing rows.
  */
 
-export type Role = "student" | "parent";
+export type Role = "student" | "parent" | "teacher";
+
+/** Onde cada perfil cai ao entrar. */
+export const ROLE_HOME: Record<Role, string> = {
+  student: "/student/tutor",
+  parent: "/parent/dashboard",
+  teacher: "/teacher/turma",
+};
+
+/** Domínio interno dos e-mails sintéticos de aluno (login é por matrícula). */
+export const STUDENT_EMAIL_DOMAIN = "aluno.paideia.app";
+
+export const matriculaToEmail = (matricula: string) =>
+  `${matricula.trim().toLowerCase()}@${STUDENT_EMAIL_DOMAIN}`;
 
 export type GradeBand = "elementary_1" | "elementary_2" | "high_school";
 

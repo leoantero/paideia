@@ -1,6 +1,7 @@
 import { createClient } from "@/src/lib/supabase/server";
 import { ChatWindow } from "@/src/ui/student/ChatWindow";
 import type { DisplayMessage } from "@/src/ui/student/MessageBubble";
+import { PageTitle } from "@/src/ui/AppShell";
 
 export default async function TutorPage() {
   const supabase = await createClient();
@@ -34,14 +35,13 @@ export default async function TutorPage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 px-6 py-8">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold">Your tutor</h1>
-        <p className="text-sm text-muted">
-          A thinking partner — here to ask the questions that get you unstuck.
-        </p>
-      </div>
+    <div className="flex flex-1 flex-col">
+      <PageTitle>Tutor</PageTitle>
+      <p className="mb-3 text-sm text-muted">
+        Um parceiro de raciocínio — aqui para fazer as perguntas que te
+        destravam, não para entregar a resposta.
+      </p>
       <ChatWindow conversationId={conversationId} initialMessages={initialMessages} />
-    </main>
+    </div>
   );
 }

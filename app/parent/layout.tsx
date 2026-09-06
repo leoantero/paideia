@@ -1,5 +1,12 @@
 import { requireRole } from "@/src/core/auth/require-role";
-import { AppHeader } from "@/src/ui/AppHeader";
+import { AppShell } from "@/src/ui/AppShell";
+import { icons, type NavItem } from "@/src/ui/BottomNav";
+
+const NAV: NavItem[] = [
+  { href: "/parent/dashboard", label: "Painel", icon: icons.chart },
+  { href: "/parent/chat", label: "Conselheiro", icon: icons.chat },
+  { href: "/parent/ajustes", label: "Ajustes", icon: icons.settings },
+];
 
 export default async function ParentLayout({
   children,
@@ -7,11 +14,5 @@ export default async function ParentLayout({
   children: React.ReactNode;
 }) {
   await requireRole("parent");
-
-  return (
-    <div className="flex flex-1 flex-col">
-      <AppHeader context="Parent" />
-      <div className="flex flex-1 flex-col">{children}</div>
-    </div>
-  );
+  return <AppShell nav={NAV}>{children}</AppShell>;
 }

@@ -1,7 +1,7 @@
 import "server-only";
 import { redirect } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/server";
-import type { Profile, Role } from "@/src/core/auth/types";
+import { ROLE_HOME, type Profile, type Role } from "@/src/core/auth/types";
 
 /**
  * Server-side route guard used by app/student/layout.tsx and
@@ -35,7 +35,7 @@ export async function requireRole(role: Role): Promise<Profile> {
   }
 
   if (profile.role !== role) {
-    redirect(profile.role === "student" ? "/student/tutor" : "/parent/dashboard");
+    redirect(ROLE_HOME[profile.role as Role] ?? "/");
   }
 
   return profile as Profile;
