@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/client";
 import { linkStudentByCode } from "@/src/features/user-profiles/linking-service";
+import { Button, Callout, Card, ErrorText } from "@/src/ui/kit";
 
 export default function LinkStudentPage() {
   const router = useRouter();
@@ -30,33 +31,41 @@ export default function LinkStudentPage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-4 p-8">
-      <h1 className="text-xl font-semibold">Link your child's account</h1>
-      <p className="text-sm text-gray-600 dark:text-gray-400">
-        Ask your child for the code shown after they finish their onboarding.
-      </p>
+    <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-6 py-12">
+      <div className="flex flex-col gap-1 text-center">
+        <h1 className="text-2xl font-semibold">Link your child&apos;s account</h1>
+        <p className="text-sm text-muted">
+          Ask your child for the 6-character code shown in their onboarding.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <input
-          type="text"
-          placeholder="6-character code"
-          required
-          maxLength={6}
-          value={code}
-          onChange={(e) => setCode(e.target.value.toUpperCase())}
-          className="rounded-md border border-gray-300 px-3 py-2 text-center font-mono text-lg tracking-widest dark:border-gray-700 dark:bg-transparent"
-        />
+      <Card className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            inputMode="text"
+            autoCapitalize="characters"
+            placeholder="ABC123"
+            aria-label="Linking code"
+            required
+            maxLength={6}
+            value={code}
+            onChange={(e) => setCode(e.target.value.toUpperCase())}
+            className="rounded-[var(--radius)] border border-line bg-surface px-3 py-3 text-center font-mono text-2xl font-semibold tracking-[0.4em] text-ink placeholder:text-line focus:border-ink"
+          />
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <ErrorText>{error}</ErrorText>}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-md bg-black px-4 py-2 text-sm text-white disabled:opacity-50 dark:bg-white dark:text-black"
-        >
-          {loading ? "Linking…" : "Link account"}
-        </button>
-      </form>
+          <Button type="submit" disabled={loading || code.length < 6}>
+            {loading ? "Linking…" : "Link account"}
+          </Button>
+        </form>
+
+        <Callout>
+          You&apos;ll see your child&apos;s subject strengths and progress trends —
+          never their tutoring conversations.
+        </Callout>
+      </Card>
     </main>
   );
 }

@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/src/lib/supabase/client";
 import type { Role } from "@/src/core/auth/types";
+import { AuthShell } from "@/src/ui/AuthShell";
+import { Button, ErrorText, Field, Input } from "@/src/ui/kit";
+
+const ROLES: { value: Role; label: string; blurb: string }[] = [
+  { value: "student", label: "I'm a student", blurb: "Get a tutor that helps you think it through." },
+  { value: "parent", label: "I'm a parent", blurb: "Follow your child's progress by subject." },
+];
 
 export default function SignupPage() {
   const router = useRouter();
@@ -25,9 +32,7 @@ export default function SignupPage() {
     const { error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: { role, full_name: fullName },
-      },
+      options: { data: { role, full_name: fullName } },
     });
 
     setLoading(false);
@@ -42,77 +47,77 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="flex flex-1 items-center justify-center p-8">
-      <form
-        onSubmit={handleSubmit}
-        className="flex w-full max-w-sm flex-col gap-4"
-      >
-        <h1 className="text-xl font-semibold">Create your account</h1>
+    <AuthShell title="Create your account" subtitle="Takes less than a minute.">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <fieldset className="flex flex-col gap-2">
+          <legend className="mb-1 text-sm font-medium text-body">I am a…</legend>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {ROLES.map((r) => {
+              const active = role === r.value;
+              return (
+                <button
+                  key={r.value}
+                  type="button"
+                  onClick={() => setRole(r.value)}
+                  aria-pressed={active}
+                  className={`rounded-[var(--radius)] border p-3 text-left transition-colors ${
+                    active
+                      ? "border-ink bg-mist-soft"
+                      : "border-line bg-surface hover:border-ink"
+                  }`}
+                >
+                  <span className="block text-sm font-semibold text-ink">
+                    {r.label}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-muted">{r.blurb}</span>
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
 
-        <div className="flex gap-2 rounded-md border border-gray-300 p-1 dark:border-gray-700">
-          <button
-            type="button"
-            onClick={() => setRole("student")}
-            className={`flex-1 rounded px-3 py-1.5 text-sm ${
-              role === "student" ? "bg-black text-white dark:bg-white dark:text-black" : ""
-            }`}
-          >
-            I'm a student
-          </button>
-          <button
-            type="button"
-            onClick={() => setRole("parent")}
-            className={`flex-1 rounded px-3 py-1.5 text-sm ${
-              role === "parent" ? "bg-black text-white dark:bg-white dark:text-black" : ""
-            }`}
-          >
-            I'm a parent
-          </button>
-        </div>
+        <Field label="Full name">
+          <Input
+            type="text"
+            autoComplete="name"
+            required
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+        </Field>
+        <Field label="Email">
+          <Input
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Field>
+        <Field label="Password" hint="At least 8 characters.">
+          <Input
+            type="password"
+            autoComplete="new-password"
+            required
+            minLength={8}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Field>
 
-        <input
-          type="text"
-          placeholder="Full name"
-          required
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          className="rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-transparent"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-transparent"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          minLength={8}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="rounded-md border border-gray-300 px-3 py-2 text-sm dark:border-gray-700 dark:bg-transparent"
-        />
+        {error && <ErrorText>{error}</ErrorText>}
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-md bg-black px-4 py-2 text-sm text-white disabled:opacity-50 dark:bg-white dark:text-black"
-        >
+        <Button type="submit" disabled={loading}>
           {loading ? "Creating account…" : "Sign up"}
-        </button>
-
-        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-          Already have an account?{" "}
-          <Link href="/login" className="underline">
-            Log in
-          </Link>
-        </p>
+        </Button>
       </form>
-    </main>
+
+      <p className="text-center text-sm text-muted">
+        Already have an account?{" "}
+        <Link href="/login" className="font-medium text-ink hover:text-ink-strong">
+          Log in
+        </Link>
+      </p>
+    </AuthShell>
   );
 }

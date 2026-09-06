@@ -1,26 +1,67 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Paideia design tokens.
+ *
+ * One light theme by design — this is a product used by children and parents,
+ * and a single well-tuned palette avoids the dark-on-dark contrast problems a
+ * half-built dark mode was causing (notably the invisible <select> options).
+ *
+ * Palette rationale (WCAG AA checked against the surfaces they sit on):
+ *  - ink (#1e3a8a): headings, primary actions, links. ~9:1 on white.
+ *  - gold (#e4bb02): accents, focus rings, active states. Fails as small text
+ *    on white, so it is only ever a background/border — text on gold is ink.
+ *  - mist (#c8e0e3): calm cyan for section panels and the tutor surface.
+ *  - parchment (#fffac8): warm callouts (linking code, empty states, tips).
+ */
+@theme {
+  --color-bg: #f4f9fa;
+  --color-surface: #ffffff;
+  --color-mist: #c8e0e3;
+  --color-mist-soft: #e2f0f2;
+  --color-parchment: #fffac8;
+  --color-ink: #1e3a8a;
+  --color-ink-strong: #152c66;
+  --color-gold: #e4bb02;
+  --color-gold-soft: #f7e9a8;
+
+  --color-body: #1f2937;
+  --color-muted: #5b6672;
+  --color-line: #d7e3e5;
+
+  --color-strong: #15803d;
+  --color-strong-bg: #dcfce7;
+  --color-average: #a16207;
+  --color-average-bg: #fef9c3;
+  --color-weak: #b91c1c;
+  --color-weak-bg: #fee2e2;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius: 0.75rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+/* Consistent, visible focus ring for keyboard users across the app. */
+*:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

@@ -34,8 +34,13 @@ export default async function TutorPage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 p-8">
-      <h1 className="text-xl font-semibold">Your tutor</h1>
+    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 px-6 py-8">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-2xl font-semibold">Your tutor</h1>
+        <p className="text-sm text-muted">
+          A thinking partner — here to ask the questions that get you unstuck.
+        </p>
+      </div>
       <ChatWindow conversationId={conversationId} initialMessages={initialMessages} />
     </main>
   );
