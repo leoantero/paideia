@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Protótipo do Figma importado como referência visual (ver docs/REDESIGN_PLAN.md).
+    // Não é código de produção, não é compilado no app e não deve ser lintado
+    // com as regras do app — o lint dele só produz ruído que esconde erro real.
+    "figma/**",
   ]),
 ]);
 

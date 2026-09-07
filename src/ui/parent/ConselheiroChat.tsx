@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { RichText } from "@/src/ui/RichText";
 import type { LinkedChild } from "@/src/features/user-profiles/parent-profile-service";
 import { Segmented } from "@/src/ui/kit";
 
@@ -15,9 +16,9 @@ function bubbleLabel(child?: LinkedChild) {
     : "";
 }
 
-export function ConselheiroChat({ children }: { children: LinkedChild[] }) {
-  const [selected, setSelected] = useState(children[0]?.id ?? "");
-  const child = children.find((c) => c.id === selected) ?? children[0];
+export function ConselheiroChat({ students }: { students: LinkedChild[] }) {
+  const [selected, setSelected] = useState(students[0]?.id ?? "");
+  const child = students.find((c) => c.id === selected) ?? students[0];
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -29,12 +30,18 @@ export function ConselheiroChat({ children }: { children: LinkedChild[] }) {
   }, [messages, sending]);
 
   // Trocar de filho começa uma conversa nova — o contexto do conselheiro é
-  // por criança, misturar seria confuso e tecnicamente errado (dados de outro
-  // filho vazando na mesma janela).
-  useEffect(() => {
+  // por criança, e misturar seria confuso além de errado (resposta sobre um
+  // filho no meio do histórico do outro).
+  //
+  // Isso é uma reação a um EVENTO do usuário, não sincronização com sistema
+  // externo — por isso mora no handler e não num efeito. Como efeito, gerava
+  // render em cascata (react-hooks/set-state-in-effect).
+  function selectChild(id: string) {
+    if (id === selected) return;
+    setSelected(id);
     setMessages([]);
     setError(null);
-  }, [selected]);
+  }
 
   async function send() {
     const text = input.trim();
@@ -91,12 +98,12 @@ export function ConselheiroChat({ children }: { children: LinkedChild[] }) {
             </div>
           </div>
         </div>
-        {children.length > 1 && (
+        {students.length > 1 && (
           <Segmented
             className="mt-3"
             value={selected}
-            onChange={setSelected}
-            options={children.map((c) => ({
+            onChange={selectChild}
+            options={students.map((c) => ({
               value: c.id,
               label: c.full_name.split(" ")[0],
             }))}
@@ -178,7 +185,7 @@ function Bubble({ msg }: { msg: Msg }) {
             : "rounded-[14px] rounded-bl-[4px] border-line bg-surface"
         }`}
       >
-        {msg.content}
+        <RichText text={msg.content} />
       </div>
     </div>
   );

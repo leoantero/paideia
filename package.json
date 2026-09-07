@@ -14,6 +14,7 @@
     "seed:demo": "tsx scripts/seed-demo.ts",
     "seed:learning": "tsx scripts/seed-learning-data.ts",
     "seed": "npm run seed:curriculum && npm run seed:demo && npm run seed:learning",
+    "audit:security": "tsx scripts/audit-security.ts",
     "prepare": "husky"
   },
   "dependencies": {

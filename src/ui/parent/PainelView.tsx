@@ -36,14 +36,14 @@ const masteryBarColor = (pct: number) =>
   pct >= 70 ? "bg-strong" : pct >= 50 ? "bg-gold" : "bg-weak";
 
 export function PainelView({
-  children,
+  students,
   masteryByChild,
 }: {
-  children: LinkedChild[];
+  students: LinkedChild[];
   masteryByChild: Map<string, SubjectMastery[]>;
 }) {
-  const [selected, setSelected] = useState(children[0]?.id ?? "");
-  const child = children.find((c) => c.id === selected) ?? children[0];
+  const [selected, setSelected] = useState(students[0]?.id ?? "");
+  const child = students.find((c) => c.id === selected) ?? students[0];
   const subjects = child ? (masteryByChild.get(child.id) ?? []) : [];
 
   const overall =
@@ -72,12 +72,12 @@ export function PainelView({
     <ScreenBody>
       <ScreenHeader title="Painel" subtitle="Domínio por matéria e conceito" />
 
-      {children.length > 1 && (
+      {students.length > 1 && (
         <Segmented
           className="mb-4"
           value={selected}
           onChange={setSelected}
-          options={children.map((c) => ({ value: c.id, label: c.full_name }))}
+          options={students.map((c) => ({ value: c.id, label: c.full_name }))}
         />
       )}
 

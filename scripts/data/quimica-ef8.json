@@ -1,0 +1,97 @@
+{
+  "curriculum": { "code": "bncc-2018-v1", "label": "BNCC 2018 — 8º ano" },
+  "subject": "chemistry",
+  "grade_band": "elementary_2",
+  "concepts": [
+    {
+      "code": "EF08QU-MAT",
+      "name": "Matéria e transformações",
+      "grade_year": 7,
+      "difficulty": 0.3,
+      "description": "Estados físicos, mudanças de estado e diferença entre transformação física e química.",
+      "prerequisites": [],
+      "cards": [
+        {
+          "front": "Qual a diferença entre transformação física e química?",
+          "back": "Na física a substância continua a mesma (gelo derretendo). Na química formam-se substâncias novas (ferro enferrujando)."
+        },
+        {
+          "front": "O que é sublimação?",
+          "back": "Passagem direta do estado sólido para o gasoso, sem passar pelo líquido. Ex.: naftalina e gelo-seco."
+        }
+      ]
+    },
+    {
+      "code": "EF08QU-ATOM",
+      "name": "Modelos atômicos",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Evolução dos modelos de Dalton a Rutherford-Bohr e as partículas subatômicas.",
+      "prerequisites": [{ "code": "EF08QU-MAT", "strength": 0.8 }],
+      "cards": [
+        {
+          "front": "Quais são as três partículas subatômicas e suas cargas?",
+          "back": "Próton (positiva) e nêutron (neutra), no núcleo; elétron (negativa), na eletrosfera."
+        },
+        {
+          "front": "O que o experimento de Rutherford demonstrou?",
+          "back": "Que o átomo é majoritariamente vazio, com a massa e a carga positiva concentradas num núcleo muito pequeno e denso."
+        }
+      ]
+    },
+    {
+      "code": "EF08QU-TAB",
+      "name": "Tabela periódica",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Organização por número atômico, períodos, famílias e propriedades periódicas.",
+      "prerequisites": [{ "code": "EF08QU-ATOM", "strength": 1.0 }],
+      "cards": [
+        {
+          "front": "O que os elementos de um mesmo período têm em comum?",
+          "back": "O mesmo número de camadas eletrônicas. Período é a linha horizontal da tabela."
+        },
+        {
+          "front": "O que os elementos de uma mesma família têm em comum?",
+          "back": "O mesmo número de elétrons na camada de valência — por isso têm propriedades químicas parecidas. Família é a coluna vertical."
+        }
+      ]
+    },
+    {
+      "code": "EF08QU-LIG",
+      "name": "Ligações químicas",
+      "grade_year": 8,
+      "difficulty": 0.6,
+      "description": "Ligação iônica, covalente e metálica a partir da estabilidade eletrônica.",
+      "prerequisites": [{ "code": "EF08QU-TAB", "strength": 0.9 }],
+      "cards": [
+        {
+          "front": "Diferença entre ligação iônica e covalente?",
+          "back": "Na iônica há transferência de elétrons (metal + ametal, ex.: NaCl). Na covalente há compartilhamento de elétrons (ametal + ametal, ex.: H₂O)."
+        },
+        {
+          "front": "Por que os gases nobres praticamente não fazem ligações?",
+          "back": "Porque já têm a camada de valência completa (8 elétrons, ou 2 no hélio) — são estáveis, não precisam ganhar, perder ou compartilhar elétrons."
+        }
+      ]
+    },
+    {
+      "code": "EF08QU-REAC",
+      "name": "Reações químicas e balanceamento",
+      "grade_year": 8,
+      "difficulty": 0.65,
+      "description": "Equações químicas, conservação da massa e balanceamento por tentativa.",
+      "prerequisites": [{ "code": "EF08QU-LIG", "strength": 0.9 }],
+      "cards": [
+        {
+          "front": "O que diz a Lei de Lavoisier?",
+          "back": "Numa reação química, a massa total dos reagentes é igual à massa total dos produtos — nada se perde, nada se cria."
+        },
+        {
+          "front": "Por que precisamos balancear uma equação química?",
+          "back": "Para que o número de átomos de cada elemento seja igual nos dois lados, respeitando a conservação da massa. Ex.: 2H₂ + O₂ → 2H₂O."
+        }
+      ]
+    }
+  ]
+}

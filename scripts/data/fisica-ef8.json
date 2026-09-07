@@ -1,0 +1,105 @@
+{
+  "curriculum": { "code": "bncc-2018-v1", "label": "BNCC 2018 — 8º ano" },
+  "subject": "physics",
+  "grade_band": "elementary_2",
+  "concepts": [
+    {
+      "code": "EF08FI-GRAND",
+      "name": "Grandezas e unidades de medida",
+      "grade_year": 7,
+      "difficulty": 0.3,
+      "description": "Grandezas físicas, Sistema Internacional e conversão de unidades.",
+      "prerequisites": [],
+      "cards": [
+        {
+          "front": "Quais as unidades do SI para comprimento, massa e tempo?",
+          "back": "Metro (m), quilograma (kg) e segundo (s)."
+        },
+        {
+          "front": "Como converter 72 km/h em m/s?",
+          "back": "Divide por 3,6: 72 ÷ 3,6 = 20 m/s. (Para o caminho inverso, multiplica por 3,6.)"
+        }
+      ]
+    },
+    {
+      "code": "EF08FI-CINE",
+      "name": "Cinemática: velocidade média",
+      "grade_year": 8,
+      "difficulty": 0.45,
+      "description": "Deslocamento, intervalo de tempo e velocidade média em movimentos retilíneos.",
+      "prerequisites": [{ "code": "EF08FI-GRAND", "strength": 0.9 }],
+      "cards": [
+        {
+          "front": "Qual a fórmula da velocidade média?",
+          "back": "v = Δs / Δt — variação de espaço dividida pela variação de tempo."
+        },
+        {
+          "front": "Um carro percorre 150 km em 2 h. Qual a velocidade média?",
+          "back": "v = 150 / 2 = 75 km/h. Média não significa que ele andou a 75 km/h o tempo todo."
+        },
+        {
+          "front": "Velocidade média é a média das velocidades?",
+          "back": "Não. É o deslocamento total dividido pelo tempo total. Só coincide com a média aritmética se os trechos tiverem a mesma duração."
+        }
+      ]
+    },
+    {
+      "code": "EF08FI-LEIS",
+      "name": "Leis de Newton",
+      "grade_year": 8,
+      "difficulty": 0.6,
+      "description": "Inércia, princípio fundamental da dinâmica e ação e reação.",
+      "prerequisites": [{ "code": "EF08FI-CINE", "strength": 0.9 }],
+      "cards": [
+        {
+          "front": "Enuncie a 1ª Lei de Newton.",
+          "back": "Lei da inércia: um corpo permanece em repouso ou em movimento retilíneo uniforme, a menos que uma força resultante atue sobre ele."
+        },
+        {
+          "front": "O que diz a 2ª Lei de Newton?",
+          "back": "F = m·a — a força resultante é igual à massa vezes a aceleração. Unidade de força: newton (N)."
+        },
+        {
+          "front": "Se ação e reação têm mesma intensidade, por que não se anulam?",
+          "back": "Porque atuam em corpos diferentes. Só se anulariam se agissem sobre o mesmo corpo."
+        }
+      ]
+    },
+    {
+      "code": "EF08FI-ENER",
+      "name": "Trabalho e energia",
+      "grade_year": 8,
+      "difficulty": 0.65,
+      "description": "Trabalho de uma força, energia cinética e potencial e conservação de energia.",
+      "prerequisites": [{ "code": "EF08FI-LEIS", "strength": 0.8 }],
+      "cards": [
+        {
+          "front": "O que é energia cinética e qual sua fórmula?",
+          "back": "É a energia associada ao movimento: Ec = m·v² / 2."
+        },
+        {
+          "front": "O que afirma o princípio da conservação de energia?",
+          "back": "A energia não é criada nem destruída, apenas transformada de uma forma em outra. Num sistema isolado, o total permanece constante."
+        }
+      ]
+    },
+    {
+      "code": "EF08FI-TERM",
+      "name": "Temperatura e calor",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Diferença entre temperatura e calor, escalas termométricas e trocas de calor.",
+      "prerequisites": [{ "code": "EF08FI-GRAND", "strength": 0.7 }],
+      "cards": [
+        {
+          "front": "Qual a diferença entre calor e temperatura?",
+          "back": "Temperatura mede o grau de agitação das partículas. Calor é energia térmica em trânsito, do corpo mais quente para o mais frio."
+        },
+        {
+          "front": "Como converter 25 °C para kelvin?",
+          "back": "K = °C + 273,15 → 25 + 273,15 = 298,15 K."
+        }
+      ]
+    }
+  ]
+}

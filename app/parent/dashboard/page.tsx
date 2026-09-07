@@ -14,5 +14,5 @@ export default async function ParentDashboardPage() {
     children.map((c) => c.id)
   );
 
-  return <PainelView children={children} masteryByChild={masteryByChild} />;
+  return <PainelView students={children} masteryByChild={masteryByChild} />;
 }

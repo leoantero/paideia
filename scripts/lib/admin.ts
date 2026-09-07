@@ -23,11 +23,16 @@ export const admin = createClient(url, serviceKey, {
 });
 
 /** Mapa email -> user, carregado uma vez. Torna os seeds idempotentes. */
-export async function loadAuthUsers(): Promise<Map<string, { id: string; email?: string }>> {
+export async function loadAuthUsers(): Promise<
+  Map<string, { id: string; email?: string }>
+> {
   const map = new Map<string, { id: string; email?: string }>();
   let page = 1;
   for (;;) {
-    const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
+    const { data, error } = await admin.auth.admin.listUsers({
+      page,
+      perPage: 200,
+    });
     if (error) throw error;
     for (const u of data.users) if (u.email) map.set(u.email.toLowerCase(), u);
     if (data.users.length < 200) break;
@@ -36,12 +41,21 @@ export async function loadAuthUsers(): Promise<Map<string, { id: string; email?:
   return map;
 }
 
-/** Cria o usuário se não existir; devolve o id em qualquer caso. */
+/**
+ * Cria o usuário se não existir; devolve o id em qualquer caso.
+ *
+ * O PAPEL VAI EM `app_metadata`, não em `user_metadata` — e isso não é
+ * detalhe de estilo. `user_metadata` é o que o próprio usuário manda no
+ * signUp e pode reescrever depois; `app_metadata` só a service-role grava.
+ * handle_new_user() (0013) lê o papel exclusivamente de lá, então provisionar
+ * pelo campo errado cria um aluno, não um professor. Ver
+ * supabase/migrations/0013_harden_privileges.sql.
+ */
 export async function ensureUser(
   existing: Map<string, { id: string }>,
   email: string,
   password: string,
-  metadata: Record<string, unknown>
+  metadata: { role: string; full_name?: string }
 ): Promise<string> {
   const hit = existing.get(email.toLowerCase());
   if (hit) return hit.id;
@@ -50,9 +64,22 @@ export async function ensureUser(
     email,
     password,
     email_confirm: true,
-    user_metadata: metadata,
+    app_metadata: { role: metadata.role },
+    user_metadata: { full_name: metadata.full_name ?? null },
   });
-  if (error || !data.user) throw error ?? new Error(`createUser falhou: ${email}`);
+  if (error || !data.user)
+    throw error ?? new Error(`createUser falhou: ${email}`);
+
+  // Confirmação explícita do papel em vez de confiar no timing do trigger.
+  // O GoTrue aplica o app_metadata num UPDATE depois do INSERT, então o
+  // trigger de criação sozinho já entregou conta de gestor com papel de aluno
+  // (ver 0017). O seed não pode depender dessa ordem.
+  const { error: roleError } = await admin
+    .from("profiles")
+    .update({ role: metadata.role })
+    .eq("id", data.user.id);
+  if (roleError) throw roleError;
+
   existing.set(email.toLowerCase(), data.user);
   return data.user.id;
 }

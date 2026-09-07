@@ -78,13 +78,3 @@ export interface StudentProfile {
 
 export type StrengthLevel = "strong" | "average" | "weak";
 export type Trend = "improving" | "stable" | "declining";
-
-export interface PerformanceRecord {
-  id: string;
-  student_id: string;
-  subject: string;
-  strength_level: StrengthLevel;
-  trend: Trend;
-  session_count: number;
-  last_updated: string;
-}

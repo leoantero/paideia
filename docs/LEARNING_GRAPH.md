@@ -1,7 +1,21 @@
 # Learning Graph — o sistema de registro da aprendizagem
 
 > Documento de arquitetura de domínio. Leia antes de mexer em qualquer coisa
-> sob `src/features/learning-graph/` ou nas migrations `0007`–`0010`.
+> sob `src/features/learning-graph/` ou nas migrations `0007`–`0018`.
+
+> **Estado em 2026-09-07 — o que mudou desde a redação original.**
+> Este documento descreve a decisão de projeto e continua válido no raciocínio.
+> Três pontos do texto abaixo já foram executados e ficaram diferentes:
+>
+> 1. `performance_records` e `record_tutoring_session()` **não são mais legado
+>    convivendo com o novo** — foram removidos em `0013_harden_privileges.sql`.
+>    O painel do responsável lê `concept_mastery`. Fonte de verdade única.
+> 2. `record_learning_events()` e `upsert_concept_mastery()` **não existem
+>    mais como RPC**. Eram executáveis por `authenticated`, o que permitia ao
+>    aluno forjar o próprio domínio. A escrita é server-only via service-role
+>    (`evidence-recorder.ts`). Ver `docs/SECURITY_REVIEW.md` §1.3.
+> 3. A revisão espaçada **já alimenta o grafo**: cada card respondido vira
+>    `retrieval_review` (`0014_concept_cards.sql`, `/api/student/review`).
 
 ## Por que isso existe
 
@@ -111,13 +125,13 @@ Não invente uma tabela de billing separada que possa divergir da matrícula.
 
 ## Como isso muda o que já existe
 
-| Hoje | Vira |
-|---|---|
-| `detectSubject()` — keyword match em 5 baldes | tagger de conceito (chamada barata a modelo pequeno) que devolve `concept_id[]` + sinal |
-| `performance_records` (heurística por matéria) | view derivada de `concept_mastery`; a tabela vira legado |
-| `record_tutoring_session()` (conta sessão) | `record_learning_events()` (registra evidência) |
-| prompt socrático estático por série/matéria | prompt recebe o estado de domínio atual e os pré-requisitos frágeis |
-| `students.school_name text` | FK para `schools` via `enrollments` |
+| Hoje                                           | Vira                                                                                    |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `detectSubject()` — keyword match em 5 baldes  | tagger de conceito (chamada barata a modelo pequeno) que devolve `concept_id[]` + sinal |
+| `performance_records` (heurística por matéria) | view derivada de `concept_mastery`; a tabela vira legado                                |
+| `record_tutoring_session()` (conta sessão)     | `record_learning_events()` (registra evidência)                                         |
+| prompt socrático estático por série/matéria    | prompt recebe o estado de domínio atual e os pré-requisitos frágeis                     |
+| `students.school_name text`                    | FK para `schools` via `enrollments`                                                     |
 
 `performance_records` **não é apagada agora** — o dashboard do pai depende
 dela. Ela passa a ser alimentada a partir de `concept_mastery` e é removida

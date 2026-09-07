@@ -6,5 +6,5 @@ export default async function ParentChatPage() {
   const supabase = await createClient();
   const children = await getLinkedChildren(supabase);
 
-  return <ConselheiroChat children={children} />;
+  return <ConselheiroChat students={children} />;
 }

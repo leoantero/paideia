@@ -1,14 +1,16 @@
-import { ScreenBody, ScreenHeader } from "@/src/ui/AppShell";
-import { Callout } from "@/src/ui/kit";
+import { createClient } from "@/src/lib/supabase/server";
+import { getGestorScope } from "@/src/features/user-profiles/gestor-service";
+import { InsightsChat } from "@/src/ui/gestor/InsightsChat";
 
-export default function InsightsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function InsightsPage() {
+  const supabase = await createClient();
+  const scope = await getGestorScope(supabase);
+
   return (
-    <ScreenBody>
-      <ScreenHeader title="Insights da escola" subtitle="Perguntas sobre uso e desempenho da unidade" />
-      <Callout>
-        O assistente de insights (engajamento por turma, pré-requisitos críticos,
-        uso por professor, ranking de domínio) entra aqui. Em construção.
-      </Callout>
-    </ScreenBody>
+    <InsightsChat
+      scopeLabel={scope.schoolName ?? scope.organizationName ?? "Sua unidade"}
+    />
   );
 }

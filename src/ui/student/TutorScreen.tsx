@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { RichText } from "@/src/ui/RichText";
 import { GamificationBar } from "@/src/ui/student/GamificationBar";
 import type { GamificationState } from "@/src/ui/student/gamification-data";
 
@@ -37,8 +38,20 @@ const dateLabel = (iso: string) => {
 
 function SendArrow({ on }: { on: boolean }) {
   return (
-    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke={on ? "white" : "currentColor"} strokeWidth="2.5" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5M5 12l7-7 7 7" />
+    <svg
+      width="15"
+      height="15"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke={on ? "white" : "currentColor"}
+      strokeWidth="2.5"
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 19V5M5 12l7-7 7 7"
+      />
     </svg>
   );
 }
@@ -131,8 +144,19 @@ export function TutorScreen({
             aria-label="Voltar"
             className="text-ink"
           >
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            <svg
+              width="18"
+              height="18"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
           <span className="grid h-[34px] w-[34px] place-items-center rounded-[9px] bg-ink font-display text-base font-extrabold text-gold">
@@ -202,7 +226,9 @@ export function TutorScreen({
           <span className="grid h-[30px] w-[30px] place-items-center rounded-lg bg-ink font-display text-base font-extrabold text-gold">
             Π
           </span>
-          <span className="font-display text-base font-bold text-ink">Tutor</span>
+          <span className="font-display text-base font-bold text-ink">
+            Tutor
+          </span>
         </div>
         <span className="w-9" />
       </div>
@@ -214,7 +240,9 @@ export function TutorScreen({
           <h1 className="font-display text-[22px] font-extrabold tracking-tight text-ink">
             Olá{firstName ? `, ${firstName}` : ""}! 👋
           </h1>
-          <p className="mt-0.5 text-sm text-muted">O que vamos aprender hoje?</p>
+          <p className="mt-0.5 text-sm text-muted">
+            O que vamos aprender hoje?
+          </p>
         </div>
 
         <div className="mb-4 mt-3.5 overflow-hidden rounded-[16px] border-2 border-mist bg-surface focus-within:border-ink">
@@ -321,7 +349,7 @@ function Bubble({ msg }: { msg: Msg }) {
             : "rounded-[14px] rounded-bl-[4px] border-mist bg-mist"
         }`}
       >
-        {msg.content}
+        <RichText text={msg.content} />
       </div>
     </div>
   );
@@ -362,7 +390,9 @@ function HistoryDrawer({
         </div>
         <div className="flex-1 overflow-y-auto py-2">
           {conversations.length === 0 && (
-            <p className="px-4 py-3 text-[13px] text-muted">Nenhuma conversa ainda.</p>
+            <p className="px-4 py-3 text-[13px] text-muted">
+              Nenhuma conversa ainda.
+            </p>
           )}
           {conversations.map((c) => (
             <button
@@ -371,7 +401,9 @@ function HistoryDrawer({
               onClick={() => onSelect(c)}
               className="w-full border-b border-bg px-4 py-2.5 text-left"
             >
-              <div className="mb-0.5 text-[11px] text-faint">{dateLabel(c.updated_at)}</div>
+              <div className="mb-0.5 text-[11px] text-faint">
+                {dateLabel(c.updated_at)}
+              </div>
               <div className="text-[13px] font-medium leading-snug text-ink">
                 {convoLabel(c)}
               </div>

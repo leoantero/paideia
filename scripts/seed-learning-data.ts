@@ -64,6 +64,13 @@ const PLAN: Record<string, ConceptPlan[]> = {
     { code: "EF08MA22", n: 4, successRate: 0.7 },
     { code: "EF08MA-VOL", n: 2, successRate: 0.2 },
     { code: "EF08MA-INEQ", n: 1, successRate: 0.15 },
+    { code: "EF08LP-CLASSES", n: 6, successRate: 0.8 },
+    { code: "EF08LP-SINT", n: 5, successRate: 0.75 },
+    { code: "EF08HI-ILUM", n: 5, successRate: 0.8 },
+    { code: "EF08HI-REVF", n: 5, successRate: 0.75 },
+    { code: "EF08BI-CEL", n: 4, successRate: 0.8 },
+    { code: "EF08FI-GRAND", n: 4, successRate: 0.7 },
+    { code: "EF08QU-MAT", n: 3, successRate: 0.65 },
   ],
   "20250802": [
     { code: "EF06MA-FRAC", n: 7, successRate: 0.6 },
@@ -75,6 +82,11 @@ const PLAN: Record<string, ConceptPlan[]> = {
     { code: "EF08MA14", n: 4, successRate: 0.6 },
     { code: "EF08MA-VOL", n: 1, successRate: 0.2 },
     { code: "EF08MA-INEQ", n: 1, successRate: 0.15 },
+    { code: "EF08LP-CLASSES", n: 5, successRate: 0.6 },
+    { code: "EF08LP-CONC", n: 4, successRate: 0.45 },
+    { code: "EF08HI-ILUM", n: 4, successRate: 0.6 },
+    { code: "EF08FI-CINE", n: 4, successRate: 0.5 },
+    { code: "EF08BI-CEL", n: 3, successRate: 0.6 },
   ],
   "20250803": [
     { code: "EF06MA-FRAC", n: 8, successRate: 0.25 },
@@ -86,11 +98,17 @@ const PLAN: Record<string, ConceptPlan[]> = {
     { code: "EF08MA15", n: 4, successRate: 0.55 },
     { code: "EF08MA-VOL", n: 1, successRate: 0.15 },
     { code: "EF08MA-INEQ", n: 1, successRate: 0.15 },
+    { code: "EF08LP-CLASSES", n: 5, successRate: 0.7 },
+    { code: "EF08LP-FIG", n: 4, successRate: 0.75 },
+    { code: "EF08HI-REVF", n: 4, successRate: 0.7 },
+    { code: "EF08BI-ECO", n: 4, successRate: 0.65 },
+    { code: "EF08QU-ATOM", n: 3, successRate: 0.4 },
   ],
   "20250804": [
     { code: "EF06MA-FRAC", n: 2, successRate: 0.5 },
     { code: "EF07MA-INT", n: 1, successRate: 0.5 },
     { code: "EF08MA-VOL", n: 1, successRate: 0.2 },
+    { code: "EF08LP-CLASSES", n: 1, successRate: 0.5 },
   ],
   "20250805": [
     { code: "EF06MA-FRAC", n: 6, successRate: 0.7 },
@@ -100,6 +118,11 @@ const PLAN: Record<string, ConceptPlan[]> = {
     { code: "EF08MA-POL", n: 4, successRate: 0.6 },
     { code: "EF08MA-VOL", n: 1, successRate: 0.2 },
     { code: "EF08MA-INEQ", n: 1, successRate: 0.15 },
+    { code: "EF08LP-SINT", n: 4, successRate: 0.6 },
+    { code: "EF08HI-REVI", n: 4, successRate: 0.7 },
+    { code: "EF08FI-LEIS", n: 4, successRate: 0.55 },
+    { code: "EF08QU-TAB", n: 3, successRate: 0.6 },
+    { code: "EF08BI-SIST", n: 3, successRate: 0.7 },
   ],
 };
 
@@ -134,9 +157,13 @@ function craftEvents(
       source === "retrieval_review"
         ? randBetween(0.8, 0.95)
         : randBetween(0.35, 0.6);
-    // espalha ao longo dos últimos ~30 dias, mais recente por último
+    // Espalha ao longo dos últimos ~30 dias, mais recente por último. O último
+    // evento cai HOJE, para que ofensiva/semana e as métricas de 7 dias da
+    // gestão tenham movimento em vez de parecerem uma base parada.
     const daysAgo =
-      Math.round(((n - i) / n) * 28) + Math.floor(Math.random() * 2);
+      i === n - 1
+        ? 0
+        : Math.round(((n - i) / n) * 28) + Math.floor(Math.random() * 2);
     events.push({
       source,
       signal,

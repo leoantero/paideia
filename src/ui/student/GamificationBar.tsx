@@ -13,8 +13,13 @@ function Check() {
 }
 
 export function GamificationBar({ state }: { state: GamificationState }) {
-  const days = state.week.filter(Boolean).length;
   const progress = ((state.todayIndex + 1) / 7) * 100;
+  const streakLabel =
+    state.streak === 0
+      ? "Comece sua ofensiva hoje"
+      : state.streak === 1
+        ? "🔥 1 dia seguido"
+        : `🔥 ${state.streak} dias seguidos`;
 
   return (
     <>
@@ -22,9 +27,8 @@ export function GamificationBar({ state }: { state: GamificationState }) {
         <div className="mb-3 flex items-center justify-between">
           <div>
             <span className="font-display text-[13px] font-bold text-ink">
-              🔥 {days} dias seguidos
+              {streakLabel}
             </span>
-            <span className="ml-1.5 text-[11px] text-faint">esta semana</span>
           </div>
           <Link
             href="/student/loja"

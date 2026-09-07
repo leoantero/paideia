@@ -9,12 +9,14 @@
 ## 1. Architecture & Standards
 
 ### Core Principles
+
 - **Pedagogy First**: All AI interactions must follow educational best practices (socratic method, spaced repetition)
 - **Multi-Tenant, Multi-Role**: 4 distinct user interfaces (student, parent, teacher, director) with context-appropriate UX
 - **Data Privacy**: Student/minor data protection is non-negotiable (LGPD/GDPR compliance)
 - **Personalization**: Every interaction personalizes based on subject, grade level, learning history
 
 ### Tech Stack Decisions
+
 - **Language**: [to be specified based on team expertise]
 - **Frontend Framework**: [choose based on multi-profile UI complexity requirements]
 - **Backend**: [choose based on real-time personalization + analytics requirements]
@@ -23,6 +25,7 @@
 - **Authentication**: Secure, with role-based access control (student/parent/teacher/director)
 
 ### Code Style & Conventions
+
 - Clear separation between educational logic and infrastructure code
 - Use feature flags for experimental pedagogical approaches
 - Domain-driven design: keep "tutoring," "performance analytics," "gamification" as distinct domains
@@ -64,17 +67,20 @@ yellow-ai-1/
 ## 3. Development Workflow
 
 ### Before Starting Work
+
 1. Read the relevant feature docs in `docs/`
 2. Understand the user role(s) affected by your change
 3. Consider data privacy implications (student records, academic history)
 
 ### During Development
+
 - Write tests for educational logic (tutoring, performance calculations)
 - Use `/diagnosing-bugs` skill for complex pedagogical issues
 - Use `/codebase-design` for architecture questions
 - Check personalization logic carefully—regressions hurt student experience
 
 ### Code Review Checklist
+
 - [ ] No hardcoded student/academic data in code
 - [ ] Socratic method preserved (questions guide, not answer)
 - [ ] Personalization respects student learning pace
@@ -83,6 +89,7 @@ yellow-ai-1/
 - [ ] Tests cover the feature's educational outcome
 
 ### Before Merging
+
 - Run `/code-review ultra` for comprehensive analysis
 - Verify no data leaks in console/logging
 - Check that educational logic matches pedagogical intent
@@ -92,27 +99,32 @@ yellow-ai-1/
 ## 4. Key Domains & Responsibilities
 
 ### Tutoring Chatbot
+
 - Implements socratic method (questions guide student to discovery)
 - Personalizes based on: subject, grade level, student's learning history
 - Uses RAG to ground responses in curriculum content
 - **Constraint**: Never give direct answers; always guide
 
 ### Performance Analytics
+
 - Tracks: accuracy, completion time, subject mastery, learning trends
 - Shown to: parents (simplified), teachers (detailed), directors (aggregate)
 - **Privacy**: Only show performance trends, never detailed wrong answers
 
 ### Spaced Repetition System
+
 - Meta: 5-20 min daily (scales by grade: fundamental I=5, II=10, high school=20)
 - Tracks which concepts student struggles with
 - Feeds weak areas to tutoring chatbot
 
 ### Gamification
+
 - Coins earned by: completing lessons, using spaced repetition, consistent progress
 - Used for: character customization, visual motivation
 - **Note**: Educational value, not addictive mechanics
 
 ### Multi-Profile UI
+
 - **Student**: Friendly, game-like, encouraging (safe for children)
 - **Parent**: Informative, data-driven, reassuring (shows child is learning well)
 - **Teacher**: Practical, actionable (help individual students + generate tests)
@@ -123,15 +135,18 @@ yellow-ai-1/
 ## 5. Testing Strategy
 
 ### Unit Tests
+
 - Educational logic: socratic questions, spaced repetition algorithms
 - Personalization: correct content selection by grade/subject
 - Role access: students can't access parent data
 
 ### Integration Tests
+
 - User journey: student completes lesson → performance recorded → parent sees analytics
 - RAG pipeline: question asked → relevant curriculum retrieved → socratic response generated
 
 ### Pedagogical Tests
+
 - Verify socratic method preserved (no direct answers)
 - Check personalization accuracy (right subject, right level)
 - Validate spaced repetition timing (harder after success, easier after struggle)
@@ -185,22 +200,26 @@ npm run debug:access      # Debug role-based access control
 ## 9. Communication with Claude Code
 
 ### When to Use `/code-review ultra`
+
 - Before merging to main
 - After implementing socratic tutoring logic
 - Any changes to personalization algorithms
 - New role/permission system changes
 
 ### When to Use `/plan`
+
 - Designing new user-facing features
 - Architecture decisions (which database? which LLM?)
 - Complex pedagogical features
 
 ### When to Use `/diagnosing-bugs`
+
 - Socratic method not working as expected
 - Personalization giving wrong content
 - Performance metrics misaligned
 
 ### When to Use Skills
+
 - `/codebase-design` - "Should we split tutoring and analytics into microservices?"
 - `/domain-modeling` - "Model the relationship between student concepts, performance, and spaced repetition"
 - `/research` - Deep dives into pedagogical techniques or RAG implementations
@@ -221,6 +240,20 @@ Regras que não se negociam ao mexer nessa área:
 - Toda interação de tutoria tem que virar evidência ancorada em `concept_id`.
   Transcrição sem âncora de conceito é dado perdido — não é recuperável depois.
 - Professor vê domínio agregado; nunca `learning_events`, nunca `messages`.
+- **A escrita do learning graph é server-only.** Não existe RPC de escrita
+  liberada para `authenticated` — as antigas (`record_learning_events`,
+  `upsert_concept_mastery`) foram removidas em `0013_harden_privileges.sql`
+  porque o próprio aluno conseguia forjar o próprio domínio com elas. Quem
+  grava é `src/features/learning-graph/evidence-recorder.ts` via
+  `src/lib/supabase/admin.ts` (service-role), sempre com o `student_id` da
+  sessão autenticada e sempre dentro de `after()`. Leitura continua passando
+  pela sessão do usuário, onde a RLS é a fronteira.
+- Papel de usuário vem de `raw_app_meta_data` (só service-role escreve),
+  nunca de `raw_user_meta_data`. Provisionar pelo campo errado cria um aluno,
+  não um professor.
+- Antes de demo ou de merge que toque RLS: `npm run audit:security`
+  (22 verificações de isolamento contra o banco real). Ver
+  `docs/SECURITY_REVIEW.md`.
 
 Modelo de negócio que o schema reflete: contrato de **rede**, cobrado por aluno
 matriculado, assinado com a mantenedora. `enrollments` ativo = assento faturável.
@@ -232,6 +265,7 @@ Plano de execução: `docs/LEARNING_GRAPH_IMPLEMENTATION.md`.
 ## 10. What Matters Most Right Now
 
 **Phase 1 Priority**: Get the core loop working
+
 1. Basic student auth
 2. Socratic tutoring chatbot (simple MVP)
 3. Parent dashboard (view student performance)

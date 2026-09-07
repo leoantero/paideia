@@ -1,0 +1,105 @@
+{
+  "curriculum": { "code": "bncc-2018-v1", "label": "BNCC 2018 — 8º ano" },
+  "subject": "history",
+  "grade_band": "elementary_2",
+  "concepts": [
+    {
+      "code": "EF08HI-ILUM",
+      "name": "Iluminismo",
+      "grade_year": 8,
+      "difficulty": 0.45,
+      "description": "Ideias iluministas de razão, liberdade e separação de poderes e sua circulação no século XVIII.",
+      "prerequisites": [],
+      "cards": [
+        {
+          "front": "Qual a ideia central do Iluminismo?",
+          "back": "O uso da razão como caminho para o conhecimento e para a organização da sociedade, em oposição ao poder absoluto e à tradição."
+        },
+        {
+          "front": "O que Montesquieu propôs?",
+          "back": "A separação dos poderes em Executivo, Legislativo e Judiciário, para que um limite o outro."
+        }
+      ]
+    },
+    {
+      "code": "EF08HI-REVF",
+      "name": "Revolução Francesa",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Crise do Antigo Regime, fases da revolução e seus desdobramentos.",
+      "prerequisites": [{ "code": "EF08HI-ILUM", "strength": 1.0 }],
+      "cards": [
+        {
+          "front": "Quais são os três lemas da Revolução Francesa?",
+          "back": "Liberdade, Igualdade e Fraternidade."
+        },
+        {
+          "front": "Quando começou a Revolução Francesa e qual foi seu marco inicial?",
+          "back": "Em 1789, com a Tomada da Bastilha em 14 de julho."
+        },
+        {
+          "front": "Como a sociedade francesa estava dividida antes da revolução?",
+          "back": "Em três estados: clero (1º), nobreza (2º) e o restante da população (3º), que pagava os impostos e não tinha poder político proporcional."
+        }
+      ]
+    },
+    {
+      "code": "EF08HI-REVI",
+      "name": "Revolução Industrial",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Transição da manufatura para a indústria, urbanização e novas relações de trabalho.",
+      "prerequisites": [{ "code": "EF08HI-ILUM", "strength": 0.6 }],
+      "cards": [
+        {
+          "front": "Por que a Revolução Industrial começou na Inglaterra?",
+          "back": "Acúmulo de capital, carvão e ferro disponíveis, mão de obra vinda do campo, estabilidade política e mercado colonial para escoar a produção."
+        },
+        {
+          "front": "O que mudou nas relações de trabalho com a industrialização?",
+          "back": "O trabalhador deixou de dominar todo o processo produtivo e passou a vender sua força de trabalho por salário, em jornadas longas e ritmo ditado pela máquina."
+        }
+      ]
+    },
+    {
+      "code": "EF08HI-INDEP",
+      "name": "Independência do Brasil",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Vinda da corte portuguesa, processo de emancipação política e formação do Estado imperial.",
+      "prerequisites": [{ "code": "EF08HI-REVF", "strength": 0.7 }],
+      "cards": [
+        {
+          "front": "O que mudou no Brasil com a vinda da família real em 1808?",
+          "back": "Abertura dos portos às nações amigas, criação de instituições (Banco do Brasil, imprensa, escolas superiores) e elevação a Reino Unido em 1815."
+        },
+        {
+          "front": "Por que a independência de 1822 é considerada conservadora?",
+          "back": "Manteve a monarquia, a escravidão e a estrutura agroexportadora, com o poder nas mãos da mesma elite — mudou o vínculo com Portugal, não a ordem interna."
+        }
+      ]
+    },
+    {
+      "code": "EF08HI-ABOL",
+      "name": "Escravidão e abolição no Brasil",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Resistência escrava, leis abolicionistas graduais e os limites da abolição de 1888.",
+      "prerequisites": [{ "code": "EF08HI-INDEP", "strength": 0.8 }],
+      "cards": [
+        {
+          "front": "Cite as leis que antecederam a abolição.",
+          "back": "Lei Eusébio de Queirós (1850, fim do tráfico), Lei do Ventre Livre (1871), Lei dos Sexagenários (1885) e, por fim, a Lei Áurea (1888)."
+        },
+        {
+          "front": "Por que se diz que a abolição foi incompleta?",
+          "back": "Não veio acompanhada de acesso a terra, educação ou trabalho remunerado digno — a população negra foi libertada sem qualquer política de reparação ou inclusão."
+        },
+        {
+          "front": "O que foram os quilombos?",
+          "back": "Comunidades formadas por pessoas escravizadas fugidas, forma organizada de resistência. O maior foi Palmares, que resistiu por quase um século."
+        }
+      ]
+    }
+  ]
+}

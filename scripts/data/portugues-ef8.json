@@ -1,0 +1,101 @@
+{
+  "curriculum": { "code": "bncc-2018-v1", "label": "BNCC 2018 — 8º ano" },
+  "subject": "language",
+  "grade_band": "elementary_2",
+  "concepts": [
+    {
+      "code": "EF08LP-CLASSES",
+      "name": "Classes de palavras",
+      "grade_year": 7,
+      "difficulty": 0.3,
+      "description": "Substantivo, adjetivo, verbo, advérbio, pronome, artigo, numeral, preposição, conjunção e interjeição.",
+      "prerequisites": [],
+      "cards": [
+        {
+          "front": "Quais são as dez classes de palavras?",
+          "back": "Substantivo, artigo, adjetivo, numeral, pronome, verbo, advérbio, preposição, conjunção e interjeição."
+        },
+        {
+          "front": "Qual a diferença entre adjetivo e advérbio?",
+          "back": "O adjetivo caracteriza um substantivo (\"corrida rápida\"); o advérbio modifica verbo, adjetivo ou outro advérbio (\"correu rapidamente\")."
+        }
+      ]
+    },
+    {
+      "code": "EF08LP-SINT",
+      "name": "Sujeito e predicado",
+      "grade_year": 8,
+      "difficulty": 0.45,
+      "description": "Identificação dos termos essenciais da oração e seus tipos.",
+      "prerequisites": [{ "code": "EF08LP-CLASSES", "strength": 1.0 }],
+      "cards": [
+        {
+          "front": "Como identificar o sujeito de uma oração?",
+          "back": "Pergunte ao verbo \"quem?\" ou \"o quê?\". Em \"Os alunos entregaram o trabalho\", quem entregou? Os alunos — esse é o sujeito."
+        },
+        {
+          "front": "O que é sujeito oculto (elíptico)?",
+          "back": "Aquele que não aparece escrito, mas é identificável pela desinência do verbo. Em \"Chegamos cedo\", o sujeito é \"nós\"."
+        },
+        {
+          "front": "O que é oração sem sujeito?",
+          "back": "Aquela em que o verbo não se refere a nenhum ser. Ex.: \"Choveu ontem\", \"Há três alunos na sala\" — verbos impessoais."
+        }
+      ]
+    },
+    {
+      "code": "EF08LP-CONC",
+      "name": "Concordância verbal e nominal",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Ajuste de número e pessoa entre verbo e sujeito, e de gênero e número entre nome e seus determinantes.",
+      "prerequisites": [{ "code": "EF08LP-SINT", "strength": 0.9 }],
+      "cards": [
+        {
+          "front": "Qual a regra geral da concordância verbal?",
+          "back": "O verbo concorda com o sujeito em número e pessoa. \"Os meninos jogam\" (plural), \"O menino joga\" (singular)."
+        },
+        {
+          "front": "Em \"Fazem dois anos que ele saiu\", há erro?",
+          "back": "Sim. O verbo \"fazer\" indicando tempo é impessoal e fica no singular: \"Faz dois anos que ele saiu\"."
+        }
+      ]
+    },
+    {
+      "code": "EF08LP-FIG",
+      "name": "Figuras de linguagem",
+      "grade_year": 8,
+      "difficulty": 0.4,
+      "description": "Recursos expressivos: metáfora, metonímia, hipérbole, ironia, personificação, onomatopeia.",
+      "prerequisites": [{ "code": "EF08LP-CLASSES", "strength": 0.5 }],
+      "cards": [
+        {
+          "front": "Diferença entre metáfora e metonímia?",
+          "back": "Metáfora é comparação implícita por semelhança (\"ele é uma rocha\"). Metonímia troca por relação lógica de proximidade (\"li Machado de Assis\" = li a obra dele)."
+        },
+        {
+          "front": "O que é personificação (prosopopeia)?",
+          "back": "Atribuir características humanas a seres inanimados ou irracionais. Ex.: \"O vento sussurrava entre as árvores\"."
+        }
+      ]
+    },
+    {
+      "code": "EF08LP-COESAO",
+      "name": "Coesão e coerência textual",
+      "grade_year": 8,
+      "difficulty": 0.6,
+      "description": "Uso de conectivos e referências para amarrar o texto e manter sentido lógico.",
+      "prerequisites": [{ "code": "EF08LP-CONC", "strength": 0.6 }],
+      "cards": [
+        {
+          "front": "Qual a diferença entre coesão e coerência?",
+          "back": "Coesão é a amarração formal entre as partes (conectivos, pronomes). Coerência é o sentido lógico do todo — um texto pode ser coeso e ainda assim incoerente."
+        },
+        {
+          "front": "Que conectivo usar para indicar oposição?",
+          "back": "Mas, porém, contudo, todavia, entretanto, no entanto. Ex.: \"Estudou muito, porém não passou\"."
+        }
+      ]
+    }
+  ]
+}

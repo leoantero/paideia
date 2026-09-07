@@ -1,0 +1,97 @@
+{
+  "curriculum": { "code": "bncc-2018-v1", "label": "BNCC 2018 — 8º ano" },
+  "subject": "biology",
+  "grade_band": "elementary_2",
+  "concepts": [
+    {
+      "code": "EF08BI-CEL",
+      "name": "Célula: procarionte e eucarionte",
+      "grade_year": 7,
+      "difficulty": 0.35,
+      "description": "Estrutura celular básica e diferença entre os dois tipos de célula.",
+      "prerequisites": [],
+      "cards": [
+        {
+          "front": "Diferença entre célula procarionte e eucarionte?",
+          "back": "Procarionte não tem núcleo delimitado por membrana (bactérias). Eucarionte tem núcleo organizado e organelas membranosas (animais, plantas, fungos)."
+        },
+        {
+          "front": "Qual a função da mitocôndria?",
+          "back": "Realizar a respiração celular, produzindo a energia (ATP) que a célula usa."
+        }
+      ]
+    },
+    {
+      "code": "EF08BI-SIST",
+      "name": "Sistemas do corpo humano",
+      "grade_year": 8,
+      "difficulty": 0.45,
+      "description": "Integração entre os sistemas digestório, respiratório, circulatório e excretor.",
+      "prerequisites": [{ "code": "EF08BI-CEL", "strength": 0.7 }],
+      "cards": [
+        {
+          "front": "Como os sistemas digestório, respiratório e circulatório se conectam?",
+          "back": "O digestório absorve nutrientes e o respiratório capta oxigênio; o circulatório leva os dois até cada célula e recolhe os resíduos."
+        },
+        {
+          "front": "Qual a função dos rins?",
+          "back": "Filtrar o sangue, eliminando resíduos e o excesso de água e sais na forma de urina, mantendo o equilíbrio interno do corpo."
+        }
+      ]
+    },
+    {
+      "code": "EF08BI-REPR",
+      "name": "Reprodução humana",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Sistemas reprodutores, fecundação, desenvolvimento embrionário e puberdade.",
+      "prerequisites": [{ "code": "EF08BI-SIST", "strength": 0.9 }],
+      "cards": [
+        {
+          "front": "O que é fecundação?",
+          "back": "A união do gameta masculino (espermatozoide) com o feminino (óvulo), formando o zigoto — a primeira célula do novo indivíduo."
+        },
+        {
+          "front": "O que são caracteres sexuais secundários?",
+          "back": "Características que surgem na puberdade por ação hormonal, como mudança de voz, pelos corporais e desenvolvimento das mamas."
+        }
+      ]
+    },
+    {
+      "code": "EF08BI-HERE",
+      "name": "Hereditariedade básica",
+      "grade_year": 8,
+      "difficulty": 0.6,
+      "description": "Genes, cromossomos, alelos dominantes e recessivos e a 1ª Lei de Mendel.",
+      "prerequisites": [{ "code": "EF08BI-CEL", "strength": 0.8 }],
+      "cards": [
+        {
+          "front": "O que é um alelo dominante?",
+          "back": "Aquele que se manifesta no fenótipo mesmo quando aparece em dose única (heterozigoto). O recessivo só se manifesta em dose dupla."
+        },
+        {
+          "front": "Qual a diferença entre genótipo e fenótipo?",
+          "back": "Genótipo é a constituição genética (os alelos que o indivíduo carrega). Fenótipo é a característica observável, resultado do genótipo com o ambiente."
+        }
+      ]
+    },
+    {
+      "code": "EF08BI-ECO",
+      "name": "Ecossistemas e cadeias alimentares",
+      "grade_year": 7,
+      "difficulty": 0.35,
+      "description": "Fluxo de energia, níveis tróficos e relações entre seres vivos e ambiente.",
+      "prerequisites": [],
+      "cards": [
+        {
+          "front": "O que são produtores, consumidores e decompositores?",
+          "back": "Produtores fazem fotossíntese (plantas, algas); consumidores se alimentam de outros seres; decompositores (fungos, bactérias) reciclam a matéria orgânica."
+        },
+        {
+          "front": "Por que a energia diminui ao longo da cadeia alimentar?",
+          "back": "Em cada nível trófico grande parte da energia é usada no metabolismo e perdida como calor — só cerca de 10% passa ao nível seguinte."
+        }
+      ]
+    }
+  ]
+}

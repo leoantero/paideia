@@ -1,0 +1,163 @@
+{
+  "_comment": "Cards de revisão para conceitos de matemática já existentes em math-ef8.json. Separado para não reescrever aquele arquivo. Chave = concept code.",
+  "EF06MA-FRAC": [
+    {
+      "front": "O que significa a fração 3/4?",
+      "back": "Três partes de um todo dividido em quatro partes iguais. Também pode ser lida como 3 ÷ 4 = 0,75."
+    },
+    {
+      "front": "Como saber se 2/3 e 8/12 são equivalentes?",
+      "back": "Simplifique: 8/12 ÷ 4/4 = 2/3. São a mesma quantidade escrita de formas diferentes."
+    }
+  ],
+  "EF07MA-FRACOP": [
+    {
+      "front": "Como somar 1/3 + 1/4?",
+      "back": "Iguale os denominadores pelo MMC (12): 4/12 + 3/12 = 7/12. Só se soma numerador depois que os denominadores são iguais."
+    },
+    {
+      "front": "Como dividir 2/3 por 4/5?",
+      "back": "Multiplica pelo inverso do segundo: 2/3 × 5/4 = 10/12 = 5/6."
+    }
+  ],
+  "EF07MA-INT": [
+    {
+      "front": "Quanto é (−7) + (+3)?",
+      "back": "−4. Sinais diferentes: subtrai os valores absolutos (7 − 3 = 4) e mantém o sinal do maior em módulo (negativo)."
+    },
+    {
+      "front": "Quanto é (−5) × (−4)?",
+      "back": "+20. Na multiplicação, sinais iguais resultam em positivo."
+    }
+  ],
+  "EF06MA-PORC": [
+    {
+      "front": "Como calcular 15% de 200?",
+      "back": "15% = 0,15 → 0,15 × 200 = 30."
+    },
+    {
+      "front": "Um produto de R$ 80 teve 25% de desconto. Qual o preço final?",
+      "back": "Desconto: 0,25 × 80 = 20. Preço final: 80 − 20 = R$ 60. (Ou direto: 0,75 × 80.)"
+    }
+  ],
+  "EF08MA06": [
+    {
+      "front": "Qual o valor numérico de 3x + 2y para x = 2 e y = −1?",
+      "back": "3(2) + 2(−1) = 6 − 2 = 4. Substitui cada letra pelo seu valor e resolve."
+    },
+    {
+      "front": "Por que 2x e x² não são termos semelhantes?",
+      "back": "Porque têm expoentes diferentes na mesma letra. Só se somam termos com a parte literal idêntica."
+    }
+  ],
+  "EF08MA07": [
+    {
+      "front": "Resolva 3x + 5 = 20.",
+      "back": "3x = 20 − 5 = 15 → x = 15 ÷ 3 = 5. A ideia é isolar o x fazendo a mesma operação nos dois lados."
+    },
+    {
+      "front": "Por que ao passar um termo para o outro lado o sinal muda?",
+      "back": "Porque na prática você está somando ou subtraindo o mesmo valor nos dois lados da igualdade — o \"troca de sinal\" é o atalho dessa operação."
+    }
+  ],
+  "EF08MA08": [
+    {
+      "front": "O que significa resolver um sistema de duas equações do 1º grau?",
+      "back": "Encontrar o par (x, y) que satisfaz as duas equações ao mesmo tempo. Graficamente, é o ponto de encontro das duas retas."
+    },
+    {
+      "front": "Quais são os dois métodos usuais de resolução?",
+      "back": "Substituição (isola uma incógnita e troca na outra equação) e adição/eliminação (soma ou subtrai as equações para cancelar uma incógnita)."
+    }
+  ],
+  "EF08MA-FUNAF": [
+    {
+      "front": "Defina função afim.",
+      "back": "f(x) = ax + b, com a ≠ 0. O gráfico é sempre uma reta: \"a\" é a taxa de variação e \"b\" onde a reta corta o eixo y."
+    },
+    {
+      "front": "Quando uma função afim é crescente?",
+      "back": "Quando a > 0. Se a < 0, ela é decrescente."
+    }
+  ],
+  "EF08MA-PN": [
+    {
+      "front": "Desenvolva (a + b)².",
+      "back": "a² + 2ab + b². O erro clássico é esquecer o termo do meio (2ab)."
+    },
+    {
+      "front": "Desenvolva (a + b)(a − b).",
+      "back": "a² − b² — o produto da soma pela diferença é a diferença dos quadrados."
+    }
+  ],
+  "EF07MA-ANG": [
+    {
+      "front": "O que são ângulos complementares e suplementares?",
+      "back": "Complementares somam 90°; suplementares somam 180°."
+    },
+    {
+      "front": "Quanto mede o ângulo oposto pelo vértice a um ângulo de 55°?",
+      "back": "55°. Ângulos opostos pelo vértice são sempre congruentes."
+    }
+  ],
+  "EF08MA15": [
+    {
+      "front": "Em retas paralelas cortadas por uma transversal, como são os ângulos alternos internos?",
+      "back": "Congruentes (têm a mesma medida)."
+    },
+    {
+      "front": "E os ângulos colaterais internos?",
+      "back": "Suplementares — somam 180°."
+    }
+  ],
+  "EF08MA-AREA": [
+    {
+      "front": "Qual a área de um triângulo de base 10 cm e altura 6 cm?",
+      "back": "A = (b × h) / 2 = (10 × 6) / 2 = 30 cm²."
+    },
+    {
+      "front": "Qual a fórmula da área do círculo?",
+      "back": "A = π·r², onde r é o raio. Não confunda com o comprimento da circunferência (C = 2π·r)."
+    }
+  ],
+  "EF08MA22": [
+    {
+      "front": "Como se calcula a probabilidade de um evento?",
+      "back": "P = casos favoráveis / casos possíveis, quando todos os casos são igualmente prováveis."
+    },
+    {
+      "front": "Qual a probabilidade de sair um número par ao lançar um dado comum?",
+      "back": "3 pares (2, 4, 6) em 6 faces → 3/6 = 1/2 = 50%."
+    }
+  ],
+  "EF08MA25": [
+    {
+      "front": "Qual a diferença entre média, mediana e moda?",
+      "back": "Média é a soma dividida pela quantidade; mediana é o valor central com os dados ordenados; moda é o valor que mais se repete."
+    },
+    {
+      "front": "Quando a mediana representa melhor os dados que a média?",
+      "back": "Quando há valores muito discrepantes (outliers), que puxam a média mas quase não afetam a mediana."
+    }
+  ],
+  "EF08MA-INEQ": [
+    {
+      "front": "Resolva 2x − 3 > 7.",
+      "back": "2x > 10 → x > 5. O conjunto solução é um intervalo, não um único número."
+    },
+    {
+      "front": "O que acontece ao multiplicar os dois lados de uma inequação por um número negativo?",
+      "back": "O sinal da desigualdade se inverte. Ex.: −x > 3 → x < −3."
+    }
+  ],
+  "EF08MA-VOL": [
+    {
+      "front": "Qual o volume de um prisma?",
+      "back": "V = área da base × altura."
+    },
+    {
+      "front": "Um cubo tem aresta de 4 cm. Qual seu volume?",
+      "back": "V = 4³ = 64 cm³."
+    }
+  ]
+}
