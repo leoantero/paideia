@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/src/lib/supabase/server";
 import { generateStructuredCompletion } from "@/src/core/ai-integration/anthropic-client";
+import { checkRateLimit, rateLimitResponse } from "@/src/lib/rate-limit";
 
 const MODEL = "claude-sonnet-4-5";
+// Teto mais apertado: Sonnet + até 1600 tokens de saída é a chamada mais cara das quatro.
+const RATE_LIMIT = 15;
+const RATE_WINDOW_MINUTES = 60;
 
 const questionSchema = z.object({
   type: z.enum(["multiple_choice", "open_ended", "true_false"]),
@@ -49,6 +53,14 @@ export async function POST(request: Request) {
       { status: 403 }
     );
   }
+
+  const rate = await checkRateLimit(
+    user.id,
+    "teacher/builder",
+    RATE_LIMIT,
+    RATE_WINDOW_MINUTES
+  );
+  if (!rate.allowed) return rateLimitResponse(rate.retryAfterSeconds!);
 
   const body = await request.json().catch(() => null);
   const conceptId: string | undefined = body?.conceptId;

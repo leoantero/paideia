@@ -15,6 +15,11 @@ import {
   getRecentMessages,
 } from "@/src/features/tutoring/conversation-service";
 import { getStudentProfile } from "@/src/features/user-profiles/student-profile-service";
+import { checkRateLimit, rateLimitResponse } from "@/src/lib/rate-limit";
+
+/** Rota mais usada do produto — teto generoso, mas existe. Ver rate-limit.ts. */
+const RATE_LIMIT = 40;
+const RATE_WINDOW_MINUTES = 60;
 
 /**
  * The ONLY route that reads ANTHROPIC_API_KEY (via anthropic-client.ts).
@@ -45,6 +50,14 @@ export async function POST(request: Request) {
       { status: 403 }
     );
   }
+
+  const rate = await checkRateLimit(
+    user.id,
+    "tutor/chat",
+    RATE_LIMIT,
+    RATE_WINDOW_MINUTES
+  );
+  if (!rate.allowed) return rateLimitResponse(rate.retryAfterSeconds!);
 
   const body = await request.json().catch(() => null);
   const message: string | undefined = body?.message;

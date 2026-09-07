@@ -10,8 +10,11 @@ import {
   getSubjectMastery,
   getTeacherEngagement,
 } from "@/src/features/user-profiles/gestor-service";
+import { checkRateLimit, rateLimitResponse } from "@/src/lib/rate-limit";
 
 const HISTORY_LIMIT = 10;
+const RATE_LIMIT = 20;
+const RATE_WINDOW_MINUTES = 60;
 
 const SUBJECT_LABELS: Record<string, string> = {
   math: "Matemática",
@@ -53,6 +56,14 @@ export async function POST(request: Request) {
       { status: 403 }
     );
   }
+
+  const rate = await checkRateLimit(
+    user.id,
+    "gestor/insights",
+    RATE_LIMIT,
+    RATE_WINDOW_MINUTES
+  );
+  if (!rate.allowed) return rateLimitResponse(rate.retryAfterSeconds!);
 
   const body = await request.json().catch(() => null);
   const message: string | undefined = body?.message;

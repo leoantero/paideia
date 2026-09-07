@@ -7,8 +7,11 @@ import {
 import { buildAdvisorSystemPrompt } from "@/src/features/user-profiles/advisor-system-prompt";
 import { getMasteryBySubject } from "@/src/features/user-profiles/parent-profile-service";
 import type { WeakPrerequisite } from "@/src/features/learning-graph/types";
+import { checkRateLimit, rateLimitResponse } from "@/src/lib/rate-limit";
 
 const HISTORY_LIMIT = 10;
+const RATE_LIMIT = 20;
+const RATE_WINDOW_MINUTES = 60;
 
 /**
  * O "Conselheiro" do responsável. Não é o tutor socrático do aluno — não
@@ -39,6 +42,14 @@ export async function POST(request: Request) {
       { status: 403 }
     );
   }
+
+  const rate = await checkRateLimit(
+    user.id,
+    "parent/advisor",
+    RATE_LIMIT,
+    RATE_WINDOW_MINUTES
+  );
+  if (!rate.allowed) return rateLimitResponse(rate.retryAfterSeconds!);
 
   const body = await request.json().catch(() => null);
   const studentId: string | undefined = body?.studentId;
