@@ -1,7 +1,6 @@
 import { createClient } from "@/src/lib/supabase/server";
-import { ChatWindow } from "@/src/ui/student/ChatWindow";
-import type { DisplayMessage } from "@/src/ui/student/MessageBubble";
-import { PageTitle } from "@/src/ui/AppShell";
+import { TutorScreen, type ConversationSummary } from "@/src/ui/student/TutorScreen";
+import { PLACEHOLDER_GAMIFICATION } from "@/src/ui/student/gamification-data";
 
 export default async function TutorPage() {
   const supabase = await createClient();
@@ -9,39 +8,28 @@ export default async function TutorPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  let conversationId: string | null = null;
-  let initialMessages: DisplayMessage[] = [];
+  let conversations: ConversationSummary[] = [];
+  let firstName = "";
 
   if (user) {
-    // RLS scopes this to the signed-in student automatically — no manual
-    // student_id filter needed (see src/features/tutoring/conversation-service.ts).
-    const { data: conversation } = await supabase
-      .from("conversations")
-      .select("id")
-      .order("updated_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (conversation) {
-      conversationId = conversation.id;
-      const { data: messages } = await supabase
-        .from("messages")
-        .select("role, content")
-        .eq("conversation_id", conversation.id)
-        .order("created_at", { ascending: true });
-
-      initialMessages = (messages ?? []) as DisplayMessage[];
-    }
+    const [{ data: convs }, { data: prof }] = await Promise.all([
+      // RLS já escopa para o aluno logado.
+      supabase
+        .from("conversations")
+        .select("id, title, subject, updated_at")
+        .order("updated_at", { ascending: false })
+        .limit(30),
+      supabase.from("profiles").select("full_name").eq("id", user.id).single(),
+    ]);
+    conversations = (convs ?? []) as ConversationSummary[];
+    firstName = (prof?.full_name ?? "").split(" ")[0] ?? "";
   }
 
   return (
-    <div className="flex flex-1 flex-col">
-      <PageTitle>Tutor</PageTitle>
-      <p className="mb-3 text-sm text-muted">
-        Um parceiro de raciocínio — aqui para fazer as perguntas que te
-        destravam, não para entregar a resposta.
-      </p>
-      <ChatWindow conversationId={conversationId} initialMessages={initialMessages} />
-    </div>
+    <TutorScreen
+      firstName={firstName}
+      conversations={conversations}
+      gamification={PLACEHOLDER_GAMIFICATION}
+    />
   );
 }

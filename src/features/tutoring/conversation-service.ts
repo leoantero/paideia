@@ -33,7 +33,9 @@ export async function getOrCreateConversation(
   supabase: SupabaseClient,
   studentId: string,
   conversationId: string | null,
-  subject: string
+  subject: string,
+  /** Título da conversa (assunto que o aluno digitou). Só usado ao criar. */
+  title?: string
 ): Promise<ConversationRow> {
   if (conversationId) {
     const { data, error } = await supabase
@@ -44,9 +46,10 @@ export async function getOrCreateConversation(
     if (!error && data) return data as ConversationRow;
   }
 
+  const cleanTitle = title?.trim().slice(0, 80) || null;
   const { data, error } = await supabase
     .from("conversations")
-    .insert({ student_id: studentId, subject })
+    .insert({ student_id: studentId, subject, title: cleanTitle })
     .select("*")
     .single();
 

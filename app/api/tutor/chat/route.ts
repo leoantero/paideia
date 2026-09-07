@@ -60,7 +60,9 @@ export async function POST(request: Request) {
     supabase,
     user.id,
     conversationId,
-    subject
+    subject,
+    // primeira mensagem do aluno vira o título da conversa
+    message
   );
 
   await appendMessage(supabase, conversation.id, "student", message);
