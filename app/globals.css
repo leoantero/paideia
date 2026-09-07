@@ -46,12 +46,13 @@
   --color-weak: #c0392b;
   --color-weak-bg: #ffd5d5;
 
-  --font-display: var(--font-bricolage), "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-bricolage), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  --radius-sm: 0.75rem;   /* 12px — inputs */
-  --radius: 0.875rem;     /* 14px — botões, cards menores */
-  --radius-lg: 1rem;      /* 16px — cards */
+  --radius-sm: 0.75rem; /* 12px — inputs */
+  --radius: 0.875rem; /* 14px — botões, cards menores */
+  --radius-lg: 1rem; /* 16px — cards */
 }
 
 html {
@@ -65,15 +66,21 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-display);
   color: var(--color-ink);
   letter-spacing: -0.02em;
 }
 
 /* Barra de rolagem escondida — o app é mobile-first, estilo app nativo. */
-::-webkit-scrollbar { display: none; }
-* { scrollbar-width: none; }
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none;
+}
 
 /* Foco visível e consistente para quem navega por teclado. */
 *:focus-visible {
@@ -83,7 +90,9 @@ h1, h2, h3 {
 }
 
 /* Card-flip da Revisão (estilo Anki). */
-.card-flip { perspective: 1000px; }
+.card-flip {
+  perspective: 1000px;
+}
 .card-inner {
   position: relative;
   width: 100%;
@@ -91,15 +100,63 @@ h1, h2, h3 {
   transition: transform 0.5s;
   transform-style: preserve-3d;
 }
-.card-inner.flipped { transform: rotateY(180deg); }
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
 .card-face {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-.card-back { transform: rotateY(180deg); }
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* Pilha estilo carrossel: o card ativo na frente, dois "picos" atrás só com
+   sombra (sem conteúdo) sugerindo a fila, e uma saída deslizante ao responder. */
+.deck-stack {
+  position: relative;
+}
+.deck-peek {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: var(--color-surface);
+  box-shadow: 0 10px 22px rgba(30, 58, 138, 0.16);
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
+}
+.deck-peek-1 {
+  transform: translate(10px, 12px) scale(0.96);
+  opacity: 0.9;
+}
+.deck-peek-2 {
+  transform: translate(20px, 24px) scale(0.92);
+  opacity: 0.65;
+}
+.deck-front {
+  position: relative;
+  transition:
+    transform 0.32s ease,
+    opacity 0.32s ease;
+}
+.deck-front.deck-exit-right {
+  transform: translateX(130%) rotate(8deg);
+  opacity: 0;
+}
+.deck-front.deck-exit-left {
+  transform: translateX(-130%) rotate(-8deg);
+  opacity: 0;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .card-inner { transition: none; }
+  .card-inner {
+    transition: none;
+  }
+  .deck-peek,
+  .deck-front {
+    transition: none;
+  }
 }

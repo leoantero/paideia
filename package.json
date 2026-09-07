@@ -12,7 +12,8 @@
     "test:pedagogy": "vitest run src/features/tutoring",
     "seed:curriculum": "tsx scripts/seed-curriculum.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
-    "seed": "npm run seed:curriculum && npm run seed:demo",
+    "seed:learning": "tsx scripts/seed-learning-data.ts",
+    "seed": "npm run seed:curriculum && npm run seed:demo && npm run seed:learning",
     "prepare": "husky"
   },
   "dependencies": {

@@ -35,7 +35,9 @@ export function BottomNav({ items }: { items: NavItem[] }) {
             <span aria-hidden className="[&>svg]:h-[22px] [&>svg]:w-[22px]">
               {item.icon}
             </span>
-            <span className={`text-[11px] ${active ? "font-semibold" : "font-normal"}`}>
+            <span
+              className={`text-[11px] ${active ? "font-semibold" : "font-normal"}`}
+            >
               {item.label}
             </span>
             <span
@@ -105,6 +107,11 @@ export const icons = {
   bars: (
     <svg {...S}>
       <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  ),
+  store: (
+    <svg {...S}>
+      <path d="M3 9l1.5-5h15L21 9M3 9v10a1 1 0 001 1h16a1 1 0 001-1V9M3 9h18M9 13a3 3 0 006 0" />
     </svg>
   ),
 };
