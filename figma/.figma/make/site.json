@@ -1,0 +1,10 @@
+{
+  "description": "An educational platform offering tailored interfaces for parents, students, teachers, and managers to enhance learning, communication, and performance tracking.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
