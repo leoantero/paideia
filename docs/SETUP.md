@@ -1,23 +1,26 @@
-# Yellow AI - Developer Setup Guide
+# Paideia - Developer Setup Guide
 
-## Welcome to Yellow AI
+## Welcome to Paideia
 
 This guide will help you get up to speed on the project and set up your development environment.
 
 ## Quick Start (30 min)
 
 ### 1. Understand the Project
+
 - Read `CLAUDE.md` (project overview + decision rules)
 - Read `ARCHITECTURE.md` (system design)
 - Read `PEDAGOGY.md` (how we teach with AI)
 
 ### 2. Understand Your Role
+
 - **Frontend Developer**: Focus on `src/ui/` and multi-role interface design
 - **Backend Developer**: Focus on `src/features/` and `src/core/`
 - **AI/ML Developer**: Focus on `src/features/tutoring/` and RAG implementation
 - **DevOps/Infra**: Focus on deployment, monitoring, data privacy
 
 ### 3. Set Up Local Environment
+
 ```bash
 # Clone and install
 git clone <repo>
@@ -146,62 +149,75 @@ interface DirectorUI {
 ## Key Principles to Remember
 
 ### 1. Pedagogy First
+
 Before implementing any feature, ask: "Does this help students learn?"
 
 ### 2. Privacy by Default
+
 Student data is sensitive. Think before logging, storing, or sending data.
 
 ### 3. No Shortcuts
+
 The whole point is to teach students not to use AI as a shortcut. Don't build features that encourage shortcuts.
 
 ### 4. Personalization Matters
+
 Same content won't work for 4th graders and high schoolers. Always consider grade level.
 
 ### 5. Test Your Assumptions
+
 Write tests for educational logic, not just code logic.
 
 ## Testing
 
 ### Unit Tests
+
 ```bash
 npm run test
 ```
 
 Focus on:
+
 - Socratic method preservation
 - Personalization correctness
 - Permission/access control
 
 ### Pedagogical Tests
+
 ```bash
 npm run test:pedagogy
 ```
 
 Verify:
+
 - Tutoring responses follow socratic method
 - Spaced repetition timing is correct
 - Performance metrics accurately reflect learning
 
 ### Integration Tests
+
 ```bash
 npm run test:integration
 ```
 
 Test full user journeys:
+
 - Student → tutoring chat → performance recorded → parent sees update
 
 ## Using Claude Code Effectively
 
 ### For Design Decisions
+
 ```
 /plan
 
-I need to design the spaced repetition algorithm. 
+I need to design the spaced repetition algorithm.
 Should we use the Leitner system or SM-2?
 What are the tradeoffs?
 ```
 
 ### For Code Review
+
 ```
 /code-review ultra
 
@@ -211,6 +227,7 @@ Any privacy concerns?
 ```
 
 ### For Architecture Questions
+
 ```
 /codebase-design
 
@@ -219,6 +236,7 @@ What's the impact on data privacy?
 ```
 
 ### For Debugging Educational Logic
+
 ```
 /diagnosing-bugs
 

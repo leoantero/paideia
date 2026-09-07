@@ -1,4 +1,4 @@
-# Yellow AI - Claude Code Guidelines
+# Paideia - Claude Code Guidelines
 
 **Project**: Educational AI platform for responsible student learning using socratic tutoring + parental supervision
 
