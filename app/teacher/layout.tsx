@@ -3,8 +3,9 @@ import { AppShell } from "@/src/ui/AppShell";
 import { icons, type NavItem } from "@/src/ui/BottomNav";
 
 const NAV: NavItem[] = [
-  { href: "/teacher/turma", label: "Turma", icon: icons.grid },
-  { href: "/teacher/ajustes", label: "Ajustes", icon: icons.settings },
+  { href: "/teacher/turma", label: "Turma", icon: icons.heat },
+  { href: "/teacher/construtor", label: "Construtor", icon: icons.build },
+  { href: "/teacher/ajustes", label: "Ajustes", icon: icons.gear },
 ];
 
 export default async function TeacherLayout({

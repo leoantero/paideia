@@ -5,7 +5,7 @@ import { icons, type NavItem } from "@/src/ui/BottomNav";
 const NAV: NavItem[] = [
   { href: "/student/tutor", label: "Tutor", icon: icons.chat },
   { href: "/student/revisao", label: "Revisão", icon: icons.cards },
-  { href: "/student/ajustes", label: "Ajustes", icon: icons.settings },
+  { href: "/student/ajustes", label: "Ajustes", icon: icons.gear },
 ];
 
 export default async function StudentLayout({

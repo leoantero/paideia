@@ -1,45 +1,57 @@
 @import "tailwindcss";
 
 /*
- * Paideia design tokens.
+ * Paideia design tokens — alinhados ao protótipo do Figma (figma/).
  *
- * One light theme by design — this is a product used by children and parents,
- * and a single well-tuned palette avoids the dark-on-dark contrast problems a
- * half-built dark mode was causing (notably the invisible <select> options).
+ * Um tema claro só. Público é criança + família + escola; uma paleta única
+ * bem calibrada evita os problemas de contraste que um dark mode meio-feito
+ * causava (o <select> invisível).
  *
- * Palette rationale (WCAG AA checked against the surfaces they sit on):
- *  - ink (#1e3a8a): headings, primary actions, links. ~9:1 on white.
- *  - gold (#e4bb02): accents, focus rings, active states. Fails as small text
- *    on white, so it is only ever a background/border — text on gold is ink.
- *  - mist (#c8e0e3): calm cyan for section panels and the tutor surface.
- *  - parchment (#fffac8): warm callouts (linking code, empty states, tips).
+ * Cores de marca:
+ *  - ink (#1e3a8a): títulos, ações primárias, e a MAIOR parte do texto.
+ *  - gold (#e4bb02): acento, foco, estado ativo, o "?" recorrente. Nunca texto
+ *    pequeno sobre branco — só fundo/borda; texto sobre gold é ink.
+ *  - mist (#c8e0e3): borda de controle (2px), superfícies calmas, bolha do tutor.
+ *  - parchment (#fffac8): callouts, bolha do aluno, destaques quentes.
  */
 @theme {
   --color-bg: #f4f9fa;
   --color-surface: #ffffff;
+
   --color-mist: #c8e0e3;
   --color-mist-soft: #e2f0f2;
   --color-parchment: #fffac8;
+
   --color-ink: #1e3a8a;
   --color-ink-strong: #152c66;
+  --color-ink-soft: #a8c8e8;
   --color-gold: #e4bb02;
   --color-gold-soft: #f7e9a8;
+  --color-gold-deep: #b8960a;
 
-  --color-body: #1f2937;
-  --color-muted: #5b6672;
-  --color-line: #d7e3e5;
+  /* Texto: no Figma quase tudo é ink; o secundário é um azul-acinzentado. */
+  --color-body: #1e3a8a;
+  --color-muted: #4a6080;
+  --color-faint: #8aacb8;
 
-  --color-strong: #15803d;
-  --color-strong-bg: #dcfce7;
-  --color-average: #a16207;
-  --color-average-bg: #fef9c3;
-  --color-weak: #b91c1c;
-  --color-weak-bg: #fee2e2;
+  /* Linhas: hairline de card é bem clara; borda de controle é a mist. */
+  --color-line: #e8f4f6;
+  --color-line-strong: #d7e3e5;
+
+  /* Semânticas — separadas do acento. */
+  --color-strong: #2d7a4f;
+  --color-strong-bg: #e5f5ed;
+  --color-average: #b8960a;
+  --color-average-bg: #fdf8e1;
+  --color-weak: #c0392b;
+  --color-weak-bg: #ffd5d5;
 
   --font-display: var(--font-bricolage), "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  --radius: 0.75rem;
+  --radius-sm: 0.75rem;   /* 12px — inputs */
+  --radius: 0.875rem;     /* 14px — botões, cards menores */
+  --radius-lg: 1rem;      /* 16px — cards */
 }
 
 html {
@@ -56,12 +68,38 @@ body {
 h1, h2, h3 {
   font-family: var(--font-display);
   color: var(--color-ink);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
-/* Consistent, visible focus ring for keyboard users across the app. */
+/* Barra de rolagem escondida — o app é mobile-first, estilo app nativo. */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* Foco visível e consistente para quem navega por teclado. */
 *:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+/* Card-flip da Revisão (estilo Anki). */
+.card-flip { perspective: 1000px; }
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+.card-inner.flipped { transform: rotateY(180deg); }
+.card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.card-back { transform: rotateY(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card-inner { transition: none; }
 }
