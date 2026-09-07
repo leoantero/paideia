@@ -30,11 +30,16 @@ interface SeedEvent {
  */
 
 const STUDENT_MATRICULAS = [
+  // 8º ano B — turma com uso alto
   "20250801", // Marina Rocha
   "20250802", // Théo Almeida
   "20250803", // Bruna Carvalho
   "20250804", // Igor Nascimento
   "20250805", // Lívia Fernandes
+  // 8º ano A — turma com adoção mais fraca (é o contraste que o gestor vê)
+  "20250811", // Rafael Moreira
+  "20250812", // Helena Braga
+  "20250813", // Caio Ferreira
 ];
 
 const studentEmail = (matricula: string) => `${matricula}@aluno.paideia.app`;
@@ -109,6 +114,25 @@ const PLAN: Record<string, ConceptPlan[]> = {
     { code: "EF07MA-INT", n: 1, successRate: 0.5 },
     { code: "EF08MA-VOL", n: 1, successRate: 0.2 },
     { code: "EF08LP-CLASSES", n: 1, successRate: 0.5 },
+  ],
+  // ── 8º ano A ──
+  // Turma que adotou menos: menos conceitos tocados e menos evidência por
+  // conceito. É o que faz a professora Juliana aparecer com engajamento
+  // menor que a Débora no painel do gestor — comparação real, não decorativa.
+  "20250811": [
+    { code: "EF08BI-CEL", n: 5, successRate: 0.75 },
+    { code: "EF08BI-ECO", n: 4, successRate: 0.7 },
+    { code: "EF06MA-FRAC", n: 3, successRate: 0.6 },
+    { code: "EF08BI-SIST", n: 3, successRate: 0.55 },
+  ],
+  "20250812": [
+    { code: "EF08BI-CEL", n: 4, successRate: 0.5 },
+    { code: "EF08BI-ECO", n: 3, successRate: 0.45 },
+    { code: "EF06MA-FRAC", n: 2, successRate: 0.4 },
+  ],
+  "20250813": [
+    { code: "EF08BI-CEL", n: 2, successRate: 0.35 },
+    { code: "EF06MA-FRAC", n: 1, successRate: 0.3 },
   ],
   "20250805": [
     { code: "EF06MA-FRAC", n: 6, successRate: 0.7 },

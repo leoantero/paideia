@@ -1,20 +1,32 @@
 import { admin, ensureUser, loadAuthUsers } from "./lib/admin";
 
 /**
- * Seed da demo: 1 mantenedora -> 1 escola -> 1 turma (8º ano) -> 5 alunos,
- * + contas de responsável e de professor com credenciais conhecidas.
+ * Seed da demo: 1 mantenedora -> 1 escola -> 2 turmas -> 8 alunos,
+ * + responsáveis, 3 professores e 1 gestor, todos com credenciais conhecidas.
  *
- * Idempotente. NÃO usar em produção — cria contas com senhas fixas.
+ * POR QUE DUAS TURMAS: com todo mundo na mesma turma, a aba "Professores" do
+ * gestor mostra três linhas com engajamento idêntico — parece defeito, não
+ * comparação. Turmas separadas fazem aquela tela dizer alguma coisa.
+ *
+ * Idempotente. NÃO usar em produção — cria contas com senha fixa.
  */
 
 const DEMO_PASSWORD = "***REDACTED-ROTATED-2026-10-04***";
 
+const CLASS_B = "8º ano B";
+const CLASS_A = "8º ano A";
+
 const STUDENTS = [
-  { matricula: "20250801", name: "Marina Rocha" },
-  { matricula: "20250802", name: "Théo Almeida" },
-  { matricula: "20250803", name: "Bruna Carvalho" },
-  { matricula: "20250804", name: "Igor Nascimento" },
-  { matricula: "20250805", name: "Lívia Fernandes" },
+  // 8º B — a turma com histórico denso; sustenta o heatmap e o caso da Bruna
+  { matricula: "20250801", name: "Marina Rocha", turma: CLASS_B },
+  { matricula: "20250802", name: "Théo Almeida", turma: CLASS_B },
+  { matricula: "20250803", name: "Bruna Carvalho", turma: CLASS_B },
+  { matricula: "20250804", name: "Igor Nascimento", turma: CLASS_B },
+  { matricula: "20250805", name: "Lívia Fernandes", turma: CLASS_B },
+  // 8º A — turma menor, uso mais baixo: é o contraste que o gestor precisa ver
+  { matricula: "20250811", name: "Rafael Moreira", turma: CLASS_A },
+  { matricula: "20250812", name: "Helena Braga", turma: CLASS_A },
+  { matricula: "20250813", name: "Caio Ferreira", turma: CLASS_A },
 ];
 
 const PARENTS = [
@@ -33,13 +45,39 @@ const PARENTS = [
     name: "Sônia Nascimento",
     children: ["20250804"],
   },
-  // 20250805 (Lívia) fica sem responsável vinculado — caso de borda pro painel.
+  {
+    email: "responsavel.rafael@exemplo.com",
+    name: "Marcos Moreira",
+    children: ["20250811", "20250812"],
+  },
+  // 20250805 (Lívia) e 20250813 (Caio) ficam sem responsável vinculado —
+  // é o que faz a aba "Responsáveis" do gestor ter um número pra cobrar.
 ];
 
-const TEACHER = {
-  email: "professora.matematica@escola-demo.com",
-  name: "Débora Lima",
-};
+/**
+ * Três professores em recortes diferentes. O engajamento de cada um sai da
+ * turma dele, então os números do painel do gestor divergem de verdade.
+ */
+const TEACHERS = [
+  {
+    email: "professora.matematica@escola-demo.com",
+    name: "Débora Lima",
+    subject: "math",
+    turma: CLASS_B,
+  },
+  {
+    email: "professor.portugues@escola-demo.com",
+    name: "Rogério Sales",
+    subject: "language",
+    turma: CLASS_B,
+  },
+  {
+    email: "professora.ciencias@escola-demo.com",
+    name: "Juliana Prado",
+    subject: "biology",
+    turma: CLASS_A,
+  },
+];
 
 /** Gestor da unidade — escopo por `staff_assignments.school_id` (decisão #2). */
 const GESTOR = { email: "gestor@escola-demo.com", name: "Renata Duarte" };
@@ -91,17 +129,16 @@ async function main() {
       state: "SP",
     }
   );
-  const klass = await upsertReturning(
-    "school_classes",
-    { school_id: school.id, name: "8º ano B", academic_year: 2026 },
-    {
-      school_id: school.id,
-      name: "8º ano B",
-      grade_year: 8,
-      academic_year: 2026,
-    }
-  );
-  console.log(`Rede/escola/turma ok (turma ${klass.id}).`);
+  const classIdByName = new Map<string, string>();
+  for (const name of [CLASS_B, CLASS_A]) {
+    const row = await upsertReturning(
+      "school_classes",
+      { school_id: school.id, name, academic_year: 2026 },
+      { school_id: school.id, name, grade_year: 8, academic_year: 2026 }
+    );
+    classIdByName.set(name, row.id);
+  }
+  console.log(`Rede/escola ok — ${classIdByName.size} turmas.`);
 
   // 2. alunos: cria auth user (trigger cria profile + students), define série, matricula
   const studentIdByMatricula = new Map<string, string>();
@@ -122,15 +159,16 @@ async function main() {
       .update({ grade_level: "elementary_2", school_name: SCHOOL_NAME })
       .eq("id", uid);
 
+    const classId = classIdByName.get(s.turma)!;
     const { data: enr } = await admin
       .from("enrollments")
       .select("id")
-      .match({ student_id: uid, class_id: klass.id })
+      .match({ student_id: uid, class_id: classId })
       .maybeSingle();
     if (!enr) {
       const { error } = await admin
         .from("enrollments")
-        .insert({ student_id: uid, class_id: klass.id, status: "active" });
+        .insert({ student_id: uid, class_id: classId, status: "active" });
       if (error) throw error;
     }
   }
@@ -160,23 +198,30 @@ async function main() {
   }
   console.log(`${PARENTS.length} responsáveis vinculados.`);
 
-  // 4. professora + atribuição à turma
-  const teacherId = await ensureUser(users, TEACHER.email, DEMO_PASSWORD, {
-    role: "teacher",
-    full_name: TEACHER.name,
-  });
-  const { data: sa } = await admin
-    .from("staff_assignments")
-    .select("id")
-    .match({ profile_id: teacherId, class_id: klass.id })
-    .maybeSingle();
-  if (!sa) {
-    const { error } = await admin
+  // 4. professores + atribuição à turma da matéria de cada um
+  for (const t of TEACHERS) {
+    const teacherId = await ensureUser(users, t.email, DEMO_PASSWORD, {
+      role: "teacher",
+      full_name: t.name,
+    });
+    const classId = classIdByName.get(t.turma)!;
+    const { data: sa } = await admin
       .from("staff_assignments")
-      .insert({ profile_id: teacherId, class_id: klass.id, subject: "math" });
-    if (error) throw error;
+      .select("id")
+      .match({ profile_id: teacherId, class_id: classId })
+      .maybeSingle();
+    if (!sa) {
+      const { error } = await admin
+        .from("staff_assignments")
+        .insert({
+          profile_id: teacherId,
+          class_id: classId,
+          subject: t.subject,
+        });
+      if (error) throw error;
+    }
   }
-  console.log("Professora atribuída à turma.");
+  console.log(`${TEACHERS.length} professores atribuídos.`);
 
   // 5. gestor da unidade — escopo por school_id, não por turma
   const gestorId = await ensureUser(users, GESTOR.email, DEMO_PASSWORD, {
@@ -199,13 +244,17 @@ async function main() {
   console.log("\n--- CREDENCIAIS DA DEMO (senha única) ---");
   console.log(`senha: ${DEMO_PASSWORD}\n`);
   console.log("ALUNOS (login por matrícula):");
-  for (const s of STUDENTS) console.log(`  ${s.matricula}  ${s.name}`);
+  for (const s of STUDENTS) {
+    console.log(`  ${s.matricula}  ${s.name.padEnd(18)} ${s.turma}`);
+  }
   console.log("RESPONSÁVEIS (login por e-mail):");
-  for (const p of PARENTS) console.log(`  ${p.email}  (${p.name})`);
-  console.log("PROFESSORA (login por e-mail):");
-  console.log(`  ${TEACHER.email}  (${TEACHER.name})`);
+  for (const p of PARENTS) console.log(`  ${p.email.padEnd(38)} ${p.name}`);
+  console.log("PROFESSORES (login por e-mail):");
+  for (const t of TEACHERS) {
+    console.log(`  ${t.email.padEnd(38)} ${t.name.padEnd(16)} ${t.turma}`);
+  }
   console.log("GESTOR (login por e-mail):");
-  console.log(`  ${GESTOR.email}  (${GESTOR.name})`);
+  console.log(`  ${GESTOR.email.padEnd(38)} ${GESTOR.name}`);
 }
 
 main()

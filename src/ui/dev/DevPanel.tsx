@@ -52,8 +52,11 @@ export function DevPanel({
       );
       return;
     }
-    router.push(ROLE_HOME[account.role] ?? "/");
-    router.refresh();
+    // Navegação DURA de propósito. Com router.push, a requisição RSC sai na
+    // mesma tick em que o cliente ainda está gravando o cookie da sessão nova
+    // — o servidor recebe a sessão antiga, requireRole barra, e o clique
+    // parece não fazer nada. Recarregar garante que o cookie novo vai junto.
+    window.location.assign(ROLE_HOME[account.role] ?? "/");
   }
 
   function create() {
