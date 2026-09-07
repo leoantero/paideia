@@ -2,12 +2,29 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/src/lib/supabase/server";
 import { ROLE_HOME, type Role } from "@/src/core/auth/types";
+import { isDevPanelEnabled } from "@/src/features/dev/dev-access";
 
 const ROLES: { href: string; label: string; desc: string }[] = [
-  { href: "/entrar/aluno", label: "Sou aluno", desc: "Aprenda pensando, não copiando" },
-  { href: "/entrar/responsavel", label: "Sou responsável", desc: "Acompanhe o progresso do seu filho" },
-  { href: "/entrar/professor", label: "Sou professor", desc: "Gerencie suas turmas e questões" },
-  { href: "/entrar/gestor", label: "Sou gestor", desc: "Visão completa da escola" },
+  {
+    href: "/entrar/aluno",
+    label: "Sou aluno",
+    desc: "Aprenda pensando, não copiando",
+  },
+  {
+    href: "/entrar/responsavel",
+    label: "Sou responsável",
+    desc: "Acompanhe o progresso do seu filho",
+  },
+  {
+    href: "/entrar/professor",
+    label: "Sou professor",
+    desc: "Gerencie suas turmas e questões",
+  },
+  {
+    href: "/entrar/gestor",
+    label: "Sou gestor",
+    desc: "Visão completa da escola",
+  },
 ];
 
 export default async function Home() {
@@ -41,7 +58,10 @@ export default async function Home() {
             Paideia
           </span>
         </div>
-        <span aria-hidden className="font-display text-[26px] font-bold text-gold">
+        <span
+          aria-hidden
+          className="font-display text-[26px] font-bold text-gold"
+        >
           ?
         </span>
       </div>
@@ -71,7 +91,8 @@ export default async function Home() {
               Paideia
             </span>
             <p className="mt-1.5 text-[14px] font-medium leading-snug text-ink">
-              &ldquo;Se vendeu 3/5 dos 120 pães de manhã, quantos foram?&rdquo; 🤔
+              &ldquo;Se vendeu 3/5 dos 120 pães de manhã, quantos foram?&rdquo;
+              🤔
             </p>
           </div>
         </div>
@@ -93,7 +114,9 @@ export default async function Home() {
               <span className="block font-display text-[16px] font-bold tracking-tight">
                 {r.label}
               </span>
-              <span className="mt-0.5 block text-[13px] opacity-70">{r.desc}</span>
+              <span className="mt-0.5 block text-[13px] opacity-70">
+                {r.desc}
+              </span>
             </span>
             <svg
               width="18"
@@ -104,11 +127,53 @@ export default async function Home() {
               strokeWidth="2.5"
               aria-hidden
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </Link>
         ))}
       </div>
+
+      {/* Atalho de demonstração — some quando PAIDEIA_DEV_PANEL não está ligado. */}
+      {isDevPanelEnabled() && (
+        <Link
+          href="/dev"
+          className="mt-5 flex items-center justify-between rounded-[14px] border-[1.5px] border-dashed border-faint/60 bg-surface px-5 py-3.5 transition-colors hover:border-ink"
+        >
+          <span>
+            <span className="flex items-center gap-2">
+              <span className="rounded bg-weak px-1.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-wide text-white">
+                Para devs
+              </span>
+              <span className="font-display text-[15px] font-bold tracking-tight text-ink">
+                Entrar como qualquer perfil
+              </span>
+            </span>
+            <span className="mt-1 block text-[13px] text-muted">
+              Ver os quatro apps sem trocar de conta na mão
+            </span>
+          </span>
+          <svg
+            width="18"
+            height="18"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            className="shrink-0 text-ink"
+            aria-hidden
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
+      )}
 
       <div className="mt-auto py-8 text-center">
         <p className="text-xs text-faint">
