@@ -12,7 +12,8 @@
     "test:pedagogy": "vitest run src/features/tutoring",
     "seed:curriculum": "tsx scripts/seed-curriculum.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
-    "seed": "npm run seed:curriculum && npm run seed:demo"
+    "seed": "npm run seed:curriculum && npm run seed:demo",
+    "prepare": "husky"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",
@@ -33,7 +34,10 @@
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "husky": "^9.1.7",
     "jsdom": "^25.0.0",
+    "lint-staged": "^17.5.0",
+    "prettier": "^3.9.6",
     "supabase": "^2.116.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.13",
