@@ -1,16 +1,11 @@
 import { createClient } from "@/src/lib/supabase/server";
-import { Card } from "@/src/ui/kit";
-import { PageTitle } from "@/src/ui/AppShell";
+import { ROLE_LABEL, type Role } from "@/src/core/auth/types";
+import { ScreenBody, ScreenHeader } from "@/src/ui/AppShell";
+import { Avatar } from "@/src/ui/kit";
 import { SignOutButton } from "@/src/ui/SignOutButton";
 
-const ROLE_LABEL: Record<string, string> = {
-  student: "Aluno",
-  parent: "Responsável",
-  teacher: "Professor",
-};
-
-/** Tela de Ajustes compartilhada pelos três perfis. */
-export async function SettingsView() {
+/** Tela de Ajustes compartilhada. Cada perfil pode estender com blocos próprios. */
+export async function SettingsView({ extra }: { extra?: React.ReactNode }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -22,24 +17,28 @@ export async function SettingsView() {
     .eq("id", user?.id ?? "")
     .single();
 
+  const name = profile?.full_name ?? "—";
+  const roleLabel = ROLE_LABEL[(profile?.role as Role) ?? "student"] ?? profile?.role;
+
   return (
-    <>
-      <PageTitle>Ajustes</PageTitle>
+    <ScreenBody>
+      <ScreenHeader title="Ajustes" />
+
       <div className="flex flex-col gap-4">
-        <Card className="flex flex-col gap-3">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-muted">Nome</p>
-            <p className="text-sm text-body">{profile?.full_name ?? "—"}</p>
+        <div className="rounded-[var(--radius-lg)] border border-line bg-surface p-[18px]">
+          <div className="flex items-center gap-3.5">
+            <Avatar initial={name.charAt(0).toUpperCase()} size={52} tone="mist" />
+            <div>
+              <div className="font-display text-[17px] font-bold text-ink">{name}</div>
+              <div className="text-[13px] text-muted">{roleLabel}</div>
+            </div>
           </div>
-          <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-muted">Perfil</p>
-            <p className="text-sm text-body">
-              {ROLE_LABEL[profile?.role ?? ""] ?? profile?.role}
-            </p>
-          </div>
-        </Card>
+        </div>
+
+        {extra}
+
         <SignOutButton />
       </div>
-    </>
+    </ScreenBody>
   );
 }

@@ -9,13 +9,28 @@
  * so adding them later doesn't require migrating existing rows.
  */
 
-export type Role = "student" | "parent" | "teacher";
+/**
+ * `director` é o "gestor" no vocabulário do produto: administra o contrato da
+ * escola e enxerga a visão agregada da unidade. O enum do banco (migration
+ * 0009) já traz o valor. `coordinator` segue reservado para uma futura
+ * distinção unidade × rede.
+ */
+export type Role = "student" | "parent" | "teacher" | "director";
 
 /** Onde cada perfil cai ao entrar. */
 export const ROLE_HOME: Record<Role, string> = {
   student: "/student/tutor",
   parent: "/parent/dashboard",
   teacher: "/teacher/turma",
+  director: "/gestor/insights",
+};
+
+/** Rótulo em pt-BR de cada perfil. */
+export const ROLE_LABEL: Record<Role, string> = {
+  student: "Aluno",
+  parent: "Responsável",
+  teacher: "Professor",
+  director: "Gestor",
 };
 
 /** Domínio interno dos e-mails sintéticos de aluno (login é por matrícula). */

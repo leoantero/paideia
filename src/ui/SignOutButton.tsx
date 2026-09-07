@@ -14,8 +14,8 @@ export function SignOutButton() {
   }
 
   return (
-    <Button variant="secondary" onClick={signOut} className="w-full">
-      Sair
+    <Button variant="ghost" onClick={signOut} className="w-full">
+      Sair da conta
     </Button>
   );
 }
