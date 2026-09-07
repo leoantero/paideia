@@ -1,15 +1,10 @@
-import { PageTitle } from "@/src/ui/AppShell";
-import { Callout } from "@/src/ui/kit";
+import { createClient } from "@/src/lib/supabase/server";
+import { getLinkedChildren } from "@/src/features/user-profiles/parent-profile-service";
+import { ConselheiroChat } from "@/src/ui/parent/ConselheiroChat";
 
-export default function ParentChatPage() {
-  return (
-    <>
-      <PageTitle>Conselheiro</PageTitle>
-      <Callout>
-        Aqui você conversa com um assistente que lê o progresso do seu filho por
-        conceito e sugere como ajudar em casa. Não é o mesmo tutor do aluno, e
-        ele nunca mostra as conversas dele. Em construção.
-      </Callout>
-    </>
-  );
+export default async function ParentChatPage() {
+  const supabase = await createClient();
+  const children = await getLinkedChildren(supabase);
+
+  return <ConselheiroChat children={children} />;
 }
