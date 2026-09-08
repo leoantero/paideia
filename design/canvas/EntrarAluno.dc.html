@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        />
+        <style>
+          :root {
+            --bg: #f4f9fa;
+            --surface: #fff;
+            --mist-soft: #e2f0f2;
+            --ink: #1e3a8a;
+            --ink-strong: #152c66;
+            --gold: #e4bb02;
+            --body: #1f2937;
+            --muted: #5b6672;
+            --line: #d7e3e5;
+            --radius: 12px;
+            --display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+            --sans: "Inter", system-ui, sans-serif;
+          }
+          * {
+            box-sizing: border-box;
+          }
+          body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--body);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+          }
+          h1 {
+            font-family: var(--display);
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+          }
+          a {
+            color: var(--ink);
+            text-decoration: none;
+          }
+          a:hover {
+            color: var(--ink-strong);
+          }
+          .wrap {
+            width: 390px;
+            margin: 0 auto;
+            min-height: 100%;
+            padding: 48px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 24px;
+          }
+          .keystone {
+            display: grid;
+            place-items: center;
+            background: var(--ink);
+            color: var(--gold);
+            font-family: var(--display);
+            font-weight: 600;
+            height: 28px;
+            width: 28px;
+            border-radius: 6px;
+            font-size: 14px;
+          }
+          .card {
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 2px rgba(30, 58, 138, 0.06);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+          }
+          .label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--body);
+          }
+          .control {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 10px 14px;
+            font-size: 14px;
+            color: var(--muted);
+            font-family: var(--sans);
+          }
+          .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--ink);
+            color: #fff;
+          }
+        </style>
+      </helmet>
+
+      <div class="wrap">
+        <div style="display: flex; justify-content: center">
+          <span style="display: inline-flex; align-items: center; gap: 8px">
+            <span class="keystone">Π</span>
+            <span
+              style="
+                font-family: var(--display);
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--ink);
+              "
+              >Paideia</span
+            >
+          </span>
+        </div>
+
+        <div class="card">
+          <div style="text-align: center">
+            <h1>Entrar como aluno</h1>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <label style="display: flex; flex-direction: column; gap: 6px">
+              <span class="label">Matrícula</span>
+              <span class="control">Ex: 20250801</span>
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 6px">
+              <span class="label">Senha</span>
+              <span class="control">••••••••</span>
+            </label>
+          </div>
+          <div class="btn-primary">Entrar</div>
+          <div
+            style="
+              text-align: center;
+              font-size: 14px;
+              font-weight: 500;
+              color: var(--ink);
+            "
+          >
+            ← Escolher outro perfil
+          </div>
+        </div>
+      </div>
+    </x-dc>
+  </body>
+</html>

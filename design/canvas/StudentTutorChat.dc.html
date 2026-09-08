@@ -1,0 +1,281 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        />
+        <style>
+          :root {
+            --bg: #f4f9fa;
+            --surface: #fff;
+            --mist-soft: #e2f0f2;
+            --ink: #1e3a8a;
+            --ink-strong: #152c66;
+            --gold: #e4bb02;
+            --body: #1f2937;
+            --muted: #5b6672;
+            --line: #d7e3e5;
+            --radius: 12px;
+            --display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+            --sans: "Inter", system-ui, sans-serif;
+          }
+          * {
+            box-sizing: border-box;
+          }
+          body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--body);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+          }
+          h1 {
+            font-family: var(--display);
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+          }
+          .shell {
+            width: 390px;
+            margin: 0 auto;
+            min-height: 100%;
+            background: var(--bg);
+            border-left: 1px solid var(--line);
+            border-right: 1px solid var(--line);
+            display: flex;
+            flex-direction: column;
+          }
+          .main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+          }
+          .ptitle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+          }
+          .ptitle .q {
+            margin-left: auto;
+            font-family: var(--display);
+            font-size: 24px;
+            font-weight: 600;
+            color: rgba(228, 187, 2, 0.3);
+            user-select: none;
+          }
+          .keystone {
+            display: grid;
+            place-items: center;
+            background: var(--ink);
+            color: var(--gold);
+            font-family: var(--display);
+            font-weight: 600;
+            height: 28px;
+            width: 28px;
+            border-radius: 999px;
+            font-size: 12px;
+            flex-shrink: 0;
+          }
+          .row {
+            display: flex;
+            gap: 8px;
+          }
+          .b-tutor {
+            max-width: 78%;
+            background: var(--mist-soft);
+            color: var(--body);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            padding: 10px 16px;
+            font-size: 14px;
+            line-height: 1.6;
+          }
+          .b-aluno {
+            max-width: 78%;
+            background: var(--ink);
+            color: #fff;
+            border-radius: 16px;
+            border-bottom-right-radius: 4px;
+            padding: 10px 16px;
+            font-size: 14px;
+            line-height: 1.6;
+          }
+          .control {
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 10px 14px;
+            font-size: 14px;
+            color: var(--muted);
+          }
+          .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--ink);
+            color: #fff;
+            white-space: nowrap;
+          }
+          .nav {
+            position: sticky;
+            bottom: 0;
+            border-top: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+          }
+          .nav a {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 0;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--muted);
+          }
+          .nav a.active {
+            color: var(--ink);
+          }
+          .nav svg {
+            width: 24px;
+            height: 24px;
+          }
+        </style>
+      </helmet>
+
+      <div class="shell">
+        <div class="main">
+          <div class="ptitle">
+            <h1>Tutor</h1>
+            <span class="q">?</span>
+          </div>
+          <p
+            style="
+              margin: 0 0 12px;
+              font-size: 14px;
+              color: var(--muted);
+              line-height: 1.5;
+            "
+          >
+            Um parceiro de raciocínio — aqui para fazer as perguntas que te
+            destravam, não para entregar a resposta.
+          </p>
+
+          <div
+            style="flex: 1; display: flex; flex-direction: column; gap: 16px"
+          >
+            <div
+              style="
+                flex: 1;
+                border: 1px solid var(--line);
+                background: var(--surface);
+                border-radius: var(--radius);
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+              "
+            >
+              <div class="row">
+                <span class="keystone">Π</span>
+                <div class="b-tutor">
+                  Vamos por partes. Se de manhã ela vendeu 3/5 dos 120 pães,
+                  quantos pães foram vendidos de manhã?
+                </div>
+              </div>
+              <div class="row" style="justify-content: flex-end">
+                <div class="b-aluno">72</div>
+              </div>
+              <div class="row">
+                <span class="keystone">Π</span>
+                <div class="b-tutor">
+                  Isso. E quantos pães sobraram para a tarde?
+                </div>
+              </div>
+              <div class="row" style="justify-content: flex-end">
+                <div class="b-aluno">48. Aí de tarde vendeu 3/4 de 48…</div>
+              </div>
+              <div class="row">
+                <span class="keystone">Π</span>
+                <div class="b-tutor">
+                  Exato. Quanto é 3/4 de 48 — e o que isso te diz sobre o que
+                  restou?
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-end; gap: 8px">
+              <div class="control" style="flex: 1">
+                Type your question… (Enter to send, Shift+Enter for a new line)
+              </div>
+              <div class="btn-primary">Send</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <a class="active"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.6 8.6 0 0 1-4-1L3 20l1.5-5.5A8.38 8.38 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5Z"
+              /></svg
+            >Tutor</a
+          >
+          <a
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="7" width="14" height="13" rx="2" />
+              <path
+                d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-2"
+              /></svg
+            >Revisão</a
+          >
+          <a
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.2.63.77 1.06 1.44 1.09H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"
+              /></svg
+            >Ajustes</a
+          >
+        </nav>
+      </div>
+    </x-dc>
+  </body>
+</html>

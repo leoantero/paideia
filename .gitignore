@@ -57,6 +57,9 @@ Thumbs.db
 # - Never commit generated content
 # - Never commit API keys or credentials
 
+# Design canvas: keep the .dc.html/canvas.json source, ignore the seeded bundle
+design/canvas/paideia-telas-mvp.html
+
 # Allow repo configuration
 !.claude/
 !.github/

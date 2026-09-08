@@ -1,0 +1,111 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "Entrada (não logado)",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 1240
+    },
+    {
+      "file": "EntrarAluno.dc.html",
+      "title": "Login — aluno",
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 620
+    },
+    {
+      "file": "EntrarResponsavel.dc.html",
+      "title": "Login — responsável",
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 620
+    },
+    {
+      "file": "EntrarProfessor.dc.html",
+      "title": "Login — professor",
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 620
+    },
+
+    {
+      "file": "StudentTutorEmpty.dc.html",
+      "title": "Aluno — Tutor (vazio)",
+      "x": 0,
+      "y": 1420,
+      "w": 390,
+      "h": 900
+    },
+    {
+      "file": "StudentTutorChat.dc.html",
+      "title": "Aluno — Tutor (conversa)",
+      "x": 470,
+      "y": 1420,
+      "w": 390,
+      "h": 900
+    },
+    {
+      "file": "StudentRevisao.dc.html",
+      "title": "Aluno — Revisão",
+      "x": 940,
+      "y": 1420,
+      "w": 390,
+      "h": 620
+    },
+    {
+      "file": "Ajustes.dc.html",
+      "title": "Ajustes (compartilhada)",
+      "x": 1410,
+      "y": 1420,
+      "w": 390,
+      "h": 700
+    },
+
+    {
+      "file": "ParentPainel.dc.html",
+      "title": "Responsável — Painel",
+      "x": 0,
+      "y": 2460,
+      "w": 390,
+      "h": 1120
+    },
+    {
+      "file": "ParentConselheiro.dc.html",
+      "title": "Responsável — Conselheiro",
+      "x": 470,
+      "y": 2460,
+      "w": 390,
+      "h": 620
+    },
+    {
+      "file": "TeacherTurma.dc.html",
+      "title": "Professor — Turma",
+      "x": 940,
+      "y": 2460,
+      "w": 390,
+      "h": 680
+    }
+  ],
+  "annotations": [
+    {
+      "id": "nota-i18n",
+      "x": 0,
+      "y": -150,
+      "w": 900,
+      "text": "Textos ainda em inglês no código (a corrigir): os \"starters\" e o estado vazio do Tutor; os rótulos Building / Steady / Strong e as frases de tendência no Painel; \"Your child\" deveria mostrar o nome do aluno. Os dados do Painel aqui são ilustrativos."
+    },
+    {
+      "id": "nota-ajustes",
+      "x": 1410,
+      "y": 1280,
+      "w": 360,
+      "text": "Ajustes é a mesma tela nos 3 perfis — muda só o valor de \"Perfil\" e a barra inferior. Um artboard só."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+        />
+        <style>
+          :root {
+            --bg: #f4f9fa;
+            --surface: #fff;
+            --mist: #c8e0e3;
+            --mist-soft: #e2f0f2;
+            --parchment: #fffac8;
+            --ink: #1e3a8a;
+            --ink-strong: #152c66;
+            --gold: #e4bb02;
+            --gold-soft: #f7e9a8;
+            --body: #1f2937;
+            --muted: #5b6672;
+            --line: #d7e3e5;
+            --weak: #b91c1c;
+            --weak-bg: #fee2e2;
+            --radius: 12px;
+            --display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+            --sans: "Inter", system-ui, sans-serif;
+          }
+          * {
+            box-sizing: border-box;
+          }
+          body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--body);
+            font-family: var(--sans);
+            -webkit-font-smoothing: antialiased;
+          }
+          h1,
+          h2,
+          h3 {
+            font-family: var(--display);
+            color: var(--ink);
+            letter-spacing: -0.01em;
+            margin: 0;
+          }
+          a {
+            color: var(--ink);
+            text-decoration: none;
+          }
+          a:hover {
+            color: var(--ink-strong);
+          }
+          .wrap {
+            width: 390px;
+            margin: 0 auto;
+            min-height: 100%;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+          }
+          .eyebrow {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+          }
+          .card {
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 2px rgba(30, 58, 138, 0.06);
+          }
+          .muted {
+            color: var(--muted);
+          }
+          .bubble {
+            max-width: 85%;
+            border-radius: 16px;
+            padding: 8px 12px;
+            font-size: 13px;
+            line-height: 1.35;
+          }
+          .b-generic {
+            background: var(--weak-bg);
+            color: var(--weak);
+            border-bottom-left-radius: 4px;
+          }
+          .b-tutor {
+            background: var(--mist-soft);
+            color: var(--body);
+            border-bottom-left-radius: 4px;
+          }
+          .b-aluno {
+            background: var(--ink);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+          }
+          .keystone {
+            display: grid;
+            place-items: center;
+            background: var(--ink);
+            color: var(--gold);
+            font-family: var(--display);
+            font-weight: 600;
+          }
+          .role {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 16px;
+          }
+        </style>
+      </helmet>
+
+      <div class="wrap">
+        <!-- Demonstração de contraste -->
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <p class="eyebrow" style="margin: 0">
+            Mesmo problema de matemática (8º ano)
+          </p>
+          <div
+            class="card"
+            style="
+              padding: 12px;
+              font-size: 13px;
+              color: var(--body);
+              line-height: 1.45;
+            "
+          >
+            Uma padaria assou 120 pães. De manhã vendeu 3/5 dos pães; à tarde
+            vendeu 3/4 do que sobrou. Quantos pães restaram no fim do dia?
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                border: 1px solid var(--line);
+                background: var(--bg);
+                border-radius: var(--radius);
+                padding: 12px;
+              "
+            >
+              <span
+                style="font-size: 12px; font-weight: 600; color: var(--weak)"
+                >Uma IA genérica</span
+              >
+              <div style="display: flex">
+                <div class="bubble b-generic">Restaram 12 pães.</div>
+              </div>
+              <span style="font-size: 11px; color: var(--muted)"
+                >Entrega o número. O aluno copia e não aprende nada.</span
+              >
+            </div>
+
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                border: 1px solid rgba(30, 58, 138, 0.2);
+                background: rgba(226, 240, 242, 0.4);
+                border-radius: var(--radius);
+                padding: 12px;
+              "
+            >
+              <span style="font-size: 12px; font-weight: 600; color: var(--ink)"
+                >Paideia</span
+              >
+              <div style="display: flex">
+                <div class="bubble b-tutor">
+                  Vamos por partes. Se de manhã ela vendeu 3/5 dos 120 pães,
+                  quantos pães foram vendidos de manhã?
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end">
+                <div class="bubble b-aluno">72</div>
+              </div>
+              <div style="display: flex">
+                <div class="bubble b-tutor">
+                  Isso. E quantos pães sobraram para a tarde?
+                </div>
+              </div>
+              <div style="display: flex; justify-content: flex-end">
+                <div class="bubble b-aluno">
+                  48. Aí de tarde vendeu 3/4 de 48…
+                </div>
+              </div>
+              <div style="display: flex">
+                <div class="bubble b-tutor">
+                  Exato. Quanto é 3/4 de 48 — e o que isso te diz sobre o que
+                  restou?
+                </div>
+              </div>
+              <span style="font-size: 11px; color: var(--muted)"
+                >Conduz por perguntas. O aluno chega sozinho — e fixa o
+                método.</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- linha grossa -->
+        <div
+          style="height: 4px; border-radius: 999px; background: var(--ink)"
+        ></div>
+
+        <!-- marca + seletor de perfil -->
+        <div style="display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span
+              class="keystone"
+              style="
+                height: 36px;
+                width: 36px;
+                border-radius: 8px;
+                font-size: 18px;
+              "
+              >Π</span
+            >
+            <span
+              style="
+                font-family: var(--display);
+                font-size: 24px;
+                font-weight: 600;
+                color: var(--ink);
+              "
+              >Paideia</span
+            >
+            <span
+              style="
+                margin-left: auto;
+                font-family: var(--display);
+                font-size: 48px;
+                font-weight: 600;
+                color: rgba(228, 187, 2, 0.4);
+                user-select: none;
+              "
+              >?</span
+            >
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div class="role">
+              <span
+                ><span
+                  style="
+                    display: block;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--ink);
+                  "
+                  >Sou aluno</span
+                ><span
+                  style="display: block; font-size: 12px; color: var(--muted)"
+                  >Entrar com a matrícula</span
+                ></span
+              >
+              <span style="color: var(--ink)">→</span>
+            </div>
+            <div class="role">
+              <span
+                ><span
+                  style="
+                    display: block;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--ink);
+                  "
+                  >Sou responsável</span
+                ><span
+                  style="display: block; font-size: 12px; color: var(--muted)"
+                  >Acompanhar meu filho</span
+                ></span
+              >
+              <span style="color: var(--ink)">→</span>
+            </div>
+            <div class="role">
+              <span
+                ><span
+                  style="
+                    display: block;
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--ink);
+                  "
+                  >Sou professor</span
+                ><span
+                  style="display: block; font-size: 12px; color: var(--muted)"
+                  >Ver a turma</span
+                ></span
+              >
+              <span style="color: var(--ink)">→</span>
+            </div>
+            <p
+              style="
+                margin: 4px 0 0;
+                text-align: center;
+                font-size: 12px;
+                color: var(--muted);
+              "
+            >
+              Coordenação e direção — em breve
+            </p>
+          </div>
+        </div>
+      </div>
+    </x-dc>
+  </body>
+</html>
