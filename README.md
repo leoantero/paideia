@@ -1,4 +1,4 @@
-# Yellow AI - Educational AI Platform
+# Paideia - Educational AI Platform
 
 Building the future of responsible AI in education through Socratic tutoring and parental supervision.
 
