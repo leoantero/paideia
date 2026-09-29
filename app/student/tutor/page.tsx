@@ -34,9 +34,12 @@ export default async function TutorPage() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 p-8">
-      <h1 className="text-xl font-semibold">Your tutor</h1>
+    <div className="flex flex-1 flex-col gap-4">
+      <header>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-aegean">Coruja de Atena</p>
+        <h1 className="font-display text-3xl">Seu tutor</h1>
+      </header>
       <ChatWindow conversationId={conversationId} initialMessages={initialMessages} />
-    </main>
+    </div>
   );
 }

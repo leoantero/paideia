@@ -1,4 +1,4 @@
-# Yellow AI - Claude Code Guidelines
+# Paideia - Claude Code Guidelines
 
 **Project**: Educational AI platform for responsible student learning using socratic tutoring + parental supervision
 
@@ -217,6 +217,8 @@ npm run debug:access      # Debug role-based access control
 
 **Launch Gate**: No confidential data leaks, pedagogy sound, students can use safely
 
+**Current state**: spaced repetition + gamification + student redesign are implemented. To run it or continue, read `docs/HANDOFF.md` first.
+
 ---
 
 ## References
@@ -225,3 +227,13 @@ npm run debug:access      # Debug role-based access control
 - Educational Philosophy: Socratic method, spaced repetition research
 - Privacy Compliance: LGPD (Brazil), GDPR (EU)
 - Competitor Analysis: Plurall, Sokrates AI
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

@@ -8,6 +8,9 @@ import Anthropic from "@anthropic-ai/sdk";
  */
 let client: Anthropic | null = null;
 
+// Student-facing traffic runs on the cheapest current model.
+const STUDENT_MODEL = "claude-haiku-4-5";
+
 function getClient(): Anthropic {
   if (!client) {
     const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -26,19 +29,12 @@ export interface TutorMessage {
   content: string;
 }
 
-/**
- * Calls Claude with a Socratic-tutor system prompt and bounded conversation
- * history. Model choice and token limits are deliberately conservative for
- * an MVP: this is a chat turn, not a long-form generation.
- */
 export async function generateTutorResponse(
   systemPrompt: string,
   history: TutorMessage[]
 ): Promise<string> {
-  const anthropic = getClient();
-
-  const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-5",
+  const response = await getClient().messages.create({
+    model: STUDENT_MODEL,
     max_tokens: 512,
     system: systemPrompt,
     messages: history,
@@ -46,4 +42,29 @@ export async function generateTutorResponse(
 
   const textBlock = response.content.find((block) => block.type === "text");
   return textBlock && textBlock.type === "text" ? textBlock.text : "";
+}
+
+/**
+ * Forces the model to answer through `tool`, returning the tool input
+ * unvalidated — callers must parse it against their own schema.
+ */
+export async function generateStructured(
+  systemPrompt: string,
+  messages: TutorMessage[],
+  tool: Anthropic.Tool
+): Promise<unknown> {
+  const response = await getClient().messages.create({
+    model: STUDENT_MODEL,
+    max_tokens: 1024,
+    system: systemPrompt,
+    messages,
+    tools: [tool],
+    tool_choice: { type: "tool", name: tool.name },
+  });
+
+  const toolUse = response.content.find((block) => block.type === "tool_use");
+  if (!toolUse || toolUse.type !== "tool_use") {
+    throw new Error(`Model returned no ${tool.name} call (stop_reason: ${response.stop_reason}).`);
+  }
+  return toolUse.input;
 }

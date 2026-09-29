@@ -3,12 +3,49 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Paideia — Greek geometric palette (student experience) */
+  --marble: #f4eee3;
+  --marble-deep: #e9dfcd;
+  --surface: #fbf8f2;
+  --ink: #1f1a16;
+  --ink-soft: #5f564b;
+  --line: #d8ccb6;
+  --terracotta: #b8532a;
+  --terracotta-deep: #8d3a1b;
+  --terracotta-soft: #f1d9c9;
+  --aegean: #1e4e79;
+  --aegean-deep: #143654;
+  --aegean-soft: #d6e3ee;
+  --gold: #d6a21e;
+  --gold-deep: #9c700a;
+  --gold-soft: #f6e6b5;
+  --olive: #5f7433;
+  --olive-soft: #e1e8cc;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-marble: var(--marble);
+  --color-marble-deep: var(--marble-deep);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-deep: var(--terracotta-deep);
+  --color-terracotta-soft: var(--terracotta-soft);
+  --color-aegean: var(--aegean);
+  --color-aegean-deep: var(--aegean-deep);
+  --color-aegean-soft: var(--aegean-soft);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-gold-soft: var(--gold-soft);
+  --color-olive: var(--olive);
+  --color-olive-soft: var(--olive-soft);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-marcellus);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -16,11 +53,86 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* Black-figure pottery at night */
+    --marble: #17130f;
+    --marble-deep: #0f0c09;
+    --surface: #221c16;
+    --ink: #f2e9da;
+    --ink-soft: #b7a993;
+    --line: #3a3027;
+    --terracotta: #e2733f;
+    --terracotta-deep: #f0925f;
+    --terracotta-soft: #3d2217;
+    --aegean: #6fa3d2;
+    --aegean-deep: #9cc3e6;
+    --aegean-soft: #1a2c3d;
+    --gold: #f0c145;
+    --gold-deep: #f6d77e;
+    --gold-soft: #3a2e10;
+    --olive: #a9bf6c;
+    --olive-soft: #262d17;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+}
+
+/* ---------- Paideia motion ---------- */
+
+@keyframes paideia-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes paideia-flicker {
+  0%, 100% { transform: scaleY(1) skewX(0deg); }
+  30% { transform: scaleY(1.06) skewX(-2deg); }
+  60% { transform: scaleY(0.96) skewX(2deg); }
+}
+
+@keyframes paideia-coin-pop {
+  0% { transform: translateY(6px) scale(0.6); opacity: 0; }
+  60% { transform: translateY(-4px) scale(1.1); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes paideia-shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+.animate-rise { animation: paideia-rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-flicker { transform-origin: 50% 100%; animation: paideia-flicker 1.6s ease-in-out infinite; }
+.animate-coin-pop { animation: paideia-coin-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+.gold-shimmer {
+  background: linear-gradient(100deg, var(--gold-deep) 20%, var(--gold) 40%, #fff3c4 50%, var(--gold) 60%, var(--gold-deep) 80%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: paideia-shimmer 4s linear infinite;
+}
+
+/* Flashcard turning over to its back (content height can change, so no 3D double-face) */
+@keyframes paideia-flip-in {
+  from { transform: perspective(1200px) rotateY(-92deg); opacity: 0.3; }
+  to { transform: perspective(1200px) rotateY(0deg); opacity: 1; }
+}
+.animate-flip-in { animation: paideia-flip-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+
+@keyframes paideia-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+.animate-shake { animation: paideia-shake 0.3s ease-in-out 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise, .animate-flicker, .animate-coin-pop, .gold-shimmer, .animate-flip-in, .animate-shake { animation: none; }
+  .gold-shimmer { color: var(--gold-deep); }
 }

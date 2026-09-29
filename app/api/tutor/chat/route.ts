@@ -11,6 +11,7 @@ import {
 } from "@/src/features/tutoring/conversation-service";
 import { getStudentProfile } from "@/src/features/user-profiles/student-profile-service";
 import { recordTutoringSession } from "@/src/features/performance/performance-service";
+import { rewardTutorSession } from "@/src/features/gamification/gamification-service";
 
 /**
  * The ONLY route that reads ANTHROPIC_API_KEY (via anthropic-client.ts).
@@ -84,9 +85,11 @@ export async function POST(request: Request) {
 
   await appendMessage(supabase, conversation.id, "assistant", guarded.text);
   await recordTutoringSession(supabase, subject);
+  const reward = await rewardTutorSession(supabase, conversation.id);
 
   return NextResponse.json({
     conversationId: conversation.id,
     reply: guarded.text,
+    reward,
   });
 }

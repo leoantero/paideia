@@ -2,20 +2,23 @@
   "version": 1,
   "description": "Claude Code configuration for Yellow AI startup",
   "hooks": {
-    "pre-commit": {
-      "description": "Verify no secrets or confidential data before commit",
-      "commands": [
-        "echo 'Pre-commit: Checking for hardcoded secrets...'",
-        "echo '✓ Remember: No API keys, DB credentials, or implementation details in code'"
-      ]
-    },
-    "pre-push": {
-      "description": "Final safety check before pushing to main",
-      "commands": [
-        "echo 'Pre-push: Running validation checks...'",
-        "echo '✓ Ensure CLAUDE.md decisions are followed'"
-      ]
-    }
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git commit *)",
+            "command": "echo 'Pre-commit: Checking for hardcoded secrets...'; echo '✓ Remember: No API keys, DB credentials, or implementation details in code'"
+          },
+          {
+            "type": "command",
+            "if": "Bash(git push *)",
+            "command": "echo 'Pre-push: Running validation checks...'; echo '✓ Ensure CLAUDE.md decisions are followed'"
+          }
+        ]
+      }
+    ]
   },
   "permissions": {
     "allowlist": [
@@ -25,6 +28,5 @@
       "typescript"
     ]
   },
-  "model": "claude-sonnet-5",
   "fast_mode": false
 }

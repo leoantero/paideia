@@ -35,7 +35,7 @@ export async function requireRole(role: Role): Promise<Profile> {
   }
 
   if (profile.role !== role) {
-    redirect(profile.role === "student" ? "/student/tutor" : "/parent/dashboard");
+    redirect(profile.role === "student" ? "/student" : "/parent/dashboard");
   }
 
   return profile as Profile;

@@ -37,7 +37,7 @@ export default function LoginPage() {
       .single();
 
     setLoading(false);
-    router.push(profile?.role === "parent" ? "/parent/dashboard" : "/student/tutor");
+    router.push(profile?.role === "parent" ? "/parent/dashboard" : "/student");
     router.refresh();
   }
 
