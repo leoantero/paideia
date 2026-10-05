@@ -1,6 +1,6 @@
 import "server-only";
 import { redirect } from "next/navigation";
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { ROLE_HOME, type Profile, type Role } from "@/src/core/auth/types";
 
 /**
@@ -14,14 +14,10 @@ import { ROLE_HOME, type Profile, type Role } from "@/src/core/auth/types";
  * the signed-in user has the wrong role for this section.
  */
 export async function requireRole(role: Role): Promise<Profile> {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/");
   }
 
   const { data: profile, error } = await supabase
@@ -31,7 +27,7 @@ export async function requireRole(role: Role): Promise<Profile> {
     .single();
 
   if (error || !profile) {
-    redirect("/login");
+    redirect("/");
   }
 
   if (profile.role !== role) {

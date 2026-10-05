@@ -1,4 +1,4 @@
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import {
   ConstrutorView,
   type BuilderConcept,
@@ -8,10 +8,7 @@ import {
 export const dynamic = "force-dynamic";
 
 export default async function ConstrutorPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   // A matéria do professor vem do vínculo, não de um seletor livre.
   const { data: assignments } = await supabase

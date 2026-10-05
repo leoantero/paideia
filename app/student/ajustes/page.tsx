@@ -1,4 +1,4 @@
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { STUDENT_EMAIL_DOMAIN } from "@/src/core/auth/types";
 import { GRADE_BAND_LABELS_PT } from "@/src/core/auth/types";
 import { SettingsView } from "@/src/ui/SettingsView";
@@ -9,10 +9,7 @@ const WHATSAPP =
   encodeURIComponent("Olá! Preciso de ajuda com o app Paideia.");
 
 export default async function AjustesPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   const { data: student } = await supabase
     .from("students")

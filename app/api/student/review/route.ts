@@ -1,5 +1,5 @@
 import { after, NextResponse } from "next/server";
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { recordEvidence } from "@/src/features/learning-graph/evidence-recorder";
 
 /**
@@ -14,11 +14,7 @@ import { recordEvidence } from "@/src/features/learning-graph/evidence-recorder"
  * escrita de evidência era uma RPC aberta ao cliente, e por isso forjável.
  */
 export async function POST(request: Request) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   if (!user) {
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });

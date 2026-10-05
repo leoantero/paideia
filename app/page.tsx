@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { ROLE_HOME, type Role } from "@/src/core/auth/types";
 import { isDevPanelEnabled } from "@/src/features/dev/dev-access";
 
@@ -28,10 +28,7 @@ const ROLES: { href: string; label: string; desc: string }[] = [
 ];
 
 export default async function Home() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   if (user) {
     const { data: profile } = await supabase

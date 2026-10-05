@@ -1,5 +1,5 @@
 import { after, NextResponse } from "next/server";
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { tagTurn } from "@/src/features/learning-graph/concept-tagger";
 import { recordEvidence } from "@/src/features/learning-graph/evidence-recorder";
 import { generateTutorResponse } from "@/src/core/ai-integration/anthropic-client";
@@ -28,11 +28,7 @@ const RATE_WINDOW_MINUTES = 60;
  * ever bypassed.
  */
 export async function POST(request: Request) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   if (!user) {
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });

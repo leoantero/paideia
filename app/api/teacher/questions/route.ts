@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 
 /**
  * Grava no banco de questões a questão que o professor REVISOU e aprovou.
@@ -7,10 +7,7 @@ import { createClient } from "@/src/lib/supabase/server";
  * author_id é ele mesmo.
  */
 export async function POST(request: Request) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
   if (!user)
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
 

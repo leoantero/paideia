@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { generateStructuredCompletion } from "@/src/core/ai-integration/anthropic-client";
 import { checkRateLimit, rateLimitResponse } from "@/src/lib/rate-limit";
 
@@ -35,10 +35,7 @@ function extractJson(raw: string): string | null {
  * fluxo é gerar → revisar → adicionar, e não gerar → salvar.
  */
 export async function POST(request: Request) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
   if (!user)
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
 

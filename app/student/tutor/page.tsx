@@ -1,4 +1,4 @@
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import {
   TutorScreen,
   type ConversationSummary,
@@ -18,10 +18,7 @@ const EMPTY_STATE: GamificationState = {
 };
 
 export default async function TutorPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   let conversations: ConversationSummary[] = [];
   let firstName = "";

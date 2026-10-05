@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import {
   generateTutorResponse,
   type TutorMessage,
@@ -20,11 +20,7 @@ const RATE_WINDOW_MINUTES = 60;
  * src/features/user-profiles/advisor-system-prompt.ts.
  */
 export async function POST(request: Request) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   if (!user) {
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });

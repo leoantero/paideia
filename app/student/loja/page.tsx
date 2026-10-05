@@ -1,14 +1,11 @@
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { getGamificationState } from "@/src/features/gamification/activity-service";
 import { LojaScreen } from "@/src/ui/student/LojaScreen";
 
 export const dynamic = "force-dynamic";
 
 export default async function LojaPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   const coins = user
     ? (await getGamificationState(supabase, user.id)).coins

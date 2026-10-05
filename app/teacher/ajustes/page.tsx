@@ -1,4 +1,4 @@
-import { createClient } from "@/src/lib/supabase/server";
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { SettingsView } from "@/src/ui/SettingsView";
 import { Callout } from "@/src/ui/kit";
 
@@ -14,10 +14,7 @@ const SUBJECT_LABELS: Record<string, string> = {
 };
 
 export default async function TeacherAjustesPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { supabase, user } = await getVerifiedUser();
 
   // RLS escopa às turmas do professor (0009).
   const [{ data: classes }, { data: schools }, { data: assignments }] =
