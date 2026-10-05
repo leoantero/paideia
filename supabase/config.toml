@@ -19,14 +19,27 @@ major_version = 15
 enabled = true
 port = 54323
 
+# ATENÇÃO: `supabase config push` envia ESTE bloco para o projeto hospedado.
+# Os valores abaixo são os de PRODUÇÃO (base fechada: sem cadastro público —
+# ver docs/DEPLOY.md §3). Para desenvolvimento local, mude só na sua máquina.
 [auth]
 enabled = true
-site_url = "http://localhost:3000"
-additional_redirect_urls = ["http://localhost:3000"]
+site_url = "https://paideia-app.vercel.app"
+additional_redirect_urls = ["https://paideia-app.vercel.app", "http://localhost:3000"]
 jwt_expiry = 3600
-enable_signup = true
+enable_signup = false
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
 
 [auth.email]
 enable_signup = true
 double_confirm_changes = true
 enable_confirmations = false
+max_frequency = "1m0s"
+otp_length = 8
+
+# Vector buckets exigem plano pago; ligado, o config push falha com 402.
+[storage.vector]
+enabled = false
