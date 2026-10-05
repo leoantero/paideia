@@ -171,6 +171,11 @@ async function main() {
       "conversations",
       "questions",
       "enrollments",
+      "billable_seats",
+      "student_progress",
+      "reward_events",
+      "card_states",
+      "review_logs",
     ];
     for (const t of tables) {
       const { data } = await c.from(t).select("*").limit(1);
