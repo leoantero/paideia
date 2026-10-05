@@ -1,4 +1,4 @@
-import { admin, ensureUser, loadAuthUsers } from "./lib/admin";
+import { admin, ensureUser, loadAuthUsers, demoPassword } from "./lib/admin";
 
 /**
  * Seed da demo: 1 mantenedora -> 1 escola -> 2 turmas -> 8 alunos,
@@ -11,7 +11,7 @@ import { admin, ensureUser, loadAuthUsers } from "./lib/admin";
  * Idempotente. NÃO usar em produção — cria contas com senha fixa.
  */
 
-const DEMO_PASSWORD = "***REDACTED-ROTATED-2026-10-04***";
+const DEMO_PASSWORD = demoPassword();
 
 const CLASS_B = "8º ano B";
 const CLASS_A = "8º ano A";
@@ -211,13 +211,11 @@ async function main() {
       .match({ profile_id: teacherId, class_id: classId })
       .maybeSingle();
     if (!sa) {
-      const { error } = await admin
-        .from("staff_assignments")
-        .insert({
-          profile_id: teacherId,
-          class_id: classId,
-          subject: t.subject,
-        });
+      const { error } = await admin.from("staff_assignments").insert({
+        profile_id: teacherId,
+        class_id: classId,
+        subject: t.subject,
+      });
       if (error) throw error;
     }
   }
@@ -242,7 +240,7 @@ async function main() {
   console.log("Gestor vinculado à unidade.");
 
   console.log("\n--- CREDENCIAIS DA DEMO (senha única) ---");
-  console.log(`senha: ${DEMO_PASSWORD}\n`);
+  console.log("senha: a de PAIDEIA_DEMO_PASSWORD no .env.local\n");
   console.log("ALUNOS (login por matrícula):");
   for (const s of STUDENTS) {
     console.log(`  ${s.matricula}  ${s.name.padEnd(18)} ${s.turma}`);

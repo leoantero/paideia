@@ -83,3 +83,25 @@ export async function ensureUser(
   existing.set(email.toLowerCase(), data.user);
   return data.user.id;
 }
+
+/** Domínios das contas fictícias da demo — os únicos que os scripts tocam. */
+export const DEMO_EMAIL_DOMAINS = [
+  "aluno.paideia.app",
+  "exemplo.com",
+  "escola-demo.com",
+];
+
+/**
+ * Senha única das contas da demo. Fica SÓ no .env.local (e nunca no
+ * repositório): desde a demo pública, quem tem a URL e uma matrícula não pode
+ * conseguir a senha lendo o GitHub.
+ */
+export function demoPassword(): string {
+  const pw = process.env.PAIDEIA_DEMO_PASSWORD;
+  if (!pw || pw.length < 12) {
+    throw new Error(
+      "Defina PAIDEIA_DEMO_PASSWORD (12+ caracteres) no .env.local."
+    );
+  }
+  return pw;
+}

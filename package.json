@@ -17,7 +17,10 @@
     "audit:security": "tsx scripts/audit-security.ts",
     "prepare": "husky",
     "seed:decks": "tsx scripts/seed-decks.ts",
-    "seed:gamification": "tsx scripts/seed-gamification.ts"
+    "seed:gamification": "tsx scripts/seed-gamification.ts",
+    "demo:rotate-password": "tsx scripts/rotate-demo-password.ts",
+    "usage:report": "tsx scripts/usage-report.ts",
+    "monitor:set-token": "tsx scripts/set-monitor-token.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",

@@ -134,5 +134,5 @@ https://supabase.com/dashboard/account/tokens.
 
 ### 3.4 Senha única na demo
 
-`***REDACTED-ROTATED-2026-10-04***` para todas as contas. Aceitável para demo; inaceitável no
+(antes fixa no repositório; desde 2026‑10‑04 só em `PAIDEIA_DEMO_PASSWORD` no `.env.local`) para todas as contas. Aceitável para demo; inaceitável no
 primeiro piloto com escola real.

@@ -1,9 +1,10 @@
 import "server-only";
-import { after } from "next/server";
 import { createAdminClient } from "@/src/lib/supabase/admin";
 
 /**
- * Teto de uso por usuário nas 4 rotas que chamam a Anthropic.
+ * Teto de uso nas rotas que chamam a Anthropic: por rota/hora, por
+ * usuário/dia e global/dia — decidido atomicamente por ai_guard() (0025),
+ * que também registra o alerta que separa aluno de meliante.
  *
  * Por que existe: com a base fechada (sem cadastro público, credenciais
  * fixas distribuídas — ver docs/DEPLOY.md), o risco que resta não é estranho
@@ -16,78 +17,51 @@ import { createAdminClient } from "@/src/lib/supabase/admin";
  * paga. Troque por um store dedicado quando o volume justificar.
  */
 
+export type LimitKind = "hourly_limit" | "daily_limit" | "global_limit";
+
 export interface RateLimitResult {
   allowed: boolean;
-  /** só presente quando allowed=false */
+  /** só presentes quando allowed=false */
+  kind?: LimitKind;
   retryAfterSeconds?: number;
 }
 
-/** Best-effort: nunca derruba a rota chamadora se o próprio controle falhar. */
+/**
+ * Best-effort: nunca derruba a rota chamadora se o próprio controle falhar.
+ * `limit`/`windowMinutes` são o teto POR HORA desta rota; os tetos diários
+ * moram no banco (ai_usage_limits), iguais para todas as rotas.
+ */
 export async function checkRateLimit(
   userId: string,
   route: string,
   limit: number,
   windowMinutes: number
 ): Promise<RateLimitResult> {
-  const admin = createAdminClient();
-  const windowStart = new Date(
-    Date.now() - windowMinutes * 60_000
-  ).toISOString();
+  // a janela por rota é sempre de 1h no banco; tetos de outras janelas são
+  // normalizados para "por hora" para não mudar o contrato das rotas
+  const hourlyLimit = Math.max(1, Math.round((limit * 60) / windowMinutes));
 
   try {
-    const { count, error: countError } = await admin
-      .from("ai_route_calls")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", userId)
-      .eq("route", route)
-      .gte("created_at", windowStart);
-
-    if (countError) throw countError;
-
-    if ((count ?? 0) >= limit) {
-      const { data: oldest } = await admin
-        .from("ai_route_calls")
-        .select("created_at")
-        .eq("user_id", userId)
-        .eq("route", route)
-        .gte("created_at", windowStart)
-        .order("created_at", { ascending: true })
-        .limit(1)
-        .maybeSingle();
-
-      const resetAt = oldest
-        ? new Date(oldest.created_at as string).getTime() +
-          windowMinutes * 60_000
-        : Date.now() + windowMinutes * 60_000;
-
-      return {
-        allowed: false,
-        retryAfterSeconds: Math.max(
-          1,
-          Math.ceil((resetAt - Date.now()) / 1000)
-        ),
-      };
-    }
-
-    const { error: insertError } = await admin
-      .from("ai_route_calls")
-      .insert({ user_id: userId, route });
-    if (insertError) throw insertError;
-
-    // Limpeza oportunista, fora do caminho crítico — a tabela não tem cron
-    // de retenção, e isso evita crescimento sem fim sem precisar de um.
-    after(async () => {
-      await admin
-        .from("ai_route_calls")
-        .delete()
-        .lt("created_at", new Date(Date.now() - 2 * 60 * 60_000).toISOString())
-        .then(
-          () => {},
-          () => {}
-        );
+    const { data, error } = await createAdminClient().rpc("ai_guard", {
+      p_user: userId,
+      p_route: route,
+      p_hourly_limit: hourlyLimit,
     });
+    if (error) throw error;
 
-    return { allowed: true };
+    const decision = data as {
+      allowed: boolean;
+      kind?: LimitKind;
+      retry_after_seconds?: number;
+    };
+    if (decision.allowed) return { allowed: true };
+
+    console.warn(`[rate-limit] ${decision.kind} em ${route}`);
+    return {
+      allowed: false,
+      kind: decision.kind,
+      retryAfterSeconds: decision.retry_after_seconds ?? 60,
+    };
   } catch (err) {
     // Falha do controle não pode derrubar a experiência do usuário. Registra
     // e deixa passar — é o mesmo trade-off de recordEvidence(): perder um
@@ -99,11 +73,22 @@ export async function checkRateLimit(
   }
 }
 
-export function rateLimitResponse(retryAfterSeconds: number): Response {
+const LIMIT_MESSAGES: Record<LimitKind, (minutes: number) => string> = {
+  hourly_limit: (m) =>
+    `Muitas mensagens em pouco tempo. Tente de novo em ${m} minuto(s).`,
+  daily_limit: () =>
+    "Você chegou ao limite de uso de hoje. Amanhã tem mais — bom descanso!",
+  global_limit: () =>
+    "O tutor está indisponível no momento. Tente de novo mais tarde.",
+};
+
+export function rateLimitResponse(
+  retryAfterSeconds: number,
+  kind: LimitKind = "hourly_limit"
+): Response {
+  const minutes = Math.ceil(retryAfterSeconds / 60) || 1;
   return new Response(
-    JSON.stringify({
-      error: `Muitas mensagens em pouco tempo. Tente de novo em ${Math.ceil(retryAfterSeconds / 60) || 1} minuto(s).`,
-    }),
+    JSON.stringify({ error: LIMIT_MESSAGES[kind](minutes) }),
     {
       status: 429,
       headers: {

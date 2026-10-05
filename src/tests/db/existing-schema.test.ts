@@ -39,7 +39,8 @@ describe("0024 lint hardening", () => {
       from pg_proc p join pg_namespace n on n.oid = p.pronamespace
       where n.nspname = 'public' and p.prosecdef
         and has_function_privilege('anon', p.oid, 'execute')`);
-    expect(exposed.rows).toEqual([]);
+    // the only exception, on purpose: gated by the monitor token (0025)
+    expect(exposed.rows).toEqual([{ fn: "ai_usage_check" }]);
 
     const unpinned = await db.query<{ fn: string }>(`
       select p.proname as fn

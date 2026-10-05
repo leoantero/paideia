@@ -6,16 +6,16 @@
 
 ## Estado atual (o que já está feito e commitado em `feat/paideia-mvp`)
 
-| Commit | Passo |
-|---|---|
-| `06ea7f5` | `figma/` importado como referência |
-| `50c4606` | **1. Sistema visual** — tokens (`globals.css`), `kit.tsx`, `AppShell`/`ScreenHeader`/`ScreenBody`, `BottomNav` (ícone 22px + ponto dourado), Bricolage 800 |
+| Commit    | Passo                                                                                                                                                                                                                                   |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `06ea7f5` | `figma/` importado como referência                                                                                                                                                                                                      |
+| `50c4606` | **1. Sistema visual** — tokens (`globals.css`), `kit.tsx`, `AppShell`/`ScreenHeader`/`ScreenBody`, `BottomNav` (ícone 22px + ponto dourado), Bricolage 800                                                                              |
 | `48820cb` | **2. Entrada + Login** — nova landing (headline "A IA que ensina a pensar."), `LoginForm` full‑column, **perfil Gestor** = role `director` (`ROLE_LABEL`, `ROLE_HOME`), `/entrar/gestor`, `/gestor/*` stub, `SettingsView` reconstruído |
-| `5830dbb` | **3. App do aluno** — `TutorScreen` (home + drawer de histórico + chat, `/api/tutor/history`, título da conversa = 1ª msg), `RevisaoScreen` (grade → card‑flip), `GamificationBar` + loja, Ajustes do aluno |
+| `5830dbb` | **3. App do aluno** — `TutorScreen` (home + drawer de histórico + chat, `/api/tutor/history`, título da conversa = 1ª msg), `RevisaoScreen` (grade → card‑flip), `GamificationBar` + loja, Ajustes do aluno                             |
 
 Placeholders honestos hoje: `src/ui/student/gamification-data.ts`, `src/ui/student/revisao-data.ts`, painéis de responsável/professor/gestor.
 
-`npm run dev` → localhost:3000. Demo: senha `***REDACTED-ROTATED-2026-10-04***`; aluno `20250801`; resp. `responsavel.theo@exemplo.com`; prof. `professora.matematica@escola-demo.com`.
+`npm run dev` → localhost:3000. Demo: senha em `PAIDEIA_DEMO_PASSWORD` (`.env.local`); aluno `20250801`; resp. `responsavel.theo@exemplo.com`; prof. `professora.matematica@escola-demo.com`.
 
 ---
 
@@ -39,27 +39,31 @@ Placeholders honestos hoje: `src/ui/student/gamification-data.ts`, `src/ui/stude
 ## Passos restantes
 
 ### 4. App do responsável
+
 - **Painel:** seletor de filho; por matéria (agregando `concept_mastery` de vários `concept_id` → matéria), barra + `%` + seta de tendência + "N sessões" + "média geral". `%` **sempre**, com selo discreto **"poucos dados"** quando `confidence < 0.3`. Tendência: derivar de sinal recente dos `learning_events` (sem histórico de snapshot ainda → `→` quando indeterminado).
 - **Conselheiro:** rota `POST /api/parent/advisor` — system prompt "conselheiro" (não socrático), lê `concept_mastery` + `diagnose_weak_prerequisites()` do(s) filho(s), aconselha o responsável. Modelo Sonnet. Nunca vê `messages`/`learning_events` do filho.
 - **Ajustes:** avatar, filhos vinculados, escola, notificações, Sair.
 
 ### 5. App do professor
+
 - **Turma:** heatmap aluno × conceito (nome+inicial), seletor de turma, filtro de conceitos, legenda por faixa, lista "conceitos que a turma não fixou", top‑3 `diagnose_weak_prerequisites` por aluno. Callout de privacidade.
 - **Construtor:** grade de tópicos → chat com IA (`POST /api/teacher/builder`, Sonnet) que propõe questões (múltipla escolha / discursiva / V‑F, dificuldade); botão **"Adicionar"** por questão proposta salva no banco. Montar avaliação e **atribuir à turma**.
 - **Ajustes:** escola, turmas, matéria, alunos, Sair.
 
 ### 6. App do gestor (`/gestor/*`)
+
 - **Insights:** rota `POST /api/gestor/insights` (Sonnet) — lê agregados da(s) escola(s) no escopo do gestor; responde sobre engajamento por turma, pré‑requisitos críticos, uso por professor, ranking de domínio.
 - **Dashboard (4 abas reais):**
-  - *Escola:* KPIs (alunos ativos, responsáveis, professores, sessões/semana) + "sessões por dia".
-  - *Professores:* lista com a métrica da decisão #4 + nº de turmas.
-  - *Responsáveis:* funil da decisão #5 + ação recomendada.
-  - *Desempenho:* domínio médio por matéria + flag de atenção.
+  - _Escola:_ KPIs (alunos ativos, responsáveis, professores, sessões/semana) + "sessões por dia".
+  - _Professores:_ lista com a métrica da decisão #4 + nº de turmas.
+  - _Responsáveis:_ funil da decisão #5 + ação recomendada.
+  - _Desempenho:_ domínio médio por matéria + flag de atenção.
 - **Ajustes:** escola/rede, contrato, versão, callout LGPD, Sair.
 
 ### 7. Back-end (migrations + rotas + seed)
 
 **Migrations novas** (`supabase/migrations/00XX_*.sql`, aplicadas via script com confirmação):
+
 - **Identidade p/ professor:** policy dando ao professor `select` em `students`/`profiles.full_name` dos alunos com enrollment ativo nas turmas de `accessible_class_ids()`.
 - **Escopo do gestor:** funções `accessible_school_ids()` / `accessible_org_ids()` a partir de `staff_assignments`; policies de leitura agregada em `concept_mastery`, `learning_events` (contagem só), `enrollments`, `staff_assignments` para `director`.
 - **E‑mail do responsável na matrícula:** coluna `guardian_email` em `enrollments` (ou tabela `enrollment_guardians`), + `activated_at`. Alimenta o funil.
@@ -76,4 +80,5 @@ Placeholders honestos hoje: `src/ui/student/gamification-data.ts`, `src/ui/stude
 ---
 
 ## Ordem sugerida amanhã
+
 4 (responsável, front) → 7a (migrations de leitura: professor + gestor + guardian_email) → 5 (professor, front+builder) → 6 (gestor, front+insights) → 7b (gamificação + avaliações + evidência + seed) → screenshot pass + `/code-review ultra`.

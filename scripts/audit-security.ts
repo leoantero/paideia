@@ -1,3 +1,4 @@
+import { demoPassword } from "./lib/admin";
 import { config } from "dotenv";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
@@ -20,7 +21,7 @@ config({ path: ".env.local" });
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const service = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const PASSWORD = "***REDACTED-ROTATED-2026-10-04***";
+const PASSWORD = demoPassword();
 
 const admin = createClient(url, service, {
   auth: { autoRefreshToken: false, persistSession: false },

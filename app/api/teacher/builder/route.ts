@@ -57,7 +57,8 @@ export async function POST(request: Request) {
     RATE_LIMIT,
     RATE_WINDOW_MINUTES
   );
-  if (!rate.allowed) return rateLimitResponse(rate.retryAfterSeconds!);
+  if (!rate.allowed)
+    return rateLimitResponse(rate.retryAfterSeconds!, rate.kind);
 
   const body = await request.json().catch(() => null);
   const conceptId: string | undefined = body?.conceptId;

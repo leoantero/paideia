@@ -22,7 +22,8 @@ import type { Role } from "@/src/core/auth/types";
  *    banco; é o seed exposto numa tela.
  */
 
-export const DEMO_PASSWORD = "***REDACTED-ROTATED-2026-10-04***";
+/** A senha das contas da demo vem do .env.local — nunca do repositório. */
+export const DEMO_PASSWORD = process.env.PAIDEIA_DEMO_PASSWORD ?? "";
 
 export function isDevPanelEnabled(): boolean {
   return process.env.PAIDEIA_DEV_PANEL === "1";
@@ -180,13 +181,11 @@ export async function createTestAccount(
       .limit(1)
       .maybeSingle();
     if (kid) {
-      await admin
-        .from("parent_student_links")
-        .insert({
-          parent_id: uid,
-          student_id: kid.student_id,
-          status: "active",
-        });
+      await admin.from("parent_student_links").insert({
+        parent_id: uid,
+        student_id: kid.student_id,
+        status: "active",
+      });
     }
   }
 

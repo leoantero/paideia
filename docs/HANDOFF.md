@@ -89,7 +89,7 @@ Redesign do protótipo do Figma (`figma/`) para o app real, na branch
 npm run dev            # localhost:3000
 ```
 
-Senha única de demo: **`***REDACTED-ROTATED-2026-10-04***`** (também há o painel `/dev`).
+Senha única de demo: a de `PAIDEIA_DEMO_PASSWORD` no `.env.local` (trocada em 2026‑10‑04; para trocar de novo, `npm run demo:rotate-password`). Também há o painel `/dev`, só local.
 
 | Perfil      | Entrar com                                                                                                                                           |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |

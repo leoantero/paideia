@@ -1,30 +1,36 @@
-# Impede que o Supabase (plano gratuito) pause o projeto por inatividade:
-# ele pausa depois de 7 dias sem uso. A cada 2 dias isto chama a função
-# keepalive() (supabase/migrations/0022_keepalive.sql), que faz uma consulta
-# real no banco sem expor nenhum dado.
+# Duas tarefas diárias contra o Supabase:
 #
-# Precisa de dois secrets no repositório (Settings → Secrets and variables →
-# Actions): SUPABASE_URL e SUPABASE_ANON_KEY — os mesmos valores de
-# NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY do .env.local.
+# 1. Keep-alive: o plano gratuito pausa o projeto depois de 7 dias sem uso.
+#    Chamar keepalive() (0022) faz uma consulta real sem expor dado nenhum.
 #
-# Atenção: o GitHub só roda workflows agendados que estão na branch padrão
-# (main).
+# 2. Monitor de uso de IA: ai_usage_check() (0025) devolve só contagens.
+#    Se alguém bateu no teto DIÁRIO, ou no teto por hora em 3+ horas do mesmo
+#    dia, ou o disjuntor global disparou, o job falha — e o GitHub manda
+#    e-mail. Aluno estudando normalmente nunca chega nesses tetos. Para ver
+#    quem foi: `npm run usage:report` na sua máquina.
+#
+# Secrets (Settings → Secrets and variables → Actions):
+#   SUPABASE_URL, SUPABASE_ANON_KEY — mesmos valores do .env.local
+#   MONITOR_TOKEN — mesmo valor de PAIDEIA_MONITOR_TOKEN no .env.local
+#
+# O GitHub só roda workflows agendados que estão na branch padrão (main).
 name: Supabase keep-alive
 
 on:
   schedule:
-    - cron: "17 12 */2 * *" # a cada 2 dias, 09:17 em Brasília
+    - cron: "17 12 * * *" # todo dia, 09:17 em Brasília
   workflow_dispatch: # botão "Run workflow" para testar na mão
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      MONITOR_TOKEN: ${{ secrets.MONITOR_TOKEN }}
     steps:
       - name: Chamar keepalive()
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
             echo "::error::Configure os secrets SUPABASE_URL e SUPABASE_ANON_KEY."
@@ -40,3 +46,21 @@ jobs:
           # Falhar de propósito: o GitHub manda e-mail quando um workflow falha,
           # então um projeto que já foi pausado não passa despercebido.
           [ "$status" = "200" ]
+
+      - name: Verificar uso suspeito da IA
+        run: |
+          if [ -z "$MONITOR_TOKEN" ]; then
+            echo "::error::Configure o secret MONITOR_TOKEN."
+            exit 1
+          fi
+          curl -sS --fail-with-body --retry 3 --retry-delay 10 -o usage.json \
+            -X POST "$SUPABASE_URL/rest/v1/rpc/ai_usage_check" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"p_token\": \"$MONITOR_TOKEN\"}"
+          echo "Últimas 24h: $(cat usage.json)"
+          jq -e '.users_at_daily_limit == 0 and .users_hitting_hourly_limit_3h == 0 and (.global_limit_hit | not)' usage.json > /dev/null || {
+            echo "::error::Uso suspeito da IA nas últimas 24h. Rode 'npm run usage:report' para ver quem foi; para cortar o acesso, 'npm run demo:rotate-password'."
+            exit 1
+          }

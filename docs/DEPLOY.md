@@ -77,7 +77,7 @@ deploy. Framework preset "Next.js" é detectado automaticamente.
 ## 6. Depois do primeiro deploy
 
 - Abra `https://<dominio>/entrar/aluno` e entre com uma das 8 matrículas
-  (senha `***REDACTED-ROTATED-2026-10-04***`) pra confirmar que a sessão funciona no domínio
+  (senha em `PAIDEIA_DEMO_PASSWORD` no `.env.local`) pra confirmar que a sessão funciona no domínio
   novo.
 - Confirme que `https://<dominio>/dev` responde **404**.
 - Rode `npm run audit:security` localmente (ele aponta pro banco hospedado,
