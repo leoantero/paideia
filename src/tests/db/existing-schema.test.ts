@@ -17,3 +17,15 @@ describe("phase 1 schema", () => {
     expect(rows.rows.map((r) => r.id)).toEqual([STUDENT]);
   });
 });
+
+describe("keepalive", () => {
+  it("lets the anonymous key run a real query without reading any data", async () => {
+    const db = await createTestDb();
+    const now = await db.transaction(async (tx) => {
+      await tx.exec(`set local role anon`);
+      const res = await tx.query<{ t: Date }>(`select keepalive() as t`);
+      return res.rows[0].t;
+    });
+    expect(now).toBeInstanceOf(Date);
+  });
+});
