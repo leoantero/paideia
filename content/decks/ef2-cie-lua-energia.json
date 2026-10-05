@@ -1,0 +1,137 @@
+{
+  "id": "ef2-cie-lua-energia",
+  "title": "Lua, eclipses e energia",
+  "subject": "science",
+  "gradeLevel": "elementary_2",
+  "description": "Fases da Lua e eclipses pelas posições de Sol, Terra e Lua; fontes de energia renováveis e não renováveis; consumo elétrico.",
+  "bnccCodes": ["EF08CI01", "EF08CI04", "EF08CI12"],
+  "reviewStatus": "pending_review",
+  "sources": [
+    {
+      "name": "BNCC — Base Nacional Comum Curricular (MEC)",
+      "url": "https://basenacionalcomum.mec.gov.br/images/BNCC_EI_EF_110518_versaofinal_site.pdf",
+      "license": "Documento público oficial",
+      "usage": "Alinhamento dos temas às habilidades EF08CI01, EF08CI04 e EF08CI12"
+    },
+    {
+      "name": "Redação própria do projeto (rascunho assistido por IA)",
+      "license": "Conteúdo original",
+      "usage": "Texto dos cards, a partir de conteúdo escolar consolidado. Precisa de revisão de um professor antes de aprovar."
+    }
+  ],
+  "cards": [
+    {
+      "kind": "multiple_choice",
+      "prompt": "Em qual fase a Lua está entre a Terra e o Sol?",
+      "choices": [
+        "Lua cheia",
+        "Lua nova",
+        "Quarto crescente",
+        "Quarto minguante"
+      ],
+      "correctChoice": 1,
+      "answer": "Na Lua nova, a face iluminada da Lua fica voltada para o Sol, e não a vemos da Terra."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Um eclipse lunar acontece quando…",
+      "choices": [
+        "a Lua fica entre o Sol e a Terra",
+        "a Terra fica entre o Sol e a Lua",
+        "o Sol fica entre a Terra e a Lua",
+        "a Lua se afasta da Terra"
+      ],
+      "correctChoice": 1,
+      "answer": "No eclipse lunar, a sombra da Terra cobre a Lua. Por isso ele só ocorre na Lua cheia."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Em qual fase da Lua um eclipse solar pode acontecer?",
+      "choices": [
+        "Lua cheia",
+        "Quarto crescente",
+        "Lua nova",
+        "Quarto minguante"
+      ],
+      "correctChoice": 2,
+      "answer": "O eclipse solar exige a Lua entre a Terra e o Sol, o que só ocorre na Lua nova."
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Aproximadamente quantos dias dura o ciclo completo das fases da Lua?",
+      "acceptedAnswers": [
+        "29,5",
+        "29,5 dias",
+        "29",
+        "29 dias",
+        "30",
+        "30 dias"
+      ],
+      "answer": "Cerca de 29,5 dias (mês sinódico)."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Na Lua cheia, onde a Lua está?",
+      "choices": [
+        "Do lado oposto ao Sol, em relação à Terra",
+        "Entre a Terra e o Sol",
+        "Ao lado do Sol",
+        "Atrás do Sol"
+      ],
+      "correctChoice": 0,
+      "answer": "Com a Terra entre o Sol e a Lua (mas fora da sombra), vemos toda a face iluminada."
+    },
+    {
+      "kind": "open",
+      "prompt": "Por que vemos a Lua em fases diferentes ao longo do mês?",
+      "answer": "A Lua não tem luz própria e sempre tem metade iluminada pelo Sol. Enquanto ela orbita a Terra, vemos partes diferentes dessa metade iluminada. As fases NÃO são causadas pela sombra da Terra."
+    },
+    {
+      "kind": "open",
+      "prompt": "Se a Lua passa entre a Terra e o Sol a cada Lua nova, por que não acontece um eclipse solar todo mês?",
+      "answer": "A órbita da Lua é inclinada (cerca de 5°) em relação à órbita da Terra. Na maioria das luas novas, a Lua passa um pouco acima ou abaixo do alinhamento Sol–Terra."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual destas é uma fonte de energia renovável?",
+      "choices": ["Petróleo", "Carvão mineral", "Gás natural", "Energia solar"],
+      "correctChoice": 3,
+      "answer": "A energia solar se renova continuamente. Petróleo, carvão e gás natural são fósseis e levam milhões de anos para se formar.",
+      "conceptCode": "EF08FI-ENER"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual é a principal fonte de geração de eletricidade no Brasil?",
+      "choices": ["Nuclear", "Hidrelétrica", "Carvão", "Petróleo"],
+      "correctChoice": 1,
+      "answer": "As hidrelétricas respondem pela maior parte da eletricidade gerada no Brasil.",
+      "conceptCode": "EF08FI-ENER"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "A energia eólica é obtida a partir…",
+      "choices": [
+        "do calor do interior da Terra",
+        "do vento",
+        "das marés",
+        "da queima de biomassa"
+      ],
+      "correctChoice": 1,
+      "answer": "Turbinas eólicas transformam o movimento do vento em energia elétrica.",
+      "conceptCode": "EF08FI-ENER"
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Um chuveiro de 5 000 W fica ligado por 2 horas. Quantos kWh ele consome?",
+      "acceptedAnswers": ["10", "10 kwh", "10kwh"],
+      "answer": "5 000 W = 5 kW; 5 kW × 2 h = 10 kWh.",
+      "conceptCode": "EF08FI-ENER"
+    },
+    {
+      "kind": "open",
+      "prompt": "Uma fonte de energia renovável é sempre livre de impacto ambiental? Justifique com um exemplo.",
+      "answer": "Não. \"Renovável\" diz respeito à reposição da fonte, não à ausência de impacto. Exemplos: hidrelétricas alagam grandes áreas e afetam ecossistemas e comunidades, e parques eólicos podem afetar aves e a paisagem.",
+      "conceptCode": "EF08FI-ENER"
+    }
+  ]
+}

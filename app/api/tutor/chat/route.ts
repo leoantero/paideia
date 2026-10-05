@@ -15,6 +15,7 @@ import {
   getRecentMessages,
 } from "@/src/features/tutoring/conversation-service";
 import { getStudentProfile } from "@/src/features/user-profiles/student-profile-service";
+import { rewardTutorSession } from "@/src/features/gamification/gamification-service";
 import { checkRateLimit, rateLimitResponse } from "@/src/lib/rate-limit";
 
 /** Rota mais usada do produto — teto generoso, mas existe. Ver rate-limit.ts. */
@@ -127,8 +128,12 @@ export async function POST(request: Request) {
     await recordEvidence(user.id, events);
   });
 
+  // Depois de gravar a resposta: a sessão só conta com 3+ mensagens do aluno.
+  const reward = await rewardTutorSession(supabase, conversation.id);
+
   return NextResponse.json({
     conversationId: conversation.id,
     reply: guarded.text,
+    reward,
   });
 }

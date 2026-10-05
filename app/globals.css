@@ -55,8 +55,116 @@
   --radius-lg: 1rem; /* 16px — cards */
 }
 
+/*
+ * Cores do tema grego que não existem na paleta do Figma. Registradas como
+ * utilitários (bg-marble, text-terracotta…) e resolvidas pelas variáveis cruas
+ * definidas em .theme-greek, logo abaixo.
+ */
+@theme inline {
+  --color-marble: var(--marble);
+  --color-marble-deep: var(--marble-deep);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-deep: var(--terracotta-deep);
+  --color-terracotta-soft: var(--terracotta-soft);
+  --color-aegean: var(--aegean);
+  --color-aegean-deep: var(--aegean-deep);
+  --color-aegean-soft: var(--aegean-soft);
+  --color-olive: var(--olive);
+  --color-olive-soft: var(--olive-soft);
+}
+
 html {
   color-scheme: light;
+}
+
+/*
+ * Tema grego (geométrico, cerâmica de figuras negras) — SÓ no app do aluno,
+ * aplicado por src/ui/student/StudentShell.tsx. Público diferente, tom
+ * diferente: o aluno ganha um app com cara de jogo; responsável, professor e
+ * gestor seguem na paleta do Figma acima.
+ *
+ * Os tokens do Figma (ink, surface, line, gold, muted…) são redefinidos dentro
+ * do escopo, então telas compartilhadas (Ajustes, Tutor) herdam a paleta sem
+ * duplicar componente. O aluno também ganha modo escuro; o resto do app
+ * continua só claro (ver o comentário do @theme).
+ */
+.theme-greek {
+  --marble: #f4eee3;
+  --marble-deep: #e9dfcd;
+  --surface: #fbf8f2;
+  --ink: #1f1a16;
+  --ink-soft: #5f564b;
+  --line: #d8ccb6;
+  --terracotta: #b8532a;
+  --terracotta-deep: #8d3a1b;
+  --terracotta-soft: #f1d9c9;
+  --aegean: #1e4e79;
+  --aegean-deep: #143654;
+  --aegean-soft: #d6e3ee;
+  --gold: #d6a21e;
+  --gold-deep: #9c700a;
+  --gold-soft: #f6e6b5;
+  --olive: #5f7433;
+  --olive-soft: #e1e8cc;
+
+  --color-bg: var(--marble);
+  --color-surface: var(--surface);
+  --color-mist: var(--line);
+  --color-mist-soft: var(--marble-deep);
+  --color-parchment: var(--gold-soft);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-gold-deep: var(--gold-deep);
+  --color-body: var(--ink);
+  --color-muted: var(--ink-soft);
+  --color-faint: color-mix(in srgb, var(--ink-soft) 70%, var(--marble));
+  --color-line: var(--line);
+  --color-line-strong: var(--line);
+  --color-strong: var(--olive);
+  --color-strong-bg: var(--olive-soft);
+  --color-average: var(--gold-deep);
+  --color-average-bg: var(--gold-soft);
+  --color-weak: var(--terracotta);
+  --color-weak-bg: var(--terracotta-soft);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-marcellus), Georgia, serif;
+
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Cerâmica de figuras negras, à noite */
+  .theme-greek {
+    color-scheme: dark;
+    --marble: #17130f;
+    --marble-deep: #0f0c09;
+    --surface: #221c16;
+    --ink: #f2e9da;
+    --ink-soft: #b7a993;
+    --line: #3a3027;
+    --terracotta: #e2733f;
+    --terracotta-deep: #f0925f;
+    --terracotta-soft: #3d2217;
+    --aegean: #6fa3d2;
+    --aegean-deep: #9cc3e6;
+    --aegean-soft: #1a2c3d;
+    --gold: #f0c145;
+    --gold-deep: #f6d77e;
+    --gold-soft: #3a2e10;
+    --olive: #a9bf6c;
+    --olive-soft: #262d17;
+  }
+}
+
+/* Marcellus só tem um peso: sem negrito sintético e sem o tracking apertado do Bricolage. */
+.theme-greek :is(h1, h2, h3) {
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 body {
@@ -89,74 +197,124 @@ h3 {
   border-radius: 4px;
 }
 
-/* Card-flip da Revisão (estilo Anki). */
-.card-flip {
-  perspective: 1000px;
-}
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.5s;
-  transform-style: preserve-3d;
-}
-.card-inner.flipped {
-  transform: rotateY(180deg);
-}
-.card-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-.card-back {
-  transform: rotateY(180deg);
+/* ---------- Movimento do tema grego ---------- */
+
+@keyframes paideia-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Pilha estilo carrossel: o card ativo na frente, dois "picos" atrás só com
-   sombra (sem conteúdo) sugerindo a fila, e uma saída deslizante ao responder. */
-.deck-stack {
-  position: relative;
+@keyframes paideia-flicker {
+  0%,
+  100% {
+    transform: scaleY(1) skewX(0deg);
+  }
+  30% {
+    transform: scaleY(1.06) skewX(-2deg);
+  }
+  60% {
+    transform: scaleY(0.96) skewX(2deg);
+  }
 }
-.deck-peek {
-  position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  background: var(--color-surface);
-  box-shadow: 0 10px 22px rgba(30, 58, 138, 0.16);
-  transition:
-    transform 0.35s ease,
-    opacity 0.35s ease;
+
+@keyframes paideia-coin-pop {
+  0% {
+    transform: translateY(6px) scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-4px) scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
-.deck-peek-1 {
-  transform: translate(10px, 12px) scale(0.96);
-  opacity: 0.9;
+
+@keyframes paideia-shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
 }
-.deck-peek-2 {
-  transform: translate(20px, 24px) scale(0.92);
-  opacity: 0.65;
+
+.animate-rise {
+  animation: paideia-rise 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
-.deck-front {
-  position: relative;
-  transition:
-    transform 0.32s ease,
-    opacity 0.32s ease;
+.animate-flicker {
+  transform-origin: 50% 100%;
+  animation: paideia-flicker 1.6s ease-in-out infinite;
 }
-.deck-front.deck-exit-right {
-  transform: translateX(130%) rotate(8deg);
-  opacity: 0;
+.animate-coin-pop {
+  animation: paideia-coin-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
-.deck-front.deck-exit-left {
-  transform: translateX(-130%) rotate(-8deg);
-  opacity: 0;
+
+.gold-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--gold-deep) 20%,
+    var(--gold) 40%,
+    #fff3c4 50%,
+    var(--gold) 60%,
+    var(--gold-deep) 80%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: paideia-shimmer 4s linear infinite;
+}
+
+/* Card virando para o verso (a altura pode mudar, então sem face dupla 3D). */
+@keyframes paideia-flip-in {
+  from {
+    transform: perspective(1200px) rotateY(-92deg);
+    opacity: 0.3;
+  }
+  to {
+    transform: perspective(1200px) rotateY(0deg);
+    opacity: 1;
+  }
+}
+.animate-flip-in {
+  animation: paideia-flip-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes paideia-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+.animate-shake {
+  animation: paideia-shake 0.3s ease-in-out 2;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-inner {
-    transition: none;
+  .animate-rise,
+  .animate-flicker,
+  .animate-coin-pop,
+  .gold-shimmer,
+  .animate-flip-in,
+  .animate-shake {
+    animation: none;
   }
-  .deck-peek,
-  .deck-front {
-    transition: none;
+  .gold-shimmer {
+    color: var(--gold-deep);
   }
 }

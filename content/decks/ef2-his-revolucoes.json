@@ -1,0 +1,155 @@
+{
+  "id": "ef2-his-revolucoes",
+  "title": "Iluminismo, revoluções e o Brasil de 1808",
+  "subject": "history",
+  "gradeLevel": "elementary_2",
+  "description": "Ideias iluministas, Revolução Francesa, Revolução Industrial e a chegada da Corte portuguesa até a Independência.",
+  "bnccCodes": ["EF08HI01", "EF08HI03", "EF08HI04", "EF08HI12"],
+  "reviewStatus": "pending_review",
+  "sources": [
+    {
+      "name": "BNCC — Base Nacional Comum Curricular (MEC)",
+      "url": "https://basenacionalcomum.mec.gov.br/images/BNCC_EI_EF_110518_versaofinal_site.pdf",
+      "license": "Documento público oficial",
+      "usage": "Alinhamento dos temas às habilidades EF08HI01, EF08HI03, EF08HI04 e EF08HI12"
+    },
+    {
+      "name": "Redação própria do projeto (rascunho assistido por IA)",
+      "license": "Conteúdo original",
+      "usage": "Texto dos cards, a partir de conteúdo escolar consolidado. Precisa de revisão de um professor antes de aprovar."
+    }
+  ],
+  "cards": [
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual ideia é associada ao pensador iluminista Montesquieu?",
+      "choices": [
+        "Separação dos poderes em Executivo, Legislativo e Judiciário",
+        "Direito divino dos reis",
+        "Mercantilismo",
+        "Monarquia absoluta"
+      ],
+      "correctChoice": 0,
+      "answer": "Em \"O Espírito das Leis\", Montesquieu defendeu dividir o poder para evitar abusos.",
+      "conceptCode": "EF08HI-ILUM"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual era o lema da Revolução Francesa?",
+      "choices": [
+        "Ordem e Progresso",
+        "Liberdade, Igualdade, Fraternidade",
+        "Deus, Pátria, Família",
+        "Paz, Pão e Terra"
+      ],
+      "correctChoice": 1,
+      "answer": "\"Liberdade, Igualdade, Fraternidade\" resumia os ideais revolucionários.",
+      "conceptCode": "EF08HI-REVF"
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Em que ano começou a Revolução Francesa, marcada pela queda da Bastilha?",
+      "acceptedAnswers": ["1789"],
+      "answer": "Em 1789, com a tomada da Bastilha em 14 de julho.",
+      "conceptCode": "EF08HI-REVF"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Antes da Revolução Francesa, quem formava o Terceiro Estado?",
+      "choices": [
+        "O clero",
+        "A nobreza",
+        "A burguesia, os camponeses e os trabalhadores urbanos",
+        "Apenas o rei e sua família"
+      ],
+      "correctChoice": 2,
+      "answer": "O Terceiro Estado reunia a maioria da população e pagava a maior parte dos impostos.",
+      "conceptCode": "EF08HI-REVF"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual documento de 1789 afirmava que \"os homens nascem e são livres e iguais em direitos\"?",
+      "choices": [
+        "Declaração dos Direitos do Homem e do Cidadão",
+        "Constituição dos Estados Unidos",
+        "Carta Magna",
+        "Tratado de Tordesilhas"
+      ],
+      "correctChoice": 0,
+      "answer": "A Declaração dos Direitos do Homem e do Cidadão foi aprovada pela Assembleia francesa em 1789.",
+      "conceptCode": "EF08HI-REVF"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Em qual país começou a Revolução Industrial?",
+      "choices": ["França", "Inglaterra", "Estados Unidos", "Alemanha"],
+      "correctChoice": 1,
+      "answer": "Ela começou na Inglaterra, na segunda metade do século XVIII.",
+      "conceptCode": "EF08HI-REVI"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual invenção foi central na primeira fase da Revolução Industrial?",
+      "choices": [
+        "Motor a combustão",
+        "Máquina a vapor",
+        "Energia elétrica",
+        "Computador"
+      ],
+      "correctChoice": 1,
+      "answer": "A máquina a vapor movimentou fábricas têxteis, trens e navios.",
+      "conceptCode": "EF08HI-REVI"
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Em que ano a família real portuguesa chegou ao Brasil?",
+      "acceptedAnswers": ["1808"],
+      "answer": "Em 1808, fugindo das tropas de Napoleão.",
+      "conceptCode": "EF08HI-INDEP"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual medida Dom João tomou logo ao chegar ao Brasil em 1808?",
+      "choices": [
+        "A abolição da escravidão",
+        "A abertura dos portos às nações amigas",
+        "A proclamação da República",
+        "A independência do Brasil"
+      ],
+      "correctChoice": 1,
+      "answer": "A abertura dos portos encerrou o monopólio comercial de Portugal sobre o Brasil.",
+      "conceptCode": "EF08HI-INDEP"
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Quem proclamou a Independência do Brasil em 1822?",
+      "acceptedAnswers": [
+        "Dom Pedro",
+        "Dom Pedro I",
+        "D. Pedro I",
+        "Pedro I",
+        "D Pedro"
+      ],
+      "answer": "Dom Pedro I, em 7 de setembro de 1822.",
+      "conceptCode": "EF08HI-INDEP"
+    },
+    {
+      "kind": "open",
+      "prompt": "Por que as ideias iluministas ameaçavam o poder dos reis absolutistas?",
+      "answer": "Os iluministas defendiam a razão, a liberdade individual, a igualdade perante a lei e a divisão dos poderes. Isso questionava o direito divino e o poder concentrado nas mãos do rei.",
+      "conceptCode": "EF08HI-ILUM"
+    },
+    {
+      "kind": "open",
+      "prompt": "Como a Revolução Industrial mudou a vida dos trabalhadores?",
+      "answer": "Muitos trabalhadores migraram do campo para as cidades. Nas fábricas, enfrentavam jornadas muito longas, salários baixos, trabalho infantil e condições insalubres. Isso levou ao surgimento de movimentos operários e sindicatos.",
+      "conceptCode": "EF08HI-REVI"
+    },
+    {
+      "kind": "open",
+      "prompt": "Por que a chegada da Corte portuguesa em 1808 é vista como um passo rumo à independência do Brasil?",
+      "answer": "O Brasil virou sede do império português: os portos foram abertos, surgiram instituições como o Banco do Brasil e a Imprensa Régia, e em 1815 o Brasil foi elevado a Reino Unido. Quando a Corte voltou a Portugal, as elites resistiram a retornar à condição de colônia.",
+      "conceptCode": "EF08HI-INDEP"
+    }
+  ]
+}

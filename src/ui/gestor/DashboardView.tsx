@@ -10,7 +10,7 @@ import type {
 } from "@/src/features/user-profiles/gestor-service";
 import { ScreenBody, ScreenHeader } from "@/src/ui/AppShell";
 import { Callout, Segmented, Tag } from "@/src/ui/kit";
-import { styleFor } from "@/src/ui/student/revisao-data";
+import { styleFor } from "@/src/ui/subject-styles";
 
 type Tab = "escola" | "professores" | "responsaveis" | "desempenho";
 

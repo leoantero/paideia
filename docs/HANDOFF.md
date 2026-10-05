@@ -1,4 +1,43 @@
-# Paideia — checkpoint (2026‑09‑07, noite)
+# Paideia — checkpoint (2026‑10‑04)
+
+## Integração do redesign do `main` (2026‑10‑04)
+
+O trabalho que estava só na `main` (commit `beb1c7a`: repetição espaçada
+SM-2, gamificação, UI grega do aluno) foi **portado** para esta branch. Não foi
+um merge direto, porque os dois lados criaram tabelas `schools` incompatíveis
+e cada um tinha o seu sistema de revisão. A pasta `paideia-main` deixou de
+existir: tudo vive aqui.
+
+- **Banco:** `0020_gamification.sql` (dracmas, pontos, ofensiva com
+  congelamento, ranking semanal) e `0021_spaced_repetition.sql` (baralhos,
+  SM-2 por card, cards de múltipla escolha, resposta curta, abertos avaliados
+  pelo tutor e **flashcards autoavaliados**). O ranking usa a **matrícula
+  ativa** (`enrollments`), não código de turma.
+- **`concept_cards` (0014) foi migrada** para `decks`/`cards` como
+  flashcards, mantendo id e conceito, e a tabela foi removida. Toda revisão de
+  card ancorado em conceito continua virando `retrieval_review` no learning
+  graph (`study-service.ts` → `evidence-recorder.ts`, dentro de `after()`).
+  Só a primeira revisão do card no dia vira evidência.
+- **App do aluno:** Início (`/student`), Revisar (`/student/revisao`), Tutor
+  (com histórico), Pódio · Loja (`/student/podio`) e Ajustes (engrenagem no
+  topo). `/student/loja` redireciona. O tema grego (`.theme-greek` em
+  `globals.css`) vale só para o aluno; os outros perfis seguem com a paleta
+  do Figma.
+- **Seeds:** `npm run seed` agora também roda `seed:decks` (4 baralhos de
+  `content/decks/`, **pending_review** até um professor aprovar) e
+  `seed:gamification` (pontos da semana para os alunos da demo).
+- **Testes:** `npm test` sobe todas as migrations num Postgres em memória
+  (PGlite, `src/tests/db/`), sem Docker, incluindo a migração de
+  `concept_cards`.
+- **`/preview`** (só em dev): telas do aluno com dados falsos, sem Supabase.
+
+**Antes de usar no banco hospedado:** aplicar `0020` e `0021` (com
+confirmação, como as outras), depois `npm run seed:decks` e
+`npm run seed:gamification`.
+
+---
+
+## Checkpoint anterior (2026‑09‑07, noite)
 
 > Amanhã: `npm run dev`, abrir o app, dar **"continue"**. A gente revisa o
 > estado real e decide os próximos passos. Plano + 12 decisões:

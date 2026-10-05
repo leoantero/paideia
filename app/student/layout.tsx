@@ -1,13 +1,7 @@
 import { requireRole } from "@/src/core/auth/require-role";
-import { AppShell } from "@/src/ui/AppShell";
-import { icons, type NavItem } from "@/src/ui/BottomNav";
-
-const NAV: NavItem[] = [
-  { href: "/student/tutor", label: "Tutor", icon: icons.chat },
-  { href: "/student/revisao", label: "Revisão", icon: icons.cards },
-  { href: "/student/loja", label: "Loja", icon: icons.store },
-  { href: "/student/ajustes", label: "Ajustes", icon: icons.gear },
-];
+import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
+import { getMyProgress } from "@/src/features/gamification/gamification-service";
+import { StudentShell } from "@/src/ui/student/StudentShell";
 
 export default async function StudentLayout({
   children,
@@ -15,5 +9,18 @@ export default async function StudentLayout({
   children: React.ReactNode;
 }) {
   await requireRole("student");
-  return <AppShell nav={NAV}>{children}</AppShell>;
+  const { supabase } = await getVerifiedUser();
+  const progress = await getMyProgress(supabase);
+
+  return (
+    <StudentShell
+      stats={{
+        coins: progress.coins,
+        streak: progress.streak,
+        activeToday: progress.active_today,
+      }}
+    >
+      {children}
+    </StudentShell>
+  );
 }

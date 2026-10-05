@@ -2,14 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import { RichText } from "@/src/ui/RichText";
-import { GamificationBar } from "@/src/ui/student/GamificationBar";
-import type { GamificationState } from "@/src/ui/student/gamification-data";
+import { DrachmaCoin, OwlIcon } from "@/src/ui/paideia/icons";
 
 export interface ConversationSummary {
   id: string;
   title: string | null;
   subject: string | null;
   updated_at: string;
+}
+
+interface Reward {
+  awarded: boolean;
+  points?: number;
+  coins?: number;
 }
 
 interface Msg {
@@ -43,7 +48,7 @@ function SendArrow({ on }: { on: boolean }) {
       height="15"
       fill="none"
       viewBox="0 0 24 24"
-      stroke={on ? "white" : "currentColor"}
+      stroke={on ? "var(--color-bg)" : "currentColor"}
       strokeWidth="2.5"
       aria-hidden
     >
@@ -59,11 +64,12 @@ function SendArrow({ on }: { on: boolean }) {
 export function TutorScreen({
   firstName,
   conversations,
-  gamification,
+  endpoint = "/api/tutor/chat",
 }: {
   firstName: string;
   conversations: ConversationSummary[];
-  gamification: GamificationState;
+  /** /preview swaps in a canned stand-in (no model call). */
+  endpoint?: string;
 }) {
   const [view, setView] = useState<"home" | "chat">("home");
   const convos = conversations;
@@ -74,6 +80,7 @@ export function TutorScreen({
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [drawer, setDrawer] = useState(false);
+  const [reward, setReward] = useState<Reward | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -88,7 +95,7 @@ export function TutorScreen({
     setMessages((m) => [...m, { role: "student", content: trimmed }]);
     setSending(true);
     try {
-      const res = await fetch("/api/tutor/chat", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ conversationId: convId, message: trimmed }),
@@ -99,6 +106,7 @@ export function TutorScreen({
       const data = await res.json();
       setConversationId(data.conversationId);
       setMessages((m) => [...m, { role: "assistant", content: data.reply }]);
+      if (data.reward?.awarded) setReward(data.reward);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Algo deu errado.");
     } finally {
@@ -159,14 +167,14 @@ export function TutorScreen({
               />
             </svg>
           </button>
-          <span className="grid h-[34px] w-[34px] place-items-center rounded-[9px] bg-ink font-display text-base font-extrabold text-gold">
-            ?
+          <span className="grid h-[34px] w-[34px] place-items-center rounded-full bg-aegean text-marble">
+            <OwlIcon size={20} />
           </span>
           <div className="min-w-0">
             <div className="truncate font-display text-[14px] font-bold text-ink">
               {topic || "Tutor"}
             </div>
-            <div className="text-[11px] text-muted">Tutor Paideia</div>
+            <div className="text-[11px] text-muted">Coruja de Atena</div>
           </div>
         </div>
 
@@ -176,6 +184,12 @@ export function TutorScreen({
           ))}
           {sending && <Typing />}
           {error && <p className="text-sm font-medium text-weak">{error}</p>}
+          {reward && (
+            <p className="flex items-center justify-center gap-2 self-center rounded-full bg-ink px-4 py-2 text-sm font-bold text-gold animate-coin-pop">
+              Sessão de estudo! +{reward.points} pts · +{reward.coins}{" "}
+              <DrachmaCoin size={16} />
+            </p>
+          )}
           <div ref={bottomRef} />
         </div>
 
@@ -223,19 +237,17 @@ export function TutorScreen({
           ))}
         </button>
         <div className="flex items-center gap-2">
-          <span className="grid h-[30px] w-[30px] place-items-center rounded-lg bg-ink font-display text-base font-extrabold text-gold">
-            Π
+          <span className="grid h-[30px] w-[30px] place-items-center rounded-full bg-aegean text-marble">
+            <OwlIcon size={18} />
           </span>
-          <span className="font-display text-base font-bold text-ink">
-            Tutor
+          <span className="font-display text-base text-ink">
+            Coruja de Atena
           </span>
         </div>
         <span className="w-9" />
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 pt-1">
-        <GamificationBar state={gamification} />
-
         <div className="mb-[18px] mt-1">
           <h1 className="font-display text-[22px] font-extrabold tracking-tight text-ink">
             Olá{firstName ? `, ${firstName}` : ""}! 👋
@@ -338,15 +350,15 @@ function Bubble({ msg }: { msg: Msg }) {
   return (
     <div className={`flex ${student ? "justify-end" : "justify-start"}`}>
       {!student && (
-        <span className="mr-2 grid h-7 w-7 shrink-0 self-end place-items-center rounded-lg bg-ink text-[13px] font-extrabold text-gold">
-          ?
+        <span className="mr-2 grid h-7 w-7 shrink-0 self-end place-items-center rounded-full bg-aegean text-marble">
+          <OwlIcon size={16} />
         </span>
       )}
       <div
         className={`max-w-[78%] whitespace-pre-wrap border-[1.5px] px-3.5 py-2.5 text-sm leading-relaxed text-ink ${
           student
             ? "rounded-[14px] rounded-br-[4px] border-gold-soft bg-parchment"
-            : "rounded-[14px] rounded-bl-[4px] border-mist bg-mist"
+            : "rounded-[14px] rounded-bl-[4px] border-aegean-soft bg-aegean-soft"
         }`}
       >
         <RichText text={msg.content} />
@@ -358,10 +370,10 @@ function Bubble({ msg }: { msg: Msg }) {
 function Typing() {
   return (
     <div className="flex items-center gap-2">
-      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-ink text-[13px] font-extrabold text-gold">
-        ?
+      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-aegean text-marble">
+        <OwlIcon size={16} />
       </span>
-      <div className="flex gap-1 rounded-[14px] rounded-bl-[4px] border-[1.5px] border-mist bg-mist px-4 py-2.5">
+      <div className="flex gap-1 rounded-[14px] rounded-bl-[4px] border-[1.5px] border-aegean-soft bg-aegean-soft px-4 py-2.5">
         {[0, 1, 2].map((i) => (
           <span key={i} className="h-1.5 w-1.5 rounded-full bg-ink/40" />
         ))}
@@ -382,7 +394,7 @@ function HistoryDrawer({
   return (
     <>
       <div className="fixed inset-0 z-[50] bg-ink/20" onClick={onClose} />
-      <div className="fixed inset-y-0 left-0 z-[60] flex w-[240px] flex-col bg-surface shadow-[4px_0_24px_rgba(30,58,138,0.12)]">
+      <div className="fixed inset-y-0 left-0 z-[60] flex w-[240px] flex-col bg-surface shadow-[4px_0_24px_rgba(31,26,22,0.18)]">
         <div className="border-b border-line px-4 pb-4 pt-[52px]">
           <div className="font-display text-[15px] font-bold text-ink">
             Conversas anteriores

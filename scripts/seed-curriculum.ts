@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { randomUUID } from "node:crypto";
 import { admin } from "./lib/admin";
 
 /**
@@ -96,6 +97,68 @@ function assertDag(concepts: RawConcept[], subject: string) {
   for (const c of codes) if (color.get(c) === WHITE) visit(c);
 }
 
+const SUBJECT_LABELS: Record<string, string> = {
+  math: "Matemática",
+  language: "Português",
+  physics: "Física",
+  history: "História",
+  biology: "Biologia",
+  chemistry: "Química",
+};
+
+/**
+ * Os cards de conceito viram flashcards (autoavaliados) num baralho por
+ * matéria e segmento — mesmo formato em que 0021 migrou os antigos
+ * concept_cards. Um card já existente mantém id e posição (o estado SM-2 dos
+ * alunos está preso ao id); card novo entra no fim do baralho.
+ */
+async function upsertConceptDeck(
+  data: RawData,
+  flashcards: { concept_id: string; front: string; back: string }[]
+): Promise<unknown[]> {
+  if (flashcards.length === 0) return [];
+
+  const deckId = `conceitos-${data.subject}-${data.grade_band}`;
+  const { error: deckErr } = await admin.from("decks").upsert({
+    id: deckId,
+    title: `Conceitos de ${SUBJECT_LABELS[data.subject] ?? data.subject}`,
+    subject: data.subject,
+    grade_level: data.grade_band,
+    description: "Um card por ideia-chave dos conceitos do currículo.",
+    review_status: "approved",
+  });
+  if (deckErr) throw deckErr;
+
+  const { data: existing, error: exErr } = await admin
+    .from("cards")
+    .select("id, concept_id, prompt, position")
+    .eq("deck_id", deckId);
+  if (exErr) throw exErr;
+
+  const key = (conceptId: string, prompt: string) => `${conceptId}|${prompt}`;
+  const byKey = new Map(
+    (existing ?? []).map((c) => [key(c.concept_id, c.prompt), c])
+  );
+  let nextPosition = Math.max(0, ...(existing ?? []).map((c) => c.position));
+
+  const rows = flashcards.map((f) => {
+    const hit = byKey.get(key(f.concept_id, f.front));
+    return {
+      id: hit?.id ?? randomUUID(),
+      deck_id: deckId,
+      concept_id: f.concept_id,
+      position: hit?.position ?? ++nextPosition,
+      kind: "flashcard",
+      prompt: f.front,
+      answer: f.back,
+    };
+  });
+
+  const { error: cardErr } = await admin.from("cards").upsert(rows);
+  if (cardErr) throw cardErr;
+  return rows;
+}
+
 async function seedSubject(
   file: string
 ): Promise<{ concepts: number; edges: number; cards: number }> {
@@ -153,22 +216,18 @@ async function seedSubject(
   }
 
   // cards: inline no conceito, ou do mapa extra (matemática)
-  const cardRows = data.concepts.flatMap((c) => {
-    const extra = EXTRA_CARDS[c.code];
-    const cards = c.cards ?? (Array.isArray(extra) ? extra : []);
-    return cards.map((card, i) => ({
-      concept_id: idByCode.get(c.code)!,
-      front: card.front,
-      back: card.back,
-      position: i,
-    }));
-  });
-  if (cardRows.length > 0) {
-    const { error: cardErr } = await admin
-      .from("concept_cards")
-      .upsert(cardRows, { onConflict: "concept_id,front" });
-    if (cardErr) throw cardErr;
-  }
+  const flashcards = [...data.concepts]
+    .sort((a, b) => a.code.localeCompare(b.code))
+    .flatMap((c) => {
+      const extra = EXTRA_CARDS[c.code];
+      const cards = c.cards ?? (Array.isArray(extra) ? extra : []);
+      return cards.map((card) => ({
+        concept_id: idByCode.get(c.code)!,
+        front: card.front,
+        back: card.back,
+      }));
+    });
+  const cardRows = await upsertConceptDeck(data, flashcards);
 
   console.log(
     `  ${data.subject.padEnd(10)} ${String(inserted.length).padStart(2)} conceitos · ` +

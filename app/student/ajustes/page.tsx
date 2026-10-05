@@ -2,7 +2,8 @@ import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { STUDENT_EMAIL_DOMAIN } from "@/src/core/auth/types";
 import { GRADE_BAND_LABELS_PT } from "@/src/core/auth/types";
 import { SettingsView } from "@/src/ui/SettingsView";
-import { getGamificationState } from "@/src/features/gamification/activity-service";
+import { getMyProgress } from "@/src/features/gamification/gamification-service";
+import { DrachmaCoin } from "@/src/ui/paideia/icons";
 
 const WHATSAPP =
   "https://wa.me/5531996829255?text=" +
@@ -17,9 +18,7 @@ export default async function AjustesPage() {
     .eq("id", user?.id ?? "")
     .single();
 
-  const coins = user
-    ? (await getGamificationState(supabase, user.id)).coins
-    : 0;
+  const coins = user ? (await getMyProgress(supabase)).coins : 0;
 
   const matricula = user?.email?.endsWith(`@${STUDENT_EMAIL_DOMAIN}`)
     ? user.email.split("@")[0]
@@ -41,9 +40,9 @@ export default async function AjustesPage() {
       extra={
         <>
           <div className="flex items-center justify-between rounded-[var(--radius-lg)] border border-line bg-surface px-[18px] py-3.5">
-            <span className="text-[13px] text-muted">Moedas acumuladas</span>
-            <span className="text-[15px] font-bold text-gold-deep">
-              🪙 {coins}
+            <span className="text-[13px] text-muted">Dracmas</span>
+            <span className="flex items-center gap-1 text-[15px] font-bold text-gold-deep">
+              <DrachmaCoin size={18} /> {coins}
             </span>
           </div>
 

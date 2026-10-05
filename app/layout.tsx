@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Inter } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  Inter,
+  Manrope,
+  Marcellus,
+} from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,6 +20,19 @@ const bricolage = Bricolage_Grotesque({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+// Tema grego do app do aluno (.theme-greek em globals.css): Marcellus nos
+// títulos, com o ar de inscrição em pedra, e Manrope no texto corrido.
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+});
+
+const marcellus = Marcellus({
+  variable: "--font-marcellus",
+  weight: "400",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Paideia",
   description:
@@ -23,7 +41,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${bricolage.variable} h-full`}>
+    <html
+      lang="pt-BR"
+      className={`${inter.variable} ${bricolage.variable} ${manrope.variable} ${marcellus.variable} h-full`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

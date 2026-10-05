@@ -3,29 +3,17 @@ import {
   TutorScreen,
   type ConversationSummary,
 } from "@/src/ui/student/TutorScreen";
-import { getGamificationState } from "@/src/features/gamification/activity-service";
-import type { GamificationState } from "@/src/ui/student/gamification-data";
 
-// Ofensiva e moedas mudam a cada sessão — nunca servir esta tela de cache.
 export const dynamic = "force-dynamic";
-
-const EMPTY_STATE: GamificationState = {
-  week: [false, false, false, false, false, false, false],
-  todayIndex: 0,
-  coins: 0,
-  weekBonus: 20,
-  streak: 0,
-};
 
 export default async function TutorPage() {
   const { supabase, user } = await getVerifiedUser();
 
   let conversations: ConversationSummary[] = [];
   let firstName = "";
-  let gamification = EMPTY_STATE;
 
   if (user) {
-    const [{ data: convs }, { data: prof }, state] = await Promise.all([
+    const [{ data: convs }, { data: prof }] = await Promise.all([
       // RLS já escopa para o aluno logado.
       supabase
         .from("conversations")
@@ -33,18 +21,16 @@ export default async function TutorPage() {
         .order("updated_at", { ascending: false })
         .limit(30),
       supabase.from("profiles").select("full_name").eq("id", user.id).single(),
-      getGamificationState(supabase, user.id),
     ]);
     conversations = (convs ?? []) as ConversationSummary[];
     firstName = (prof?.full_name ?? "").split(" ")[0] ?? "";
-    gamification = state;
   }
 
+  // Altura fixa: o chat rola por dentro e a caixa de texto fica sempre à vista
+  // acima da barra de navegação.
   return (
-    <TutorScreen
-      firstName={firstName}
-      conversations={conversations}
-      gamification={gamification}
-    />
+    <div className="flex h-[calc(100dvh-12.5rem)] min-h-[420px] flex-col overflow-hidden rounded-3xl border border-line bg-surface">
+      <TutorScreen firstName={firstName} conversations={conversations} />
+    </div>
   );
 }

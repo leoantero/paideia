@@ -19,7 +19,7 @@ export type Role = "student" | "parent" | "teacher" | "director";
 
 /** Onde cada perfil cai ao entrar. */
 export const ROLE_HOME: Record<Role, string> = {
-  student: "/student/tutor",
+  student: "/student",
   parent: "/parent/dashboard",
   teacher: "/teacher/turma",
   director: "/gestor/insights",

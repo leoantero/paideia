@@ -1,0 +1,111 @@
+{
+  "id": "ef2-mat-potencias",
+  "title": "Potências e notação científica",
+  "subject": "math",
+  "gradeLevel": "elementary_2",
+  "description": "Propriedades das potências, expoentes negativos, raízes como potências e notação científica.",
+  "bnccCodes": ["EF08MA01", "EF08MA02"],
+  "conceptCode": "EF08MA-POT",
+  "reviewStatus": "pending_review",
+  "sources": [
+    {
+      "name": "BNCC — Base Nacional Comum Curricular (MEC)",
+      "url": "https://basenacionalcomum.mec.gov.br/images/BNCC_EI_EF_110518_versaofinal_site.pdf",
+      "license": "Documento público oficial",
+      "usage": "Alinhamento dos temas às habilidades EF08MA01 e EF08MA02"
+    },
+    {
+      "name": "Redação própria do projeto (rascunho assistido por IA)",
+      "license": "Conteúdo original",
+      "usage": "Texto dos cards, a partir de conteúdo escolar consolidado. Precisa de revisão de um professor antes de aprovar."
+    }
+  ],
+  "cards": [
+    {
+      "kind": "multiple_choice",
+      "prompt": "Quanto vale 2⁻³?",
+      "choices": ["−8", "1/8", "−1/8", "8"],
+      "correctChoice": 1,
+      "answer": "Expoente negativo inverte a base: 2⁻³ = 1/2³ = 1/8."
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Quanto vale 10⁰?",
+      "acceptedAnswers": ["1", "um"],
+      "answer": "Todo número diferente de zero elevado a zero vale 1."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual é o resultado de 5³ · 5²?",
+      "choices": ["5⁶", "5⁵", "25⁵", "10⁵"],
+      "correctChoice": 1,
+      "answer": "Na multiplicação de potências de mesma base, conservamos a base e somamos os expoentes: 5³⁺² = 5⁵."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual é o resultado de (3²)³?",
+      "choices": ["3⁵", "3⁶", "9⁶", "3⁸"],
+      "correctChoice": 1,
+      "answer": "Potência de potência: multiplicamos os expoentes, (3²)³ = 3²ˣ³ = 3⁶."
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Calcule 7⁸ ÷ 7⁶ e escreva o resultado como um número.",
+      "acceptedAnswers": ["49"],
+      "answer": "Divisão de mesma base: subtraímos os expoentes, 7⁸⁻⁶ = 7² = 49."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Como escrever 45 000 000 em notação científica?",
+      "choices": ["45 × 10⁶", "4,5 × 10⁷", "4,5 × 10⁶", "0,45 × 10⁸"],
+      "correctChoice": 1,
+      "answer": "Na notação científica o primeiro fator fica entre 1 e 10: 45 000 000 = 4,5 × 10⁷.",
+      "conceptCode": "EF08MA01"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Quanto é 3,2 × 10⁻⁴ na forma decimal?",
+      "choices": ["0,0032", "0,00032", "0,000032", "32 000"],
+      "correctChoice": 1,
+      "answer": "10⁻⁴ desloca a vírgula 4 casas para a esquerda: 3,2 × 10⁻⁴ = 0,00032.",
+      "conceptCode": "EF08MA01"
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Quanto vale (−2)⁴?",
+      "acceptedAnswers": ["16"],
+      "answer": "(−2)·(−2)·(−2)·(−2) = 16. Base negativa com expoente par dá resultado positivo."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual destas está escrita corretamente em notação científica?",
+      "choices": ["12 × 10³", "0,5 × 10²", "7,1 × 10⁵", "10 × 10⁴"],
+      "correctChoice": 2,
+      "answer": "O primeiro fator precisa ser maior ou igual a 1 e menor que 10. Só 7,1 × 10⁵ cumpre essa regra.",
+      "conceptCode": "EF08MA01"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "√7 pode ser escrito como qual potência?",
+      "choices": ["7²", "7^(1/2)", "7⁻²", "1/7"],
+      "correctChoice": 1,
+      "answer": "A raiz quadrada é uma potência de expoente 1/2: √7 = 7^(1/2)."
+    },
+    {
+      "kind": "open",
+      "prompt": "Por que qualquer número diferente de zero elevado a zero vale 1? Use a divisão de potências de mesma base para explicar.",
+      "answer": "aⁿ ÷ aⁿ = aⁿ⁻ⁿ = a⁰. Mas qualquer número diferente de zero dividido por ele mesmo é 1. Então a⁰ = 1."
+    },
+    {
+      "kind": "open",
+      "prompt": "Explique por que 2⁻¹ é igual a 1/2.",
+      "answer": "Seguindo o padrão 2² = 4, 2¹ = 2, 2⁰ = 1: cada vez que o expoente diminui 1, dividimos por 2. Então 2⁻¹ = 1 ÷ 2 = 1/2."
+    },
+    {
+      "kind": "open",
+      "prompt": "A distância média da Terra ao Sol é de cerca de 150 000 000 km. Como escrever esse número em notação científica, e por que essa forma é útil?",
+      "answer": "1,5 × 10⁸ km. A notação científica facilita ler, comparar ordens de grandeza e fazer contas com números muito grandes ou muito pequenos.",
+      "conceptCode": "EF08MA01"
+    }
+  ]
+}

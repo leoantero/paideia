@@ -273,6 +273,8 @@ Plano de execução: `docs/LEARNING_GRAPH_IMPLEMENTATION.md`.
 
 **Launch Gate**: No confidential data leaks, pedagogy sound, students can use safely
 
+**Current state**: read `docs/HANDOFF.md` first (spaced repetition + gamification + Greek student redesign were ported from `main` on 2026-10-04).
+
 ---
 
 ## References

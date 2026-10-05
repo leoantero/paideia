@@ -9,13 +9,15 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:pedagogy": "vitest run src/features/tutoring",
+    "test:pedagogy": "vitest run src/features/tutoring src/features/spaced-repetition",
     "seed:curriculum": "tsx scripts/seed-curriculum.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
     "seed:learning": "tsx scripts/seed-learning-data.ts",
-    "seed": "npm run seed:curriculum && npm run seed:demo && npm run seed:learning",
+    "seed": "npm run seed:curriculum && npm run seed:decks && npm run seed:demo && npm run seed:learning && npm run seed:gamification",
     "audit:security": "tsx scripts/audit-security.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "seed:decks": "tsx scripts/seed-decks.ts",
+    "seed:gamification": "tsx scripts/seed-gamification.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",
@@ -28,6 +30,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@tailwindcss/postcss": "^4",
     "@testing-library/react": "^16.0.1",
     "@types/node": "^20",

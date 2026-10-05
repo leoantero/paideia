@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ScreenBody, ScreenHeader } from "@/src/ui/AppShell";
 import { BackButton, Callout, Segmented, Tag } from "@/src/ui/kit";
-import { styleFor } from "@/src/ui/student/revisao-data";
+import { styleFor } from "@/src/ui/subject-styles";
 
 export interface BuilderConcept {
   id: string;

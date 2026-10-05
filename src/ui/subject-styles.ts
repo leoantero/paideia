@@ -1,11 +1,7 @@
 /**
- * Apresentação das matérias na Revisão — cor, fundo e ícone.
- *
- * Isto é SÓ estilo. O conteúdo (conceitos, cards, o que está vencido) vem do
- * learning graph via src/features/spaced-repetition/review-service.ts. Até
- * 0014 este arquivo continha baralhos hardcoded, e por isso a Revisão não
- * gerava nenhuma evidência: o aluno respondia e nada chegava ao responsável,
- * ao professor ou ao gestor.
+ * Cor, fundo e ícone de cada matéria nos apps de professor e gestor (paleta
+ * do Figma). O app do aluno usa a paleta grega de
+ * src/ui/student/subject-style.ts.
  */
 
 export interface SubjectStyle {

@@ -1,0 +1,132 @@
+{
+  "id": "ef2-por-oracao-figuras",
+  "title": "Oração, vozes verbais e figuras de linguagem",
+  "subject": "language",
+  "gradeLevel": "elementary_2",
+  "description": "Sujeito e complementos verbais, voz ativa e passiva, e as principais figuras de linguagem.",
+  "bnccCodes": ["EF08LP06", "EF08LP07", "EF08LP08", "EF69LP54"],
+  "conceptCode": "EF08LP-SINT",
+  "reviewStatus": "pending_review",
+  "sources": [
+    {
+      "name": "BNCC — Base Nacional Comum Curricular (MEC)",
+      "url": "https://basenacionalcomum.mec.gov.br/images/BNCC_EI_EF_110518_versaofinal_site.pdf",
+      "license": "Documento público oficial",
+      "usage": "Alinhamento dos temas às habilidades EF08LP06, EF08LP07, EF08LP08 e EF69LP54"
+    },
+    {
+      "name": "Redação própria do projeto (rascunho assistido por IA)",
+      "license": "Conteúdo original",
+      "usage": "Texto dos cards, a partir de conteúdo escolar consolidado. Precisa de revisão de um professor antes de aprovar."
+    }
+  ],
+  "cards": [
+    {
+      "kind": "multiple_choice",
+      "prompt": "Em \"Os alunos organizaram a feira de ciências\", qual é o sujeito?",
+      "choices": [
+        "Os alunos",
+        "organizaram",
+        "a feira de ciências",
+        "de ciências"
+      ],
+      "correctChoice": 0,
+      "answer": "\"Os alunos\" é o termo sobre o qual se declara algo e concorda com o verbo."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Em \"O bolo foi feito pela avó\", o verbo está em qual voz?",
+      "choices": [
+        "Voz ativa",
+        "Voz passiva",
+        "Voz reflexiva",
+        "Não tem voz verbal"
+      ],
+      "correctChoice": 1,
+      "answer": "Voz passiva analítica: o sujeito (o bolo) sofre a ação, e \"pela avó\" é o agente da passiva."
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Passe para a voz ativa: \"A carta foi escrita por Marina.\"",
+      "acceptedAnswers": [
+        "Marina escreveu a carta",
+        "Marina escreveu a carta."
+      ],
+      "answer": "Marina escreveu a carta. (O agente da passiva vira o sujeito.)"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Em \"Gosto de música\", o termo \"de música\" é…",
+      "choices": ["objeto direto", "objeto indireto", "sujeito", "predicativo"],
+      "correctChoice": 1,
+      "answer": "\"Gostar\" pede preposição (gostar DE algo), então o complemento é objeto indireto."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Em \"Comprei pão\", o termo \"pão\" é…",
+      "choices": [
+        "objeto direto",
+        "objeto indireto",
+        "sujeito",
+        "adjunto adverbial"
+      ],
+      "correctChoice": 0,
+      "answer": "\"Comprar\" liga-se ao complemento sem preposição, então \"pão\" é objeto direto."
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual figura de linguagem aparece em \"Ele é forte como um touro\"?",
+      "choices": ["Metáfora", "Comparação", "Hipérbole", "Ironia"],
+      "correctChoice": 1,
+      "answer": "É uma comparação (símile), marcada pelo conectivo \"como\".",
+      "conceptCode": "EF08LP-FIG"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual figura de linguagem aparece em \"Já te falei isso um milhão de vezes!\"?",
+      "choices": ["Eufemismo", "Metonímia", "Hipérbole", "Antítese"],
+      "correctChoice": 2,
+      "answer": "Hipérbole: um exagero intencional para dar ênfase.",
+      "conceptCode": "EF08LP-FIG"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual figura de linguagem aparece em \"O vento sussurrava segredos\"?",
+      "choices": ["Personificação", "Comparação", "Paradoxo", "Eufemismo"],
+      "correctChoice": 0,
+      "answer": "Personificação (prosopopeia): atribuir uma ação humana, sussurrar, a um ser inanimado.",
+      "conceptCode": "EF08LP-FIG"
+    },
+    {
+      "kind": "short_answer",
+      "prompt": "Qual figura de linguagem aparece em \"Aquele menino é uma fera no futebol\"?",
+      "acceptedAnswers": ["metáfora", "metafora"],
+      "answer": "Metáfora: uma comparação implícita, sem conectivo.",
+      "conceptCode": "EF08LP-FIG"
+    },
+    {
+      "kind": "multiple_choice",
+      "prompt": "Qual figura de linguagem aparece em \"Li Machado de Assis nas férias\"?",
+      "choices": ["Metáfora", "Metonímia", "Hipérbole", "Ironia"],
+      "correctChoice": 1,
+      "answer": "Metonímia: o autor é citado no lugar da obra dele.",
+      "conceptCode": "EF08LP-FIG"
+    },
+    {
+      "kind": "open",
+      "prompt": "Qual é a diferença entre comparação e metáfora? Dê um exemplo de cada.",
+      "answer": "A comparação usa um conectivo explícito (como, tal qual): \"Seus olhos brilham como estrelas\". A metáfora é uma comparação implícita, sem conectivo: \"Seus olhos são estrelas\".",
+      "conceptCode": "EF08LP-FIG"
+    },
+    {
+      "kind": "open",
+      "prompt": "Uma notícia diz \"Três pessoas foram resgatadas\". Por que o jornal poderia preferir a voz passiva aqui? Que efeito de sentido isso cria?",
+      "answer": "A voz passiva coloca em destaque quem sofreu a ação (as pessoas resgatadas) e permite omitir ou deixar em segundo plano quem fez o resgate."
+    },
+    {
+      "kind": "open",
+      "prompt": "Em \"Choveu muito ontem\", qual é o sujeito? Explique.",
+      "answer": "É uma oração sem sujeito: \"chover\" é um verbo impessoal que indica fenômeno da natureza, e não há um ser a quem atribuir a ação."
+    }
+  ]
+}
