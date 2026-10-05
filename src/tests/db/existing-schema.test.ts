@@ -29,3 +29,28 @@ describe("keepalive", () => {
     expect(now).toBeInstanceOf(Date);
   });
 });
+
+describe("0024 lint hardening", () => {
+  it("keeps privileged functions away from the anon key and pins search_path", async () => {
+    const db = await createTestDb();
+
+    const exposed = await db.query<{ fn: string }>(`
+      select p.proname as fn
+      from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+      where n.nspname = 'public' and p.prosecdef
+        and has_function_privilege('anon', p.oid, 'execute')`);
+    expect(exposed.rows).toEqual([]);
+
+    const unpinned = await db.query<{ fn: string }>(`
+      select p.proname as fn
+      from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+      where n.nspname = 'public' and p.prokind = 'f'
+        and not exists (select 1 from unnest(coalesce(p.proconfig, '{}')) c where c like 'search_path=%')`);
+    expect(unpinned.rows).toEqual([]);
+
+    const trigger = await db.query<{ ok: boolean }>(
+      `select has_function_privilege('authenticated', 'handle_new_user()', 'execute') as ok`
+    );
+    expect(trigger.rows[0].ok).toBe(false);
+  });
+});

@@ -1,0 +1,11 @@
+# Nunca enviar segredos locais no upload da CLI da Vercel. As variáveis de
+# produção ficam no painel da Vercel (ver docs/DEPLOY.md) — e PAIDEIA_DEV_PANEL
+# nunca vai para lá.
+.env
+.env.*
+!.env.example
+supabase/.temp
+nextsteps
+figma
+design
+*.pdf
