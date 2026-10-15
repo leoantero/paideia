@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { DrachmaCoin, FlameIcon, GearIcon } from "@/src/ui/paideia/icons";
+import { Marca } from "@/src/ui/paideia/Marca";
 import { Meander } from "@/src/ui/paideia/ornaments";
 import { BottomNav } from "./BottomNav";
 
@@ -29,7 +30,8 @@ export function StudentShell({
     <div className="theme-greek flex min-h-dvh flex-1 flex-col bg-marble text-ink">
       <Meander height={12} color="var(--terracotta)" className="opacity-80" />
       <header className="mx-auto flex w-full max-w-xl items-center justify-between px-5 pt-4">
-        <Link href={basePath} className="flex items-baseline gap-2">
+        <Link href={basePath} className="flex items-center gap-2">
+          <Marca variante="busto" size={30} title={null} className="text-ink" />
           <span className="font-display text-2xl tracking-[0.18em] text-ink">
             PAIDEIA
           </span>
