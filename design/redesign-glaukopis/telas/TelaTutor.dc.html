@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Tutor</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 900px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<dc-import name="Topo" hint-size="390px,60px"></dc-import>
+
+<main style="display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 0">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 28px">Seu tutor</h1>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #505873">Ele não entrega a resposta. Faz perguntas até você chegar lá.</p>
+</div>
+
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px">
+<li style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px"><span style="font-size: 12px; font-weight: 700; color: #2f3f74">Ana</span><p style="margin: 0; max-width: 82%; padding: 10px 14px; border-radius: 12px 2px 12px 12px; background: #d3dbf4; font-size: 15px; line-height: 1.45">Não entendi por que 2⁻³ dá 1/8.</p></li>
+
+<li style="display: flex; gap: 10px">
+<span style="width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #1c2a4a; color: #b5ddd6"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9c0-3.3 3-5.5 7-5.5S19 5.7 19 9v5.5c0 3.6-3.1 6.5-7 6.5s-7-2.9-7-6.5zM7.2 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M12.8 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 3px; max-width: 86%"><span style="font-size: 12px; font-weight: 700; color: #2a6663">Tutor</span><p style="margin: 0; font-size: 15px; line-height: 1.55">Vamos descobrir juntos. Quanto vale 2³? E 2²? <mark style="padding: 1px 3px; border-radius: 3px; background: #d8eeea; color: inherit">O que acontece com o resultado cada vez que o expoente diminui 1?</mark></p></div>
+</li>
+
+<li style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px"><span style="font-size: 12px; font-weight: 700; color: #2f3f74">Ana</span><p style="margin: 0; max-width: 82%; padding: 10px 14px; border-radius: 12px 2px 12px 12px; background: #d3dbf4; font-size: 15px; line-height: 1.45">8, depois 4… divide por 2 toda vez.</p></li>
+
+<li style="display: flex; gap: 10px">
+<span style="width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #1c2a4a; color: #b5ddd6"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9c0-3.3 3-5.5 7-5.5S19 5.7 19 9v5.5c0 3.6-3.1 6.5-7 6.5s-7-2.9-7-6.5zM7.2 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M12.8 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 3px; max-width: 86%"><span style="font-size: 12px; font-weight: 700; color: #2a6663">Tutor</span><p style="margin: 0; font-size: 15px; line-height: 1.55">Isso. Então continue a sequência: 2¹, 2⁰, 2⁻¹… <mark style="padding: 1px 3px; border-radius: 3px; background: #d8eeea; color: inherit">Quanto dá quando você chega em 2⁻³?</mark></p></div>
+</li>
+
+<li style="display: flex; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px dashed #d3d0c6; font-size: 13px; color: #505873"><span style="width: 14px; height: 14px; flex-shrink: 0; border-radius: 50%; background: #e2a23a; box-shadow: inset 0 0 0 2.5px #f2c768"></span>+15 pts e +2 dracmas por estudar conversando.</li>
+</ol>
+</main>
+
+<form style="position: absolute; left: 20px; right: 20px; bottom: 88px; display: flex; gap: 8px">
+<label for="duvida-tutor" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Sua resposta ou dúvida</label>
+<input id="duvida-tutor" type="text" placeholder="Responda ou pergunte" style="flex-grow: 1; min-width: 0; height: 48px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 15px; color: #151b2e">
+<button type="button" aria-label="Enviar" style="width: 48px; height: 48px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: none; border-radius: 10px; background: #1c2a4a; color: #ffffff"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12.5 6.5 18 12l-5.5 5.5"></path></svg></button>
+</form>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="Nav" ativo="tutor" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

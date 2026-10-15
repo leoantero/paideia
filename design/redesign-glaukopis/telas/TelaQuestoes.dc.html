@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Questões por módulo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 1040px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<dc-import name="Topo" hint-size="390px,60px"></dc-import>
+
+<main style="display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 104px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 28px">Questões</h1>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #505873">Treine por conteúdo ou misture a matéria inteira. Depois de cada questão, a coruja faz mais uma pergunta.</p>
+</div>
+
+<div role="tablist" aria-label="Matérias" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid #e2e0d9">
+<button role="tab" aria-selected="true" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: none; border-bottom: 2.5px solid #1c2a4a; margin-bottom: -1px; background: transparent; font-family: Manrope, sans-serif; font-size: 12.5px; font-weight: 800; color: #151b2e"><span style="font-family: Marcellus, serif; font-size: 17px; color: #2f3f74">Σ</span>Matemática</button>
+<button role="tab" aria-selected="false" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: none; background: transparent; font-family: Manrope, sans-serif; font-size: 12.5px; font-weight: 600; color: #505873"><span style="font-family: Marcellus, serif; font-size: 17px">Φ</span>Ciências</button>
+<button role="tab" aria-selected="false" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: none; background: transparent; font-family: Manrope, sans-serif; font-size: 12.5px; font-weight: 600; color: #505873"><span style="font-family: Marcellus, serif; font-size: 17px">Λ</span>Português</button>
+<button role="tab" aria-selected="false" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: none; background: transparent; font-family: Manrope, sans-serif; font-size: 12.5px; font-weight: 600; color: #505873"><span style="font-family: Marcellus, serif; font-size: 17px">Χ</span>História</button>
+</div>
+
+<a href="TelaQuestao.dc.html" style="display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 14px; background: #1c2a4a; color: #ece8dd; text-decoration: none">
+<span style="font-family: Marcellus, serif; font-size: 40px; line-height: 1; color: #b8c5ee" aria-hidden="true">Σ</span>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 3px"><span style="font-family: 'Young Serif', Georgia, serif; font-size: 20px">Toda a Matemática</span><span style="font-size: 13px; line-height: 1.4; color: #b8c5ee">Questões de todos os conteúdos, misturadas</span></div>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+
+<section style="display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 19px">Por conteúdo</h2>
+<div style="display: flex; flex-direction: column; background: #ffffff; border-radius: 14px">
+
+<a href="TelaQuestao.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; text-decoration: none; color: #151b2e">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Potências e notação científica</span><span style="font-size: 13px; color: #505873">12 de 20 feitas · 75% de acerto</span></div>
+<span style="width: 56px; height: 5px; flex-shrink: 0; border-radius: 3px; background: #ecebe5; overflow: hidden"><span style="display: block; width: 60%; height: 5px; background: #7f93d4"></span></span>
+</a>
+<a href="TelaQuestao.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-top: 1px solid #ecebe5; text-decoration: none; color: #151b2e">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Frações e números decimais</span><span style="font-size: 13px; color: #505873">5 de 24 feitas · 60% de acerto</span></div>
+<span style="width: 56px; height: 5px; flex-shrink: 0; border-radius: 3px; background: #ecebe5; overflow: hidden"><span style="display: block; width: 21%; height: 5px; background: #7f93d4"></span></span>
+</a>
+<a href="TelaQuestao.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-top: 1px solid #ecebe5; text-decoration: none; color: #151b2e">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Equações do 1º grau</span><span style="font-size: 13px; color: #505873">3 de 18 feitas · <b style="color: #8a2f1c">33% de acerto, vale rever</b></span></div>
+<span style="width: 56px; height: 5px; flex-shrink: 0; border-radius: 3px; background: #ecebe5; overflow: hidden"><span style="display: block; width: 17%; height: 5px; background: #e48e78"></span></span>
+</a>
+<a href="TelaQuestao.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-top: 1px solid #ecebe5; text-decoration: none; color: #151b2e">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Razão, proporção e porcentagem</span><span style="font-size: 13px; color: #505873">Ainda não começou · 22 questões</span></div>
+<span style="width: 56px; height: 5px; flex-shrink: 0; border-radius: 3px; background: #ecebe5"></span>
+</a>
+<a href="TelaQuestao.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-top: 1px solid #ecebe5; text-decoration: none; color: #151b2e">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Números inteiros e negativos</span><span style="font-size: 13px; color: #505873">Ainda não começou · 16 questões</span></div>
+<span style="width: 56px; height: 5px; flex-shrink: 0; border-radius: 3px; background: #ecebe5"></span>
+</a>
+<a href="TelaQuestao.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-top: 1px solid #ecebe5; text-decoration: none; color: #151b2e">
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Áreas e perímetros</span><span style="font-size: 13px; color: #505873">9 de 16 feitas · 89% de acerto</span></div>
+<span style="width: 56px; height: 5px; flex-shrink: 0; border-radius: 3px; background: #ecebe5; overflow: hidden"><span style="display: block; width: 56%; height: 5px; background: #7f93d4"></span></span>
+</a>
+</div>
+<p style="margin: 0; font-size: 12px; color: #505873">Números de exemplo.</p>
+</section>
+</main>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="Nav" ativo="questoes" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1040}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

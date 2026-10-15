@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Entrar como aluno</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; gap: 26px; padding: 18px 24px 0; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<a href="Entrada.dc.html" style="min-height: 44px; margin-left: -6px; display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 700; color: #505873; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Voltar</a>
+<span style="display: flex; align-items: center; gap: 8px"><dc-import name="Marca" variante="busto" peso="compacta" tamanho="30" linha="#1c2a4a" louro="#c98a1f" hint-size="30px,30px"></dc-import><span style="font-family: Marcellus, serif; font-size: 18px; letter-spacing: 0.16em">PAIDEIA</span></span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; margin-top: 24px">
+<h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 30px">Entrar como aluno</h1>
+<p style="margin: 0; font-size: 15px; color: #505873">Use sua matrícula escolar para acessar.</p>
+</div>
+<form style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="login-matricula" style="font-size: 14px; font-weight: 700">Matrícula</label><input id="login-matricula" type="text" inputmode="numeric" value="20250811" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.06em; font-variant-numeric: tabular-nums"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; align-items: baseline"><label for="login-senha" style="font-size: 14px; font-weight: 700">Senha</label><button type="button" style="border: none; background: transparent; padding: 0; font-family: Manrope, sans-serif; font-size: 13px; font-weight: 700; color: #2a6663">Esqueci minha senha</button></div><input id="login-senha" type="password" value="senhasecreta" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 15px"></div>
+<a href="TelaInicio.dc.html" style="height: 52px; margin-top: 4px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: #1c2a4a; color: #ffffff; font-size: 16px; font-weight: 800; text-decoration: none">Entrar</a>
+</form>
+<p style="margin: 0; padding: 14px 16px; border-radius: 12px; background: #d3dbf4; font-size: 14px; line-height: 1.5; color: #1c2a4a">Primeiro acesso? Use sua matrícula e crie uma senha ao entrar pela primeira vez.</p>
+<p style="margin: auto 0 0; padding: 24px 0; text-align: center; font-size: 12px; color: #505873">Paideia · Educação com IA · Conforme a LGPD</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

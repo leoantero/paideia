@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Questão com pergunta da coruja</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<dc-import name="Topo" hint-size="390px,60px"></dc-import>
+
+<main style="display: flex; flex-direction: column; gap: 18px; padding: 4px 20px 104px">
+<div style="display: flex; align-items: center; gap: 8px">
+<a href="TelaQuestoes.dc.html" aria-label="Voltar para os módulos" style="width: 44px; height: 44px; margin-left: -12px; display: flex; align-items: center; justify-content: center; color: #151b2e"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<span style="flex-grow: 1; font-size: 13px; color: #505873">Matemática · Potências e notação científica</span>
+<span style="font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums">3/10</span>
+</div>
+<div style="display: flex; gap: 3px" aria-hidden="true"><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #6fb5ab"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e48e78"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #1c2a4a"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e2e0d9"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e2e0d9"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e2e0d9"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e2e0d9"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e2e0d9"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e2e0d9"></span><span style="flex: 1 1 0; height: 4px; border-radius: 1px; background: #e2e0d9"></span></div>
+
+<p style="margin: 8px 0 4px; font-family: 'Young Serif', Georgia, serif; font-size: 25px; line-height: 1.3">Qual destes números é igual a 3,2 × 10⁴?</p>
+
+<div role="group" aria-label="Alternativas" style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{choices}}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{c.pick}}" style="min-height: 56px; display: flex; align-items: center; gap: 14px; padding: 8px 14px; border-radius: 12px; border: 1.5px solid {{c.border}}; background: {{c.bg}}; font-family: Manrope, sans-serif; font-size: 17px; font-weight: 700; color: #151b2e; text-align: left; font-variant-numeric: tabular-nums">
+<span style="width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: {{c.letterBg}}; font-family: Marcellus, serif; font-size: 18px; color: {{c.letterColor}}">{{c.letter}}</span>
+<span>{{c.text}}</span>
+</button>
+</sc-for>
+</div>
+</main>
+
+<sc-if value="{{showAcerto}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; inset: 0; background: rgba(21,27,46,0.42)"></div>
+<section role="dialog" aria-modal="true" aria-label="Pergunta extra da coruja" style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 16px; padding: 22px 20px 26px; border-radius: 18px 18px 0 0; background: #ffffff">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #b5ddd6; color: #1f4f4c"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+<div style="flex-grow: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 800; color: #1f4f4c">Correto: 32 000</span><span style="font-size: 13px; color: #505873">+10 pts</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid #ecebe5">
+<span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #2a6663"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9c0-3.3 3-5.5 7-5.5S19 5.7 19 9v5.5c0 3.6-3.1 6.5-7 6.5s-7-2.9-7-6.5zM7.2 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M12.8 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0"></path></svg>A coruja quer ir um passo além</span>
+<p style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-size: 20px; line-height: 1.3">E 3,2 × 10⁻⁴? O que muda quando o expoente fica negativo?</p>
+</div>
+<label for="extra-acerto" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Sua resposta</label>
+<input id="extra-acerto" type="text" placeholder="Sua resposta" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; font-family: Manrope, sans-serif; font-size: 15px">
+<div style="display: flex; gap: 10px">
+<button type="button" onClick="{{reset}}" style="flex: 1 1 0; height: 48px; border: none; border-radius: 10px; background: #1c2a4a; color: #ffffff; font-family: Manrope, sans-serif; font-size: 15px; font-weight: 800">Responder</button>
+<button type="button" onClick="{{reset}}" style="height: 48px; padding: 0 18px; border: none; background: transparent; font-family: Manrope, sans-serif; font-size: 15px; font-weight: 700; color: #505873">Pular</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showErro}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; inset: 0; background: rgba(21,27,46,0.42)"></div>
+<section role="dialog" aria-modal="true" aria-label="Tutoria socrática" style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 16px; padding: 22px 20px 26px; border-radius: 18px 18px 0 0; background: #ffffff">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f4c3b6; color: #8a2f1c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17"></path></svg></span>
+<div style="flex-grow: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 800; color: #8a2f1c">Ainda não. Você marcou {{pickedText}}.</span><span style="font-size: 13px; color: #505873">Vamos pensar juntos antes de ver a resposta.</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid #ecebe5">
+<span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #2a6663"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9c0-3.3 3-5.5 7-5.5S19 5.7 19 9v5.5c0 3.6-3.1 6.5-7 6.5s-7-2.9-7-6.5zM7.2 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0M12.8 10.5a2 2 0 1 0 4 0a2 2 0 1 0-4 0"></path></svg>Pergunta do tutor</span>
+<p style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-size: 20px; line-height: 1.3">O expoente 4 manda multiplicar 3,2 por 10 quantas vezes? Faça uma de cada vez: 32, 320…</p>
+</div>
+<label for="extra-erro" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Sua resposta</label>
+<input id="extra-erro" type="text" placeholder="Sua resposta" style="height: 48px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; font-family: Manrope, sans-serif; font-size: 15px">
+<div style="display: flex; gap: 10px">
+<button type="button" onClick="{{reset}}" style="flex: 1 1 0; height: 48px; border: none; border-radius: 10px; background: #1c2a4a; color: #ffffff; font-family: Manrope, sans-serif; font-size: 15px; font-weight: 800">Responder</button>
+<button type="button" onClick="{{reset}}" style="height: 48px; padding: 0 16px; border: none; background: transparent; font-family: Manrope, sans-serif; font-size: 15px; font-weight: 700; color: #505873">Ver resolução</button>
+</div>
+</section>
+</sc-if>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="Nav" ativo="questoes" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"inicial":{"editor":"enum","options":["pergunta","acerto","erro"],"default":"pergunta"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const inicial = this.props.inicial ?? 'pergunta';
+const fromProp = inicial === 'acerto' ? 2 : inicial === 'erro' ? 1 : null;
+const picked = this.state.picked === undefined ? fromProp : this.state.picked;
+const correct = 2;
+const opts = ['320', '3 200', '32 000', '320 000'];
+const letters = ['Α', 'Β', 'Γ', 'Δ'];
+const choices = opts.map((text, i) => {
+let border = '#e2e0d9', bg = '#ffffff', letterBg = '#ecebe5', letterColor = '#151b2e';
+if (picked !== null) {
+if (i === correct) { border = '#6fb5ab'; bg = '#e6f2ef'; letterBg = '#b5ddd6'; letterColor = '#1f4f4c'; }
+else if (i === picked) { border = '#e48e78'; bg = '#fcebe6'; letterBg = '#f4c3b6'; letterColor = '#8a2f1c'; }
+}
+return { text, letter: letters[i], border, bg, letterBg, letterColor, pick: () => this.setState({ picked: i }) };
+});
+return {
+choices,
+showAcerto: picked === correct,
+showErro: picked !== null && picked !== correct,
+pickedText: picked !== null ? opts[picked] : '',
+reset: () => this.setState({ picked: null })
+};
+}
+}
+</script>
+</body>
+</html>

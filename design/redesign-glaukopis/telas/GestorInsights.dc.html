@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Insights da gestão</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 900px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<header style="display: flex; align-items: center; gap: 12px; padding: 18px 20px 14px; background: #ffffff; border-bottom: 1px solid #e2e0d9">
+<span style="width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #1c2a4a; color: #b5ddd6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5h17M6 17v-6M10.5 17V6M15 17V8M19.5 17v-4"></path></svg></span>
+<div style="display: flex; flex-direction: column"><h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 22px">Insights</h1><span style="font-size: 13px; color: #505873">Colégio Demonstração Paideia · só agregados</span></div>
+</header>
+
+<div style="display: flex; flex-direction: column; gap: 16px; padding: 18px 20px 0">
+<p style="margin: 0; font-size: 15px; line-height: 1.55">Pergunte sobre uso, engajamento por professor, domínio por matéria ou adesão das famílias. Eu leio apenas números agregados desta unidade, nunca conversas de alunos.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="min-height: 40px; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 13.5px; font-weight: 700; color: #151b2e">Onde a escola está mais fraca?</button>
+<button type="button" style="min-height: 40px; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 13.5px; font-weight: 700; color: #151b2e">Quais professores engajam menos?</button>
+<button type="button" style="min-height: 40px; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 13.5px; font-weight: 700; color: #151b2e">Como está a adesão das famílias?</button>
+<button type="button" style="min-height: 40px; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 13.5px; font-weight: 700; color: #151b2e">O que priorizar no próximo bimestre?</button>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-top: 6px"><span style="font-size: 12px; font-weight: 700; color: #2f3f74">Você</span><p style="margin: 0; max-width: 82%; padding: 10px 14px; border-radius: 12px 2px 12px 12px; background: #d3dbf4; font-size: 15px; line-height: 1.45">Onde a escola está mais fraca?</p></div>
+<div style="display: flex; gap: 10px"><span style="width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #1c2a4a; color: #b5ddd6"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5h17M6 17v-6M10.5 17V6M15 17V8M19.5 17v-4"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.55"><p style="margin: 0">Matemática do 8º ano, com domínio médio de 52%. O conceito que mais puxa para baixo é <b>operações com frações</b> (41% no 8º A e 44% no 8º B).</p><p style="margin: 0">Como é pré-requisito de equações, vale reforçar antes da próxima unidade.</p></div></div>
+</div>
+
+<form style="position: absolute; left: 0; right: 0; bottom: 72px; display: flex; gap: 8px; padding: 12px 20px; background: #ffffff; border-top: 1px solid #e2e0d9">
+<label for="insights-pergunta" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Sua pergunta</label>
+<input id="insights-pergunta" type="text" placeholder="Pergunte sobre a escola" style="flex-grow: 1; min-width: 0; height: 46px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #f3f2ee; font-family: Manrope, sans-serif; font-size: 15px">
+<button type="button" aria-label="Enviar" style="width: 46px; height: 46px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: none; border-radius: 10px; background: #1c2a4a; color: #ffffff"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12.5 6.5 18 12l-5.5 5.5"></path></svg></button>
+</form>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="NavPerfil" perfil="gestor" ativo="insights" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

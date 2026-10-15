@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pódio da turma</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 1100px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<dc-import name="Topo" hint-size="390px,60px"></dc-import>
+
+<main style="display: flex; flex-direction: column; gap: 20px; padding: 8px 20px 104px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 28px">Pódio da semana</h1>
+<p style="margin: 0; font-size: 14px; color: #505873">8º ano A · Colégio Demonstração Paideia</p>
+</div>
+
+<div role="tablist" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid #e2e0d9">
+<button role="tab" aria-selected="true" style="height: 46px; border: none; border-bottom: 2.5px solid #1c2a4a; margin-bottom: -1px; background: transparent; font-family: Manrope, sans-serif; font-size: 15px; font-weight: 800; color: #151b2e">Pódio</button>
+<button role="tab" aria-selected="false" style="height: 46px; border: none; background: transparent; font-family: Manrope, sans-serif; font-size: 15px; font-weight: 600; color: #505873">Loja</button>
+</div>
+
+<section style="display: flex; align-items: center; gap: 18px; padding: 18px 20px; border-radius: 14px; background: #1c2a4a; color: #ece8dd">
+<span style="font-family: 'Young Serif', Georgia, serif; font-size: 48px; line-height: 1">4º</span>
+<div style="display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums">212 pts esta semana</span>
+<span style="font-size: 13px; line-height: 1.4; color: #b8c5ee">Subiu 2 posições. Faltam 75 pts para o 3º lugar.</span>
+</div>
+</section>
+
+<section aria-label="Pódio da semana" style="display: flex; align-items: flex-end; justify-content: center; gap: 8px; padding-top: 6px">
+<div style="width: 106px; display: flex; flex-direction: column; align-items: center; gap: 2px">
+<span style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #7f93d4; background: #ffffff; font-family: 'Young Serif', Georgia, serif; font-size: 20px">D</span>
+<span style="margin-top: 4px; font-size: 14px; font-weight: 700">Davi D.</span>
+<span style="font-size: 12px; color: #505873; font-variant-numeric: tabular-nums">301 pts</span>
+<div style="margin-top: 8px; width: 100%; height: 84px; box-sizing: border-box; padding-top: 10px; display: flex; justify-content: center; border-radius: 6px 6px 0 0; background: #d3dbf4; font-family: 'Young Serif', Georgia, serif; font-size: 22px; color: #2f3f74">2º</div>
+</div>
+<div style="width: 106px; display: flex; flex-direction: column; align-items: center; gap: 2px">
+<span style="width: 58px; height: 58px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2.5px solid #e2a23a; background: #ffffff; font-family: 'Young Serif', Georgia, serif; font-size: 24px">H</span>
+<span style="margin-top: 4px; font-size: 14px; font-weight: 700">Helena C.</span>
+<span style="font-size: 12px; color: #505873; font-variant-numeric: tabular-nums">348 pts</span>
+<div style="margin-top: 8px; width: 100%; height: 114px; box-sizing: border-box; padding-top: 10px; display: flex; justify-content: center; border-radius: 6px 6px 0 0; background: #f7d99a; font-family: 'Young Serif', Georgia, serif; font-size: 26px; color: #7a5410">1º</div>
+</div>
+<div style="width: 106px; display: flex; flex-direction: column; align-items: center; gap: 2px">
+<span style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid #e48e78; background: #ffffff; font-family: 'Young Serif', Georgia, serif; font-size: 20px">S</span>
+<span style="margin-top: 4px; font-size: 14px; font-weight: 700">Sofia E.</span>
+<span style="font-size: 12px; color: #505873; font-variant-numeric: tabular-nums">287 pts</span>
+<div style="margin-top: 8px; width: 100%; height: 62px; box-sizing: border-box; padding-top: 10px; display: flex; justify-content: center; border-radius: 6px 6px 0 0; background: #f4c3b6; font-family: 'Young Serif', Georgia, serif; font-size: 22px; color: #8a2f1c">3º</div>
+</div>
+</section>
+
+<ol style="margin: -20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; background: #ffffff; border-radius: 0 0 14px 14px; font-variant-numeric: tabular-nums">
+<li style="display: flex; align-items: center; gap: 12px; padding: 13px 16px"><span style="width: 26px; font-family: 'Young Serif', Georgia, serif; font-size: 16px; color: #505873">1º</span><span style="flex-grow: 1; font-weight: 700">Helena C.</span><span style="font-size: 14px; font-weight: 700">348</span><span style="width: 30px; text-align: right; font-size: 13px; font-weight: 700; color: #505873" aria-label="Mesma posição">=</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-top: 1px solid #ecebe5"><span style="width: 26px; font-family: 'Young Serif', Georgia, serif; font-size: 16px; color: #505873">2º</span><span style="flex-grow: 1; font-weight: 700">Davi D.</span><span style="font-size: 14px; font-weight: 700">301</span><span style="width: 30px; text-align: right; font-size: 13px; font-weight: 800; color: #1f4f4c" aria-label="Subiu 1">+1</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-top: 1px solid #ecebe5"><span style="width: 26px; font-family: 'Young Serif', Georgia, serif; font-size: 16px; color: #505873">3º</span><span style="flex-grow: 1; font-weight: 700">Sofia E.</span><span style="font-size: 14px; font-weight: 700">287</span><span style="width: 30px; text-align: right; font-size: 13px; font-weight: 800; color: #8a2f1c" aria-label="Desceu 1">−1</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-top: 1px solid #ecebe5; background: #e8ecf9"><span style="width: 26px; font-family: 'Young Serif', Georgia, serif; font-size: 16px; color: #2f3f74">4º</span><span style="flex-grow: 1; font-weight: 700">Ana S. <span style="margin-left: 6px; font-size: 12px; font-weight: 800; color: #2f3f74">você</span></span><span style="font-size: 14px; font-weight: 700">212</span><span style="width: 30px; text-align: right; font-size: 13px; font-weight: 800; color: #1f4f4c" aria-label="Subiu 2">+2</span></li>
+<li style="display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-top: 1px solid #ecebe5"><span style="width: 26px; font-family: 'Young Serif', Georgia, serif; font-size: 16px; color: #505873">5º</span><span style="flex-grow: 1; font-weight: 700">Theo O.</span><span style="font-size: 14px; font-weight: 700">205</span><span style="width: 30px; text-align: right; font-size: 13px; font-weight: 800; color: #8a2f1c" aria-label="Desceu 1">−1</span></li>
+</ol>
+</main>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="Nav" ativo="podio" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1100}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

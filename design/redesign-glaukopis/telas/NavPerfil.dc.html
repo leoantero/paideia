@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Barra inferior dos adultos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<nav aria-label="Navegação principal" style="width: 390px; height: 72px; box-sizing: border-box; display: flex; padding: 0 12px 8px; background: #ffffff; border-top: 1px solid #e2e0d9; font-family: Manrope, system-ui, sans-serif">
+<sc-for list="{{items}}" as="item" hint-placeholder-count="3">
+<a href="{{item.href}}" aria-current="{{item.current}}" style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; font-size: 11px; color: {{item.color}}; font-weight: {{item.weight}}">
+<span style="width: 22px; height: 3px; margin-bottom: 7px; border-radius: 0 0 2px 2px; background: {{item.bar}}"></span>
+<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{item.d}}"></path></svg>
+<span>{{item.label}}</span>
+</a>
+</sc-for>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"perfil":{"editor":"enum","options":["responsavel","professor","gestor"],"default":"responsavel"},"ativo":{"editor":"text","default":"painel"},"$preview":{"width":390,"height":72}}'>
+class Component extends DCLogic {
+renderVals() {
+const perfil = this.props.perfil ?? 'responsavel';
+const gear = 'M12 9a3 3 0 1 0 0 6a3 3 0 1 0 0-6M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1';
+const sets = {
+responsavel: [
+{ id: 'painel', label: 'Painel', href: 'PaisPainel.dc.html', d: 'M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z' },
+{ id: 'conselheiro', label: 'Conselheiro', href: 'PaisConselheiro.dc.html', d: 'M3 13c2.5 3 6 4 9.5 4H17c2 0 3.5-1.5 3.5-3.5 0-.8-.6-1.5-1.5-1.5H12C9 12 5.5 11 3 13zM12.5 12V9.5M12.5 9.5c-1.2-1-1.2-3 0-5 1.2 2 1.2 4 0 5zM9 20.5h7' },
+{ id: 'ajustes', label: 'Ajustes', href: 'Ajustes.dc.html', d: gear }
+],
+professor: [
+{ id: 'turma', label: 'Turma', href: 'ProfTurma.dc.html', d: 'M9 11a3.5 3.5 0 1 0 0-7a3.5 3.5 0 1 0 0 7M2.5 20c.6-3.6 3.3-6 6.5-6s5.9 2.4 6.5 6M16 4.3a3.5 3.5 0 0 1 0 6.4M18.5 14.5c1.6.8 2.7 3 3 5.5' },
+{ id: 'construtor', label: 'Construtor', href: 'ProfConstrutor.dc.html', d: 'M9 4.5H6.5A1.5 1.5 0 0 0 5 6v13.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H15M9 3.5h6v3H9zM9 13l2 2 4-4' },
+{ id: 'ajustes', label: 'Ajustes', href: 'Ajustes.dc.html', d: gear }
+],
+gestor: [
+{ id: 'insights', label: 'Insights', href: 'GestorInsights.dc.html', d: 'M4 5.5h16v10H9l-4.5 4v-4H4zM12 8v4.5M9.75 10.25h4.5' },
+{ id: 'dashboard', label: 'Dashboard', href: 'GestorDashboard.dc.html', d: 'M3.5 20.5h17M6 17v-6M10.5 17V6M15 17V8M19.5 17v-4' },
+{ id: 'ajustes', label: 'Ajustes', href: 'Ajustes.dc.html', d: gear }
+]
+};
+const ativo = this.props.ativo ?? sets[perfil][0].id;
+return {
+items: sets[perfil].map((it) => {
+const on = it.id === ativo;
+return { ...it, current: on ? 'page' : null, color: on ? '#151b2e' : '#5c6279', weight: on ? 800 : 600, bar: on ? '#1c2a4a' : 'transparent' };
+})
+};
+}
+}
+</script>
+</body>
+</html>

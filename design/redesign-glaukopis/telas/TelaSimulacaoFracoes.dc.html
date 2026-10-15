@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Simulação · frações com pizza</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 980px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<dc-import name="Topo" hint-size="390px,60px"></dc-import>
+
+<main style="display: flex; flex-direction: column; gap: 16px; padding: 4px 20px 104px">
+<a href="TelaSimulacoes.dc.html" style="align-self: flex-start; min-height: 44px; margin-left: -6px; display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 700; color: #505873; text-decoration: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Simulações</a>
+<div style="display: flex; flex-direction: column; gap: 4px; margin-top: -8px">
+<h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 27px">Frações com pizza</h1>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #505873">Escolha em quantas fatias cortar e quantas pegar.</p>
+</div>
+
+<div style="display: flex; align-items: center; gap: 18px">
+<svg width="200" height="200" viewBox="0 0 280 280" role="img" aria-label="Pizza cortada em {{n}} fatias, {{k}} selecionadas" style="flex-shrink: 0">
+<circle cx="140" cy="140" r="134" fill="#e2a23a"></circle>
+<circle cx="140" cy="140" r="134" fill="none" stroke="#c98a1e" stroke-width="2" stroke-dasharray="2 9"></circle>
+<sc-for list="{{slices}}" as="s" hint-placeholder-count="8">
+<path d="{{s.d}}" fill="{{s.fill}}" stroke="#fff4d9" stroke-width="4" stroke-linejoin="round" style="transition: fill 0.25s ease"></path>
+</sc-for>
+</svg>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0">
+<span style="font-family: 'Young Serif', Georgia, serif; font-size: 46px; line-height: 1; font-variant-numeric: tabular-nums">{{k}}</span>
+<span style="width: 56px; height: 3px; border-radius: 2px; background: #151b2e"></span>
+<span style="font-family: 'Young Serif', Georgia, serif; font-size: 46px; line-height: 1; font-variant-numeric: tabular-nums">{{n}}</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 12px; background: #ffffff">
+<p style="margin: 0; font-size: 15px; font-weight: 700">Você pegou {{k}} de {{n}} fatias.</p>
+<sc-if value="{{hasEquiv}}" hint-placeholder-val="{{false}}"><p style="margin: 0; font-size: 14px; color: #1f4f4c; font-weight: 600">É a mesma quantidade de pizza que {{equiv}}.</p></sc-if>
+<sc-if value="{{noEquiv}}" hint-placeholder-val="{{true}}"><p style="margin: 0; font-size: 14px; color: #505873">Tente 4 de 8: quanto da pizza isso é?</p></sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; font-weight: 700; color: #505873">Cortar em</span>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px">
+<sc-for list="{{dens}}" as="dd" hint-placeholder-count="5">
+<button type="button" onClick="{{dd.pick}}" aria-pressed="{{dd.pressed}}" style="height: 44px; border: 1.5px solid {{dd.border}}; border-radius: 10px; background: {{dd.bg}}; color: {{dd.color}}; font-family: Manrope, sans-serif; font-size: 16px; font-weight: 800">{{dd.d}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="flex-grow: 1; font-size: 13px; font-weight: 700; color: #505873">Fatias que você pega</span>
+<button type="button" onClick="{{less}}" aria-label="Pegar uma fatia a menos" style="width: 44px; height: 44px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 22px; font-weight: 700; color: #151b2e">−</button>
+<span style="width: 28px; text-align: center; font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums">{{k}}</span>
+<button type="button" onClick="{{more}}" aria-label="Pegar mais uma fatia" style="width: 44px; height: 44px; border: none; border-radius: 10px; background: #1c2a4a; font-family: Manrope, sans-serif; font-size: 22px; font-weight: 700; color: #ffffff">+</button>
+</div>
+
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px dashed #c9c6bd; border-radius: 12px">
+<span style="width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #ecebe5; color: #505873"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"></path></svg></span>
+<span style="font-size: 13px; line-height: 1.4; color: #505873">Versão em vídeo narrado: em produção.</span>
+</div>
+</main>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="Nav" ativo="simulacao" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":980}}'>
+class Component extends DCLogic {
+renderVals() {
+const n = this.state.n ?? 8;
+const k = Math.min(this.state.k ?? 3, n);
+const cx = 140, cy = 140, r = 124;
+const pt = (deg) => {
+const a = (deg * Math.PI) / 180;
+return (cx + r * Math.cos(a)).toFixed(2) + ' ' + (cy + r * Math.sin(a)).toFixed(2);
+};
+const step = 360 / n;
+const slices = [];
+for (let i = 0; i < n; i++) {
+const a0 = -90 + i * step;
+const a1 = a0 + step;
+const large = step > 180 ? 1 : 0;
+slices.push({ d: 'M' + cx + ' ' + cy + ' L' + pt(a0) + ' A' + r + ' ' + r + ' 0 ' + large + ' 1 ' + pt(a1) + ' Z', fill: i < k ? '#e48e78' : '#fbe8bd' });
+}
+const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+const g = k > 0 ? gcd(k, n) : 1;
+let equiv = null;
+if (k === n) equiv = 'a pizza inteira';
+else if (k > 0 && g > 1) equiv = (k / g) + '/' + (n / g);
+const dens = [2, 3, 4, 6, 8].map((d) => ({
+d,
+pressed: d === n ? 'true' : 'false',
+bg: d === n ? '#1c2a4a' : '#ffffff',
+color: d === n ? '#ffffff' : '#151b2e',
+border: d === n ? '#1c2a4a' : '#d3d0c6',
+pick: () => this.setState({ n: d, k: Math.min(k, d) })
+}));
+return {
+n, k, slices, dens,
+equiv: equiv ?? '',
+hasEquiv: equiv !== null,
+noEquiv: equiv === null,
+less: () => this.setState({ n, k: Math.max(0, k - 1) }),
+more: () => this.setState({ n, k: Math.min(n, k + 1) })
+};
+}
+}
+</script>
+</body>
+</html>

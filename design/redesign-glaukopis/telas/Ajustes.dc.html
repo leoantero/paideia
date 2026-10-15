@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Ajustes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<header style="height: 56px; box-sizing: border-box; display: flex; align-items: center; padding: 0 20px"><span style="display: flex; align-items: baseline; gap: 8px"><span style="font-family: Marcellus, serif; font-size: 20px; letter-spacing: 0.16em">PAIDEIA</span><span style="font-size: 12px; font-weight: 600; color: #505873">Família</span></span></header>
+
+<main style="display: flex; flex-direction: column; gap: 18px; padding: 6px 20px 104px">
+<h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 28px">Ajustes</h1>
+
+<div style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: 14px; background: #ffffff">
+<span style="width: 52px; height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 14px; background: #d3dbf4; color: #2f3f74; font-family: 'Young Serif', Georgia, serif; font-size: 24px">C</span>
+<div style="display: flex; flex-direction: column; gap: 1px"><span style="font-size: 17px; font-weight: 800">Carla Oliveira</span><span style="font-size: 13px; color: #505873">Responsável</span></div>
+</div>
+
+<section style="display: flex; flex-direction: column; background: #ffffff; border-radius: 14px">
+<div style="display: flex; align-items: center; gap: 12px; padding: 14px 18px"><span style="flex-grow: 1; font-size: 15px; font-weight: 700">Filhos vinculados</span><span style="font-size: 14px; color: #505873">Theo, Luísa</span></div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-top: 1px solid #ecebe5"><span style="flex-grow: 1; font-size: 15px; font-weight: 700">Escola</span><span style="font-size: 14px; color: #505873">Colégio Demonstração</span></div>
+<label style="display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-top: 1px solid #ecebe5"><span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700">Resumo semanal por e-mail</span><span style="font-size: 13px; color: #505873">Toda segunda de manhã</span></span><span style="width: 46px; height: 28px; flex-shrink: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: flex-end; padding: 3px; border-radius: 14px; background: #1c2a4a"><span style="width: 22px; height: 22px; border-radius: 50%; background: #ffffff"></span></span><input type="checkbox" checked style="position: absolute; width: 1px; height: 1px; opacity: 0"></label>
+</section>
+
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #505873">O vínculo com os filhos é feito pela escola, a partir do e-mail informado na matrícula.</p>
+
+<button type="button" style="height: 48px; border: 1.5px solid #f4c3b6; border-radius: 10px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 15px; font-weight: 800; color: #8a2f1c">Sair</button>
+</main>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="NavPerfil" perfil="responsavel" ativo="ajustes" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

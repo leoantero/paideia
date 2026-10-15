@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Conselheiro da família</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Young+Serif&amp;family=Marcellus&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 390px; height: 900px; position: relative; overflow: hidden; background: #f3f2ee; color: #151b2e; font-family: Manrope, system-ui, sans-serif">
+<header style="display: flex; flex-direction: column; gap: 12px; padding: 18px 20px 14px; background: #ffffff; border-bottom: 1px solid #e2e0d9">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #f7d99a; color: #7a5410"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13c2.5 3 6 4 9.5 4H17c2 0 3.5-1.5 3.5-3.5 0-.8-.6-1.5-1.5-1.5H12C9 12 5.5 11 3 13zM12.5 12V9.5M12.5 9.5c-1.2-1-1.2-3 0-5 1.2 2 1.2 4 0 5zM9 20.5h7"></path></svg></span>
+<div style="display: flex; flex-direction: column"><h1 style="margin: 0; font-family: 'Young Serif', Georgia, serif; font-weight: 400; font-size: 22px">Conselheiro</h1><span style="font-size: 13px; color: #505873">Lê o progresso do Theo, não as conversas</span></div>
+</div>
+<div role="tablist" aria-label="Filhos" style="display: flex; gap: 6px">
+<button role="tab" aria-selected="true" style="height: 36px; padding: 0 14px; border: none; border-radius: 9px; background: #1c2a4a; color: #ffffff; font-family: Manrope, sans-serif; font-size: 13px; font-weight: 800">Theo</button>
+<button role="tab" aria-selected="false" style="height: 36px; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 9px; background: #ffffff; font-family: Manrope, sans-serif; font-size: 13px; font-weight: 700; color: #151b2e">Luísa</button>
+</div>
+</header>
+
+<ol style="list-style: none; margin: 0; padding: 18px 20px 0; display: flex; flex-direction: column; gap: 16px">
+<li style="display: flex; gap: 10px"><span style="width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #f7d99a; color: #7a5410"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13c2.5 3 6 4 9.5 4H17c2 0 3.5-1.5 3.5-3.5 0-.8-.6-1.5-1.5-1.5H12C9 12 5.5 11 3 13zM12.5 12V9.5M12.5 9.5c-1.2-1-1.2-3 0-5 1.2 2 1.2 4 0 5z"></path></svg></span><p style="margin: 0; font-size: 15px; line-height: 1.55">Olá! Pergunte como apoiar o Theo em casa. Posso falar sobre o domínio por matéria e onde vale focar.</p></li>
+<li style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px"><span style="font-size: 12px; font-weight: 700; color: #2f3f74">Você</span><p style="margin: 0; max-width: 82%; padding: 10px 14px; border-radius: 12px 2px 12px 12px; background: #d3dbf4; font-size: 15px; line-height: 1.45">Ele está indo mal em matemática?</p></li>
+<li style="display: flex; gap: 10px"><span style="width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #f7d99a; color: #7a5410"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13c2.5 3 6 4 9.5 4H17c2 0 3.5-1.5 3.5-3.5 0-.8-.6-1.5-1.5-1.5H12C9 12 5.5 11 3 13zM12.5 12V9.5M12.5 9.5c-1.2-1-1.2-3 0-5 1.2 2 1.2 4 0 5z"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.55"><p style="margin: 0">Não diria mal: está em 54%, abaixo da média dele. O que mais pesa é <b>operações com frações</b>, que é a base das equações que ele está vendo agora.</p><p style="margin: 0">Uma ideia para esta semana: na cozinha, peça para ele calcular meia receita ou uma receita e meia. Pergunte como ele chegou ao resultado, sem corrigir de cara.</p></div></li>
+</ol>
+
+<form style="position: absolute; left: 0; right: 0; bottom: 72px; display: flex; gap: 8px; padding: 12px 20px; background: #ffffff; border-top: 1px solid #e2e0d9">
+<label for="conselheiro-pergunta" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Sua pergunta</label>
+<input id="conselheiro-pergunta" type="text" placeholder="Como posso ajudar em casa?" style="flex-grow: 1; min-width: 0; height: 46px; box-sizing: border-box; padding: 0 14px; border: 1.5px solid #d3d0c6; border-radius: 10px; background: #f3f2ee; font-family: Manrope, sans-serif; font-size: 15px">
+<button type="button" aria-label="Enviar" style="width: 46px; height: 46px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: none; border-radius: 10px; background: #1c2a4a; color: #ffffff"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12.5 6.5 18 12l-5.5 5.5"></path></svg></button>
+</form>
+
+<div style="position: absolute; left: 0; bottom: 0; width: 390px"><dc-import name="NavPerfil" perfil="responsavel" ativo="conselheiro" hint-size="390px,72px"></dc-import></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

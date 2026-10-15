@@ -1,0 +1,324 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Glaukopis.dc.html": {
+      "h": 900,
+      "title": "A · Glaukópis",
+      "w": 1280,
+      "x": 0,
+      "y": 880
+    },
+    "GlaukopisPastel.dc.html": {
+      "h": 960,
+      "title": "A2 · Glaukópis pastel",
+      "w": 1280,
+      "x": 0,
+      "y": 1900
+    },
+    "Main.dc.html": {
+      "h": 760,
+      "title": "Visão geral",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "Minio.dc.html": {
+      "h": 900,
+      "title": "C · Mínio",
+      "w": 1280,
+      "x": 2720,
+      "y": 880
+    },
+    "Patina.dc.html": {
+      "h": 900,
+      "title": "B · Pátina",
+      "w": 1280,
+      "x": 1360,
+      "y": 880
+    },
+    "TelaInicio.dc.html": {
+      "h": 1460,
+      "is_interactive": true,
+      "title": "Início",
+      "w": 390,
+      "x": 0,
+      "y": 3240
+    },
+    "TelaTutor.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "title": "Tutor",
+      "w": 390,
+      "x": 470,
+      "y": 3240
+    },
+    "TelaRevisao.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Revisar · frente do card",
+      "w": 390,
+      "x": 940,
+      "y": 3240
+    },
+    "TelaResposta.dc.html": {
+      "h": 940,
+      "is_interactive": true,
+      "title": "Revisar · verso do card",
+      "w": 390,
+      "x": 1410,
+      "y": 3240
+    },
+    "TelaQuestoes.dc.html": {
+      "h": 1040,
+      "is_interactive": true,
+      "title": "Questões · módulos",
+      "w": 390,
+      "x": 1880,
+      "y": 3240
+    },
+    "TelaQuestao.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Questão (toque numa alternativa)",
+      "w": 390,
+      "x": 2350,
+      "y": 3240
+    },
+    "QuestaoAcerto.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Questão · acertou",
+      "w": 390,
+      "x": 2820,
+      "y": 3240
+    },
+    "QuestaoErro.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Questão · errou",
+      "w": 390,
+      "x": 3290,
+      "y": 3240
+    },
+    "TelaSimulacoes.dc.html": {
+      "h": 1180,
+      "is_interactive": true,
+      "title": "Simulações",
+      "w": 390,
+      "x": 3760,
+      "y": 3240
+    },
+    "TelaSimulacaoFracoes.dc.html": {
+      "h": 980,
+      "is_interactive": true,
+      "title": "Simulação · frações com pizza",
+      "w": 390,
+      "x": 4230,
+      "y": 3240
+    },
+    "TelaPodio.dc.html": {
+      "h": 1100,
+      "is_interactive": true,
+      "title": "Pódio",
+      "w": 390,
+      "x": 4700,
+      "y": 3240
+    },
+    "Topo.dc.html": {
+      "h": 60,
+      "is_interactive": true,
+      "title": "Componente · topo do aluno",
+      "w": 390,
+      "x": 0,
+      "y": 4940
+    },
+    "Nav.dc.html": {
+      "h": 72,
+      "is_interactive": true,
+      "title": "Componente · barra do aluno",
+      "w": 390,
+      "x": 470,
+      "y": 4940
+    },
+    "Entrada.dc.html": {
+      "h": 980,
+      "is_interactive": true,
+      "title": "Entrada · escolha de perfil",
+      "w": 390,
+      "x": 0,
+      "y": 5420
+    },
+    "Login.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Entrar · aluno (matrícula)",
+      "w": 390,
+      "x": 470,
+      "y": 5420
+    },
+    "PaisPainel.dc.html": {
+      "h": 1060,
+      "is_interactive": true,
+      "title": "Responsável · Painel",
+      "w": 390,
+      "x": 940,
+      "y": 5420
+    },
+    "PaisConselheiro.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "title": "Responsável · Conselheiro",
+      "w": 390,
+      "x": 1410,
+      "y": 5420
+    },
+    "Ajustes.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Ajustes (todos os perfis)",
+      "w": 390,
+      "x": 1880,
+      "y": 5420
+    },
+    "ProfTurma.dc.html": {
+      "h": 1100,
+      "is_interactive": true,
+      "title": "Professor · Turma",
+      "w": 390,
+      "x": 2350,
+      "y": 5420
+    },
+    "ProfConstrutor.dc.html": {
+      "h": 1160,
+      "is_interactive": true,
+      "title": "Professor · Construtor",
+      "w": 390,
+      "x": 2820,
+      "y": 5420
+    },
+    "GestorInsights.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "title": "Gestor · Insights",
+      "w": 390,
+      "x": 3290,
+      "y": 5420
+    },
+    "GestorDashboard.dc.html": {
+      "h": 1000,
+      "is_interactive": true,
+      "title": "Gestor · Dashboard",
+      "w": 390,
+      "x": 3760,
+      "y": 5420
+    },
+    "NavPerfil.dc.html": {
+      "h": 72,
+      "is_interactive": true,
+      "title": "Componente · barra dos adultos",
+      "w": 390,
+      "x": 4230,
+      "y": 5420
+    },
+    "MarcaPrincipal.dc.html": {
+      "x": 0,
+      "y": 6960,
+      "w": 1280,
+      "h": 1280,
+      "title": "Marca"
+    },
+    "MarcaIcone.dc.html": {
+      "x": 1360,
+      "y": 6960,
+      "w": 1280,
+      "h": 1180,
+      "title": "Ícone do app"
+    },
+    "Abertura.dc.html": {
+      "x": 2720,
+      "y": 6960,
+      "w": 390,
+      "h": 844,
+      "title": "Abertura",
+      "is_interactive": true
+    },
+    "Marca.dc.html": {
+      "x": 3190,
+      "y": 6960,
+      "w": 240,
+      "h": 300,
+      "title": "Componente · marca"
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-09-29T12:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "telas": {
+      "kind": "title1",
+      "maxW": 5090,
+      "text": "Telas do aluno · Glaukópis pastel",
+      "w": 240,
+      "x": 0,
+      "y": 2980
+    },
+    "perfis": {
+      "kind": "title1",
+      "maxW": 4620,
+      "text": "Entrada, responsável, professor e gestor",
+      "w": 240,
+      "x": 0,
+      "y": 5160
+    },
+    "logo": {
+      "kind": "title1",
+      "maxW": 5000,
+      "text": "Marca Paideia",
+      "w": 240,
+      "x": 0,
+      "y": 6700
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Glaukopis.dc.html",
+    "Patina.dc.html",
+    "Minio.dc.html",
+    "GlaukopisPastel.dc.html",
+    "TelaInicio.dc.html",
+    "TelaTutor.dc.html",
+    "TelaRevisao.dc.html",
+    "TelaResposta.dc.html",
+    "TelaQuestoes.dc.html",
+    "TelaQuestao.dc.html",
+    "QuestaoAcerto.dc.html",
+    "QuestaoErro.dc.html",
+    "TelaSimulacoes.dc.html",
+    "TelaSimulacaoFracoes.dc.html",
+    "TelaPodio.dc.html",
+    "Topo.dc.html",
+    "Nav.dc.html",
+    "Entrada.dc.html",
+    "Login.dc.html",
+    "PaisPainel.dc.html",
+    "PaisConselheiro.dc.html",
+    "Ajustes.dc.html",
+    "ProfTurma.dc.html",
+    "ProfConstrutor.dc.html",
+    "GestorInsights.dc.html",
+    "GestorDashboard.dc.html",
+    "NavPerfil.dc.html",
+    "MarcaPrincipal.dc.html",
+    "MarcaIcone.dc.html",
+    "Abertura.dc.html",
+    "Marca.dc.html"
+  ],
+  "pages": [],
+  "title": "Paideia — Paletas"
+}
