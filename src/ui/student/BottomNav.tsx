@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentType } from "react";
 import {
-  ArenaSplitIcon,
-  OwlIcon,
-  TabletsIcon,
-  TempleIcon,
-} from "@/src/ui/paideia/icons";
+  CardsIcon,
+  CupIcon,
+  OwlLineIcon,
+  PedimentIcon,
+} from "@/src/ui/paideia/line-icons";
 
 interface NavItem {
   href: string;
@@ -16,36 +16,46 @@ interface NavItem {
   Icon: ComponentType<{ size?: number }>;
 }
 
+/**
+ * Barra inferior do aluno (prancha `Nav`). A prancha tem 6 abas; Questões e
+ * Simulação ainda não têm rota nem modelo de dados, então ficam de fora até o
+ * escopo ser combinado.
+ */
 export function BottomNav({ basePath = "/student" }: { basePath?: string }) {
   const pathname = usePathname();
   const items: NavItem[] = [
-    { href: basePath, label: "Início", Icon: TempleIcon },
-    { href: `${basePath}/revisao`, label: "Revisar", Icon: TabletsIcon },
-    { href: `${basePath}/tutor`, label: "Tutor", Icon: OwlIcon },
-    { href: `${basePath}/podio`, label: "Pódio · Loja", Icon: ArenaSplitIcon },
+    { href: basePath, label: "Início", Icon: PedimentIcon },
+    { href: `${basePath}/tutor`, label: "Tutor", Icon: OwlLineIcon },
+    { href: `${basePath}/revisao`, label: "Revisar", Icon: CardsIcon },
+    { href: `${basePath}/podio`, label: "Pódio", Icon: CupIcon },
   ];
 
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[max(env(safe-area-inset-bottom),12px)]"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-line-strong bg-surface pb-[env(safe-area-inset-bottom)]"
     >
-      <ul className="flex w-full max-w-md items-stretch justify-between gap-1 rounded-[22px] border border-ink/10 bg-ink p-1.5 shadow-[0_12px_32px_-12px_rgba(31,26,22,0.55)]">
+      <ul className="mx-auto flex h-[72px] w-full max-w-xl px-1 pb-2">
         {items.map(({ href, label, Icon }) => {
           const active =
             href === basePath ? pathname === href : pathname.startsWith(href);
           return (
-            <li key={href} className="flex-1">
+            <li key={href} className="min-w-0 flex-1">
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
-                className={`group flex flex-col items-center gap-0.5 rounded-2xl px-2 py-2 text-[11px] font-semibold tracking-wide transition-colors ${
+                className={`flex h-full flex-col items-center gap-[3px] text-[10.5px] ${
                   active
-                    ? "bg-terracotta text-marble"
-                    : "text-marble/70 hover:bg-marble/10 hover:text-marble"
+                    ? "font-extrabold text-ink"
+                    : "font-semibold text-faint hover:text-ink"
                 }`}
               >
-                <Icon size={24} />
+                <span
+                  className={`mb-[7px] h-[3px] w-[22px] rounded-b-sm ${
+                    active ? "bg-night" : "bg-transparent"
+                  }`}
+                />
+                <Icon size={23} />
                 <span className="whitespace-nowrap">{label}</span>
               </Link>
             </li>

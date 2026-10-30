@@ -14,5 +14,9 @@ export default async function ParentLayout({
   children: React.ReactNode;
 }) {
   await requireRole("parent");
-  return <AppShell nav={NAV}>{children}</AppShell>;
+  return (
+    <AppShell nav={NAV} label="Família">
+      {children}
+    </AppShell>
+  );
 }

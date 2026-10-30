@@ -1,6 +1,6 @@
 import { createClient } from "@/src/lib/supabase/server";
 import { SettingsView } from "@/src/ui/SettingsView";
-import { Callout } from "@/src/ui/kit";
+import { Callout, InfoList } from "@/src/ui/kit";
 
 export const dynamic = "force-dynamic";
 
@@ -45,21 +45,13 @@ export default async function GestorAjustesPage() {
     <SettingsView
       extra={
         <>
-          {rows.map((r) => (
-            <div
-              key={r.label}
-              className="flex items-center justify-between rounded-[12px] border border-line bg-surface px-[18px] py-3.5"
-            >
-              <span className="text-[13px] text-muted">{r.label}</span>
-              <span className="text-sm font-medium text-ink">{r.value}</span>
-            </div>
-          ))}
+          <InfoList rows={rows} />
 
-          <Callout tone="warm">
+          <Callout tone="cool">
             <strong>LGPD:</strong> o acesso da gestão é limitado a dados
             agregados. Conversas com o tutor e eventos individuais de
-            aprendizagem não são acessíveis a nenhum perfil de gestão — a
-            restrição é aplicada no banco, não apenas na interface.
+            aprendizagem não ficam acessíveis a nenhum perfil de gestão. A
+            restrição é aplicada no banco, não só na interface.
           </Callout>
         </>
       }

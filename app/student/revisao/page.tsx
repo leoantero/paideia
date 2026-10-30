@@ -22,9 +22,9 @@ export default async function RevisaoPage({
   ]);
 
   return (
-    <div className="flex flex-col gap-5">
-      <DeckFilter decks={decks} activeDeckId={deckId} basePath="/student" />
+    <div className="flex flex-col gap-8">
       <StudySession key={deckId ?? "all"} initialQueue={queue} />
+      <DeckFilter decks={decks} activeDeckId={deckId} basePath="/student" />
     </div>
   );
 }

@@ -11,15 +11,15 @@ export interface NavItem {
 }
 
 /**
- * Barra de navegação inferior estilo app (padrão do Figma): ícone de linha de
- * 22px, rótulo 11px, e um ponto dourado sob o item ativo. É a navegação
- * principal no celular e fica fixa no rodapé da coluna centralizada no desktop.
+ * Barra inferior dos adultos (prancha `NavPerfil`): ícone de traço de 23px,
+ * rótulo 11px e um filete "noite" no topo do item ativo. Fica fixa no rodapé
+ * da coluna centralizada.
  */
 export function BottomNav({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
 
   return (
-    <nav className="sticky bottom-0 z-10 flex shrink-0 border-t border-line bg-surface pt-2 pb-4">
+    <nav className="sticky bottom-0 z-10 flex h-[72px] shrink-0 border-t border-line-strong bg-surface px-3 pb-2">
       {items.map((item) => {
         const active =
           pathname === item.href || pathname.startsWith(item.href + "/");
@@ -28,24 +28,22 @@ export function BottomNav({ items }: { items: NavItem[] }) {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={`flex flex-1 flex-col items-center gap-1 py-1.5 transition-colors ${
-              active ? "text-ink" : "text-faint hover:text-ink"
+            className={`flex min-w-0 flex-1 flex-col items-center gap-[3px] text-[11px] ${
+              active
+                ? "font-extrabold text-ink"
+                : "font-semibold text-faint hover:text-ink"
             }`}
           >
-            <span aria-hidden className="[&>svg]:h-[22px] [&>svg]:w-[22px]">
-              {item.icon}
-            </span>
-            <span
-              className={`text-[11px] ${active ? "font-semibold" : "font-normal"}`}
-            >
-              {item.label}
-            </span>
             <span
               aria-hidden
-              className={`h-1 w-1 rounded-full bg-gold transition-opacity ${
-                active ? "opacity-100" : "opacity-0"
+              className={`mb-[7px] h-[3px] w-[22px] rounded-b-sm ${
+                active ? "bg-night" : "bg-transparent"
               }`}
             />
+            <span aria-hidden className="[&>svg]:h-[23px] [&>svg]:w-[23px]">
+              {item.icon}
+            </span>
+            <span>{item.label}</span>
           </Link>
         );
       })}
@@ -56,62 +54,44 @@ export function BottomNav({ items }: { items: NavItem[] }) {
 const S = {
   fill: "none" as const,
   stroke: "currentColor",
-  strokeWidth: 2,
+  strokeWidth: 1.6,
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
   viewBox: "0 0 24 24",
 };
 
-/* Ícones de linha, 24px viewBox, herdam currentColor do link. */
+const path = (d: string) => (
+  <svg {...S}>
+    <path d={d} />
+  </svg>
+);
+
+/* Ícones de traço das pranchas (design/redesign-glaukopis/telas/NavPerfil). */
 export const icons = {
-  chat: (
-    <svg {...S}>
-      <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-    </svg>
+  chat: path(
+    "M4 5.5h16v10H9l-4.5 4v-4H4zM8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"
   ),
-  cards: (
-    <svg {...S}>
-      <rect x="2" y="8" width="14" height="12" rx="2" />
-      <path d="M6 8V6a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2h-2" />
-    </svg>
+  cards: path(
+    "M4 5.5A1.5 1.5 0 0 1 5.5 4h7A1.5 1.5 0 0 1 14 5.5v12a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 4 17.5zM14 7h4.5A1.5 1.5 0 0 1 20 8.5v10a1.5 1.5 0 0 1-1.5 1.5h-7a1.5 1.5 0 0 1-1.5-1.5V19M7 8h4M7 11h4"
   ),
-  gear: (
-    <svg {...S}>
-      <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-      <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
+  gear: path(
+    "M12 9a3 3 0 1 0 0 6a3 3 0 1 0 0-6M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"
   ),
-  dashboard: (
-    <svg {...S}>
-      <rect x="3" y="3" width="7" height="7" rx="1" />
-      <rect x="14" y="3" width="7" height="7" rx="1" />
-      <rect x="3" y="14" width="7" height="7" rx="1" />
-      <rect x="14" y="14" width="7" height="7" rx="1" />
-    </svg>
+  dashboard: path(
+    "M3.5 3.5h7v7h-7zM13.5 3.5h7v7h-7zM3.5 13.5h7v7h-7zM13.5 13.5h7v7h-7z"
   ),
-  advisor: (
-    <svg {...S}>
-      <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-    </svg>
+  advisor: path(
+    "M3 13c2.5 3 6 4 9.5 4H17c2 0 3.5-1.5 3.5-3.5 0-.8-.6-1.5-1.5-1.5H12C9 12 5.5 11 3 13zM12.5 12V9.5M12.5 9.5c-1.2-1-1.2-3 0-5 1.2 2 1.2 4 0 5zM9 20.5h7"
   ),
-  heat: (
-    <svg {...S}>
-      <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
+  heat: path(
+    "M9 11a3.5 3.5 0 1 0 0-7a3.5 3.5 0 1 0 0 7M2.5 20c.6-3.6 3.3-6 6.5-6s5.9 2.4 6.5 6M16 4.3a3.5 3.5 0 0 1 0 6.4M18.5 14.5c1.6.8 2.7 3 3 5.5"
   ),
-  build: (
-    <svg {...S}>
-      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-    </svg>
+  build: path(
+    "M9 4.5H6.5A1.5 1.5 0 0 0 5 6v13.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H15M9 3.5h6v3H9zM9 13l2 2 4-4"
   ),
-  bars: (
-    <svg {...S}>
-      <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-    </svg>
-  ),
-  store: (
-    <svg {...S}>
-      <path d="M3 9l1.5-5h15L21 9M3 9v10a1 1 0 001 1h16a1 1 0 001-1V9M3 9h18M9 13a3 3 0 006 0" />
-    </svg>
+  insights: path("M4 5.5h16v10H9l-4.5 4v-4H4zM12 8v4.5M9.75 10.25h4.5"),
+  bars: path("M3.5 20.5h17M6 17v-6M10.5 17V6M15 17V8M19.5 17v-4"),
+  store: path(
+    "M3 9l1.5-5h15L21 9M3 9v10a1 1 0 001 1h16a1 1 0 001-1V9M3 9h18M9 13a3 3 0 006 0"
   ),
 };

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type {
   StudentProgress,
   LeaderboardEntry,
@@ -6,13 +7,14 @@ import type {
 import type { DeckOverview } from "@/src/features/spaced-repetition/types";
 import { subjectLabel } from "@/src/features/spaced-repetition/types";
 import {
-  DrachmaCoin,
-  FlameIcon,
-  FreezeIcon,
-  Laurel,
-} from "@/src/ui/paideia/icons";
-import { AmphoraGauge, Meander } from "@/src/ui/paideia/ornaments";
-import { DeltaChip } from "./DeltaChip";
+  AmphoraLineIcon,
+  ArrowRightIcon,
+  CardsIcon,
+  ChevronRightIcon,
+  CupIcon,
+  FlameLineIcon,
+  OwlLineIcon,
+} from "@/src/ui/paideia/line-icons";
 import { subjectStyle } from "./subject-style";
 
 export interface HomeViewProps {
@@ -22,9 +24,30 @@ export interface HomeViewProps {
   myRank: LeaderboardEntry | null;
   classroomName: string | null;
   decks: DeckOverview[];
+  /** Última conversa com o tutor, para o "Continuar a conversa". */
+  lastConversation?: { id: string; title: string } | null;
   basePath?: string;
 }
 
+const TZ = "America/Sao_Paulo";
+
+function greeting(now: Date) {
+  const hour = Number(
+    new Intl.DateTimeFormat("pt-BR", {
+      hour: "numeric",
+      hourCycle: "h23",
+      timeZone: TZ,
+    }).format(now)
+  );
+  if (hour < 12) return "Bom dia";
+  if (hour < 18) return "Boa tarde";
+  return "Boa noite";
+}
+
+const plural = (n: number, one: string, many: string) =>
+  `${n} ${n === 1 ? one : many}`;
+
+/** Início do aluno (prancha `TelaInicio`). */
 export function HomeView({
   firstName,
   today,
@@ -32,290 +55,364 @@ export function HomeView({
   myRank,
   classroomName,
   decks,
+  lastConversation = null,
   basePath = "/student",
 }: HomeViewProps) {
   const cardsToday = progress.due_today + progress.new_available;
-  const goalProgress = Math.min(
-    1,
-    progress.study_seconds_today / (progress.daily_goal_minutes * 60)
+  const goalSeconds = progress.daily_goal_minutes * 60;
+  const goalProgress = Math.min(1, progress.study_seconds_today / goalSeconds);
+  const minutesDone = Math.min(
+    progress.daily_goal_minutes,
+    Math.floor(progress.study_seconds_today / 60)
   );
-  const minutesDone = Math.floor(progress.study_seconds_today / 60);
+  const minutesLeft = progress.daily_goal_minutes - minutesDone;
+  const starters = decks.slice(0, 3);
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="animate-rise">
-        <p className="text-sm font-medium text-ink-soft first-letter:uppercase">
+    <div className="flex flex-col gap-7">
+      <section className="flex flex-col gap-0.5 animate-rise">
+        <p className="text-[13px] text-faint first-letter:uppercase">
           {today.toLocaleDateString("pt-BR", {
             weekday: "long",
             day: "numeric",
             month: "long",
+            timeZone: TZ,
           })}
         </p>
-        <h1 className="font-display text-4xl leading-tight">
-          Olá, {firstName}.
+        <h1 className="text-[32px] leading-[1.1]">
+          {greeting(today)}, {firstName}.
         </h1>
       </section>
 
-      {/* Hero: a temple pediment holding today's study */}
-      <section className="animate-rise [animation-delay:60ms]">
+      {/* Herói: o frontão com o tutor */}
+      <section className="flex flex-col animate-rise [animation-delay:60ms]">
         <svg
-          viewBox="0 0 400 44"
-          className="-mb-px block w-full"
+          viewBox="0 0 350 36"
           preserveAspectRatio="none"
+          className="-mb-px block h-9 w-full"
           aria-hidden
         >
-          <path d="M0 44 L200 4 L400 44 Z" fill="var(--terracotta)" />
+          <path d="M0 36 L175 4 L350 36 Z" fill="var(--p-panel)" />
           <path
-            d="M40 40 L200 10 L360 40"
+            d="M38 32 L175 9 L312 32"
             fill="none"
-            stroke="var(--terracotta-soft)"
-            strokeWidth="1.5"
-            opacity="0.6"
+            stroke="var(--p-panel-muted)"
+            strokeWidth="1.2"
+            opacity="0.45"
           />
-          <circle cx="200" cy="30" r="5" fill="var(--gold)" />
+          <circle cx="175" cy="24" r="4.5" fill="var(--p-lamp)" />
         </svg>
-        <div className="relative overflow-hidden rounded-b-3xl bg-terracotta px-6 pb-6 pt-3 text-marble">
-          <Meander
-            height={10}
-            color="var(--terracotta-soft)"
-            className="mb-4 opacity-40"
+        <div className="flex flex-col gap-4 rounded-b-lg bg-panel px-5 pb-[18px] pt-3.5 text-on-panel">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-glauco text-on-glauco">
+              <OwlLineIcon size={22} strokeWidth={1.7} />
+            </span>
+            <span className="text-[13px] font-semibold text-panel-muted">
+              Coruja de Atena, seu tutor
+            </span>
+          </div>
+          <h2 className="text-[27px] leading-[1.15] text-on-panel">
+            Sobre o que vamos pensar hoje?
+          </h2>
+          <form action={`${basePath}/tutor`} className="flex gap-2">
+            <label htmlFor="duvida-inicio" className="sr-only">
+              Sua dúvida
+            </label>
+            <input
+              id="duvida-inicio"
+              name="q"
+              type="text"
+              required
+              maxLength={2000}
+              placeholder="Escreva sua dúvida"
+              className="h-12 min-w-0 flex-1 rounded-sm bg-panel-field px-3.5 text-[15px] text-ink placeholder:text-faint focus:outline-none focus-visible:ring-2 focus-visible:ring-lamp"
+            />
+            <button
+              type="submit"
+              aria-label="Perguntar ao tutor"
+              className="grid h-12 w-12 shrink-0 place-items-center rounded-sm bg-lamp text-on-lamp"
+            >
+              <ArrowRightIcon size={22} />
+            </button>
+          </form>
+          {lastConversation && (
+            <Link
+              href={`${basePath}/tutor?c=${lastConversation.id}`}
+              className="flex items-center gap-3 border-t border-panel-line pt-3.5"
+            >
+              <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                <span className="text-xs text-panel-muted">
+                  Continuar a conversa
+                </span>
+                <span className="truncate text-[15px] font-bold">
+                  {lastConversation.title}
+                </span>
+              </span>
+              <ChevronRightIcon size={20} />
+            </Link>
+          )}
+          {starters.length > 0 && (
+            <p className="text-[13px] leading-relaxed text-panel-muted">
+              Ou comece por{" "}
+              {starters.map((d, i) => (
+                <span key={d.id}>
+                  {i > 0 && (i === starters.length - 1 ? " ou " : ", ")}
+                  <Link
+                    href={`${basePath}/tutor?q=${encodeURIComponent(d.title)}`}
+                    className="font-bold text-glauco underline underline-offset-2"
+                  >
+                    {d.title.charAt(0).toLowerCase() + d.title.slice(1)}
+                  </Link>
+                </span>
+              ))}
+              .
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* Seu dia */}
+      <section className="flex flex-col gap-2.5 animate-rise [animation-delay:120ms]">
+        <h2 className="text-xl">Seu dia</h2>
+        <ul className="flex flex-col rounded-lg bg-surface">
+          <DayRow
+            href={cardsToday > 0 ? `${basePath}/revisao` : undefined}
+            icon={<CardsIcon size={22} strokeWidth={1.7} />}
+            tile="bg-lavender text-lavender-ink"
+            title="Revisão"
+            detail={
+              cardsToday > 0
+                ? `${plural(cardsToday, "card", "cards")}: ${progress.due_today} ${
+                    progress.due_today === 1 ? "vencido" : "vencidos"
+                  }, ${progress.new_available} ${
+                    progress.new_available === 1 ? "novo" : "novos"
+                  }`
+                : "Tudo revisado por hoje. Sua memória agradece."
+            }
+            trailing={
+              cardsToday > 0 ? (
+                <span className="rounded-[8px] bg-night px-3 py-[9px] text-[13px] font-extrabold text-on-night">
+                  Começar
+                </span>
+              ) : null
+            }
           />
-          {cardsToday > 0 ? (
-            <>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-terracotta-soft">
-                Hoje
-              </p>
-              <p className="mt-1 font-display text-5xl leading-none">
-                {cardsToday} <span className="text-2xl">cards</span>
-              </p>
-              <p className="mt-2 text-sm text-terracotta-soft">
-                {progress.due_today} para revisar · {progress.new_available}{" "}
-                novos
-              </p>
-              <Link
-                href={`${basePath}/revisao`}
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-marble px-5 py-3 text-sm font-extrabold text-terracotta-deep shadow-[0_6px_0_0_var(--terracotta-deep)] transition-transform active:translate-y-1 active:shadow-none"
+          <DayRow
+            icon={<AmphoraLineIcon size={22} />}
+            tile="bg-glauco-soft text-glauco-ink"
+            title="Meta do dia"
+            detail={
+              progress.daily_goal_reached
+                ? "Ânfora cheia! Meta cumprida hoje."
+                : `${minutesDone} de ${progress.daily_goal_minutes} minutos. ${
+                    minutesLeft === 1 ? "Falta 1" : `Faltam ${minutesLeft}`
+                  } para encher a ânfora.`
+            }
+            trailing={
+              <span
+                className="h-1.5 w-[52px] shrink-0 overflow-hidden rounded-[3px] bg-line"
+                role="progressbar"
+                aria-label="Meta do dia"
+                aria-valuenow={Math.round(goalProgress * 100)}
+                aria-valuemin={0}
+                aria-valuemax={100}
               >
-                Começar revisão <span aria-hidden>→</span>
-              </Link>
-            </>
+                <span
+                  className="block h-1.5 bg-glauco-mid"
+                  style={{ width: `${goalProgress * 100}%` }}
+                />
+              </span>
+            }
+          />
+          <DayRow
+            icon={<FlameLineIcon size={22} />}
+            tile="bg-coral-soft text-coral-ink"
+            title={
+              progress.streak > 0
+                ? `Ofensiva de ${plural(progress.streak, "dia", "dias")}`
+                : "Comece uma ofensiva"
+            }
+            detail={[
+              progress.active_today
+                ? "Garantida hoje."
+                : progress.streak > 0
+                  ? "Estude hoje para não perder."
+                  : "Estude hoje para acender a chama.",
+              progress.streak_freezes > 0
+                ? `Você tem ${plural(
+                    progress.streak_freezes,
+                    "congelamento guardado",
+                    "congelamentos guardados"
+                  )}.`
+                : null,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          />
+          {classroomName ? (
+            <DayRow
+              href={`${basePath}/podio`}
+              icon={<CupIcon size={22} strokeWidth={1.7} />}
+              tile="bg-lamp-soft text-lamp-ink"
+              title={
+                myRank
+                  ? `${myRank.position}º lugar no ${classroomName}`
+                  : `Pódio do ${classroomName}`
+              }
+              detail={rankDetail(myRank)}
+              trailing={
+                <span className="text-sm font-bold tabular-nums text-muted">
+                  {progress.weekly_points} pts
+                </span>
+              }
+            />
           ) : (
-            <div className="flex items-center gap-4">
-              <Laurel size={72} color="var(--gold-soft)" />
-              <div>
-                <p className="font-display text-3xl leading-tight">
-                  Tudo revisado!
-                </p>
-                <p className="mt-1 text-sm text-terracotta-soft">
-                  Sua memória agradece. Volte amanhã, ou converse com o tutor.
-                </p>
-              </div>
-            </div>
+            // No B2B quem matricula é a escola: não há código para o aluno digitar.
+            <DayRow
+              icon={<CupIcon size={22} strokeWidth={1.7} />}
+              tile="bg-lamp-soft text-lamp-ink"
+              title="Pódio da turma"
+              detail="Assim que a escola concluir sua matrícula, você entra no pódio da sua turma."
+            />
           )}
-          <div
-            className="pointer-events-none absolute -right-6 bottom-0 top-8 flex gap-3 opacity-15"
-            aria-hidden
-          >
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="w-5 rounded-t-sm"
-                style={{
-                  background:
-                    "repeating-linear-gradient(90deg, var(--marble) 0 3px, transparent 3px 6px)",
-                }}
-              />
-            ))}
-          </div>
-        </div>
+        </ul>
       </section>
 
-      {/* Quick stats */}
-      <section className="grid grid-cols-3 gap-3 animate-rise [animation-delay:120ms]">
-        <div className="flex flex-col items-start gap-1 rounded-2xl border border-line bg-surface p-3">
-          <FlameIcon size={30} lit={progress.active_today} />
-          <p className="font-display text-3xl leading-none">
-            {progress.streak}
-          </p>
-          <p className="text-[11px] font-semibold leading-tight text-ink-soft">
-            {progress.streak === 1 ? "dia de ofensiva" : "dias de ofensiva"}
-          </p>
-          <div
-            className="mt-1 flex items-center gap-1"
-            title="Congelamentos de ofensiva"
-          >
-            {Array.from({ length: progress.max_streak_freezes }).map((_, i) => (
-              <FreezeIcon
-                key={i}
-                size={14}
-                className={
-                  i < progress.streak_freezes ? "text-aegean" : "text-line"
-                }
-              />
-            ))}
-          </div>
-          {!progress.active_today && progress.streak > 0 && (
-            <p className="text-[10px] font-bold uppercase tracking-wide text-terracotta">
-              estude hoje!
-            </p>
-          )}
-        </div>
-
-        <Link
-          href={`${basePath}/podio?tab=loja`}
-          className="flex flex-col items-start gap-1 rounded-2xl border border-line bg-surface p-3 transition-colors hover:border-gold"
-        >
-          <DrachmaCoin size={30} />
-          <p className="gold-shimmer font-display text-3xl leading-none">
-            {progress.coins}
-          </p>
-          <p className="text-[11px] font-semibold leading-tight text-ink-soft">
-            dracmas
-          </p>
-          <p className="mt-auto text-[11px] font-bold text-gold-deep">loja →</p>
-        </Link>
-
-        <Link
-          href={`${basePath}/podio`}
-          className="flex flex-col items-start gap-1 rounded-2xl border border-line bg-surface p-3 transition-colors hover:border-aegean"
-        >
-          <span className="font-display text-sm text-aegean">Pódio</span>
-          <p className="font-display text-3xl leading-none">
-            {myRank ? `${myRank.position}º` : "—"}
-          </p>
-          <p className="text-[11px] font-semibold leading-tight text-ink-soft">
-            {progress.weekly_points} pts na semana
-          </p>
-          {myRank && (
-            <div className="mt-auto">
-              <DeltaChip delta={myRank.delta} />
-            </div>
-          )}
-        </Link>
-      </section>
-
-      {!classroomName && (
-        // No B2B quem matricula é a escola — não há código para o aluno digitar.
-        <p className="rounded-2xl border-2 border-dashed border-aegean/40 bg-aegean-soft p-4 text-sm font-semibold text-aegean">
-          Você ainda não aparece em nenhuma turma. Assim que a escola concluir
-          sua matrícula, você entra no pódio da sua turma.
-        </p>
-      )}
-
-      {/* Daily goal amphora */}
-      <section className="flex items-center gap-5 rounded-3xl border border-line bg-surface p-5 animate-rise [animation-delay:180ms]">
-        <AmphoraGauge progress={goalProgress} size={112} />
-        <div className="flex-1">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-ink-soft">
-            Meta do dia
-          </p>
-          <p className="mt-1 font-display text-3xl leading-none">
-            {Math.min(minutesDone, progress.daily_goal_minutes)}
-            <span className="text-lg text-ink-soft">
-              {" "}
-              / {progress.daily_goal_minutes} min
-            </span>
-          </p>
-          {progress.daily_goal_reached ? (
-            <p className="mt-2 text-sm font-semibold text-olive">
-              Ânfora cheia! Meta cumprida hoje.
-            </p>
-          ) : (
-            <p className="mt-2 text-sm text-ink-soft">
-              Encha a ânfora e ganhe <b className="text-ink">+30 pontos</b> e{" "}
-              <b className="text-gold-deep">+10 dracmas</b>.
-            </p>
-          )}
-        </div>
-      </section>
-
-      {/* Decks */}
-      <section className="flex flex-col gap-3 animate-rise [animation-delay:240ms]">
-        <div className="flex items-end justify-between">
-          <h2 className="font-display text-2xl">Seus baralhos</h2>
+      {/* Baralhos */}
+      <section className="flex flex-col gap-2.5 animate-rise [animation-delay:180ms]">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-xl">Seus baralhos</h2>
           {classroomName && (
-            <span className="text-xs font-semibold text-ink-soft">
-              {classroomName}
-            </span>
+            <span className="text-[13px] text-muted">{classroomName}</span>
           )}
         </div>
-        {decks.length === 0 && (
-          <p className="rounded-2xl border border-line bg-surface p-4 text-sm text-ink-soft">
+        {decks.length === 0 ? (
+          <p className="rounded-lg bg-surface p-4 text-sm text-muted">
             Nenhum baralho liberado ainda. Os baralhos aparecem aqui assim que
             um professor os aprovar.
           </p>
+        ) : (
+          <ul className="flex flex-col rounded-lg bg-surface">
+            {decks.map((deck, i) => (
+              <li key={deck.id} className={i > 0 ? "border-t border-line" : ""}>
+                <DeckRow
+                  deck={deck}
+                  href={`${basePath}/revisao?deck=${deck.id}`}
+                />
+              </li>
+            ))}
+          </ul>
         )}
-        {decks.map((deck) => (
-          <DeckRow
-            key={deck.id}
-            deck={deck}
-            href={`${basePath}/revisao?deck=${deck.id}`}
-          />
-        ))}
       </section>
     </div>
+  );
+}
+
+function rankDetail(rank: LeaderboardEntry | null) {
+  if (!rank) return "Estude esta semana para entrar no pódio.";
+  if (rank.delta == null || rank.delta === 0) return "Mesma posição de ontem";
+  const n = Math.abs(rank.delta);
+  return `${rank.delta > 0 ? "Subiu" : "Desceu"} ${plural(
+    n,
+    "posição",
+    "posições"
+  )} desde ontem`;
+}
+
+function DayRow({
+  href,
+  icon,
+  tile,
+  title,
+  detail,
+  trailing,
+}: {
+  href?: string;
+  icon: ReactNode;
+  tile: string;
+  title: string;
+  detail: string;
+  trailing?: ReactNode;
+}) {
+  const body = (
+    <>
+      <span
+        className={`grid h-10 w-10 shrink-0 place-items-center rounded-sm ${tile}`}
+      >
+        {icon}
+      </span>
+      <span className="flex min-w-0 flex-1 flex-col gap-px">
+        <span className="text-[15px] font-bold">{title}</span>
+        <span className="text-[13px] text-muted">{detail}</span>
+      </span>
+      {trailing}
+    </>
+  );
+  const cls = "flex items-center gap-3.5 px-4 py-3.5";
+  return (
+    <li className="border-line [&+&]:border-t">
+      {href ? (
+        <Link href={href} className={cls}>
+          {body}
+        </Link>
+      ) : (
+        <div className={cls}>{body}</div>
+      )}
+    </li>
   );
 }
 
 export function DeckRow({ deck, href }: { deck: DeckOverview; href: string }) {
   const style = subjectStyle(deck.subject);
   const segments = 10;
-  const mastered = Math.round(
-    (deck.mastered_cards / deck.total_cards) * segments
-  );
-  const seen = Math.round((deck.seen_cards / deck.total_cards) * segments);
+  const total = Math.max(1, deck.total_cards);
+  const mastered = Math.round((deck.mastered_cards / total) * segments);
+  const seen = Math.round((deck.seen_cards / total) * segments);
 
   return (
-    <Link
-      href={href}
-      className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-4 transition-transform hover:-translate-y-0.5"
-    >
+    <Link href={href} className="flex items-center gap-3.5 px-4 py-3.5">
       <span
-        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl font-display text-2xl"
-        style={{ background: style.soft, color: style.color }}
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-[8px] font-mark text-[21px]"
+        style={{ background: style.tile, color: style.onTile }}
         aria-hidden
       >
         {style.glyph}
       </span>
-      <div className="min-w-0 flex-1">
-        <p
-          className="text-[11px] font-bold uppercase tracking-[0.18em]"
-          style={{ color: style.color }}
-        >
+      <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span className="text-xs font-bold" style={{ color: style.color }}>
           {subjectLabel(deck.subject)}
-        </p>
-        <p className="truncate font-semibold">{deck.title}</p>
-        <div
-          className="mt-2 flex gap-[3px]"
+        </span>
+        <span className="truncate text-[15px] font-bold">{deck.title}</span>
+        <span
+          className="mt-[5px] flex gap-[3px]"
+          role="img"
           aria-label={`${deck.mastered_cards} de ${deck.total_cards} dominados`}
         >
           {Array.from({ length: segments }).map((_, i) => (
             <span
               key={i}
-              className="h-1.5 flex-1 rounded-[1px]"
+              className="h-[5px] flex-1 rounded-[1px]"
               style={{
                 background:
                   i < mastered
-                    ? style.color
+                    ? style.bar
                     : i < seen
-                      ? style.soft
-                      : "var(--marble-deep)",
+                      ? style.barSoft
+                      : "var(--p-line)",
               }}
             />
           ))}
-        </div>
-      </div>
+        </span>
+      </span>
       {deck.due_cards > 0 ? (
-        <span className="rounded-full bg-terracotta px-2.5 py-1 text-xs font-extrabold text-marble">
+        <span
+          className="w-5 text-right text-[13px] font-extrabold tabular-nums text-coral-ink"
+          aria-label={`${deck.due_cards} para revisar`}
+        >
           {deck.due_cards}
         </span>
       ) : (
-        <span
-          className="text-ink-soft transition-transform group-hover:translate-x-0.5"
-          aria-hidden
-        >
-          →
-        </span>
+        <span className="w-5" />
       )}
     </Link>
   );

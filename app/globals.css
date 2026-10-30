@@ -1,185 +1,255 @@
 @import "tailwindcss";
 
 /*
- * Paideia design tokens — alinhados ao protótipo do Figma (figma/).
+ * Paideia design tokens: Glaukópis pastel (design/redesign-glaukopis/).
  *
- * Um tema claro só. Público é criança + família + escola; uma paleta única
- * bem calibrada evita os problemas de contraste que um dark mode meio-feito
- * causava (o <select> invisível).
+ * Uma paleta só para os 4 perfis, com modo escuro. As cores cruas moram em
+ * :root (e são trocadas no escuro); o @theme inline só as expõe como
+ * utilitários do Tailwind (bg-night, text-glauco-ink…).
  *
- * Cores de marca:
- *  - ink (#1e3a8a): títulos, ações primárias, e a MAIOR parte do texto.
- *  - gold (#e4bb02): acento, foco, estado ativo, o "?" recorrente. Nunca texto
- *    pequeno sobre branco — só fundo/borda; texto sobre gold é ink.
- *  - mist (#c8e0e3): borda de controle (2px), superfícies calmas, bolha do tutor.
- *  - parchment (#fffac8): callouts, bolha do aluno, destaques quentes.
+ * Papéis:
+ *  - night: ação principal (botões, aba ativa). Texto em cima: on-night.
+ *  - panel: o cartão escuro do herói do aluno (fica escuro nos dois modos).
+ *  - lavender: fala do aluno, Matemática.
+ *  - glauco: o tutor e a assinatura da marca (glaukópis, "olhos de coruja").
+ *  - lamp (lamparina): moedas, conquistas. coin: a dracma.
+ *    on-lamp-accent: o marrom-dourado sobre o pastel (degrau do 1º lugar).
+ *  - coral: erro, "revisar".
+ * Cada matiz tem `X` (pastel), `on-X` (texto sobre o pastel), `X-soft`
+ * (fundo sutil) e `X-ink` (texto colorido sobre fundo/cartão/soft).
+ *
+ * Os nomes antigos (ink, muted, gold, mist, strong, weak…) e as variáveis
+ * cruas do tema grego (--terracotta, --aegean…) continuam valendo, apontando
+ * para a paleta nova.
  */
-@theme {
-  --color-bg: #f4f9fa;
-  --color-surface: #ffffff;
-
-  --color-mist: #c8e0e3;
-  --color-mist-soft: #e2f0f2;
-  --color-parchment: #fffac8;
-
-  --color-ink: #1e3a8a;
-  --color-ink-strong: #152c66;
-  --color-ink-soft: #a8c8e8;
-  --color-gold: #e4bb02;
-  --color-gold-soft: #f7e9a8;
-  --color-gold-deep: #b8960a;
-
-  /* Texto: no Figma quase tudo é ink; o secundário é um azul-acinzentado. */
-  --color-body: #1e3a8a;
-  --color-muted: #4a6080;
-  --color-faint: #8aacb8;
-
-  /* Linhas: hairline de card é bem clara; borda de controle é a mist. */
-  --color-line: #e8f4f6;
-  --color-line-strong: #d7e3e5;
-
-  /* Semânticas — separadas do acento. */
-  --color-strong: #2d7a4f;
-  --color-strong-bg: #e5f5ed;
-  --color-average: #b8960a;
-  --color-average-bg: #fdf8e1;
-  --color-weak: #c0392b;
-  --color-weak-bg: #ffd5d5;
-
-  --font-display:
-    var(--font-bricolage), "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-
-  --radius-sm: 0.75rem; /* 12px — inputs */
-  --radius: 0.875rem; /* 14px — botões, cards menores */
-  --radius-lg: 1rem; /* 16px — cards */
-}
-
-/*
- * Cores do tema grego que não existem na paleta do Figma. Registradas como
- * utilitários (bg-marble, text-terracotta…) e resolvidas pelas variáveis cruas
- * definidas em .theme-greek, logo abaixo.
- */
-@theme inline {
-  --color-marble: var(--marble);
-  --color-marble-deep: var(--marble-deep);
-  --color-terracotta: var(--terracotta);
-  --color-terracotta-deep: var(--terracotta-deep);
-  --color-terracotta-soft: var(--terracotta-soft);
-  --color-aegean: var(--aegean);
-  --color-aegean-deep: var(--aegean-deep);
-  --color-aegean-soft: var(--aegean-soft);
-  --color-olive: var(--olive);
-  --color-olive-soft: var(--olive-soft);
-}
-
-html {
+:root {
   color-scheme: light;
-}
 
-/*
- * Tema grego (geométrico, cerâmica de figuras negras) — SÓ no app do aluno,
- * aplicado por src/ui/student/StudentShell.tsx. Público diferente, tom
- * diferente: o aluno ganha um app com cara de jogo; responsável, professor e
- * gestor seguem na paleta do Figma acima.
- *
- * Os tokens do Figma (ink, surface, line, gold, muted…) são redefinidos dentro
- * do escopo, então telas compartilhadas (Ajustes, Tutor) herdam a paleta sem
- * duplicar componente. O aluno também ganha modo escuro; o resto do app
- * continua só claro (ver o comentário do @theme).
- */
-.theme-greek {
-  --marble: #f4eee3;
-  --marble-deep: #e9dfcd;
-  --surface: #fbf8f2;
-  --ink: #1f1a16;
-  --ink-soft: #5f564b;
-  --line: #d8ccb6;
-  --terracotta: #b8532a;
-  --terracotta-deep: #8d3a1b;
-  --terracotta-soft: #f1d9c9;
-  --aegean: #1e4e79;
-  --aegean-deep: #143654;
-  --aegean-soft: #d6e3ee;
-  --gold: #d6a21e;
-  --gold-deep: #9c700a;
-  --gold-soft: #f6e6b5;
-  --olive: #5f7433;
-  --olive-soft: #e1e8cc;
+  --p-bg: #f3f2ee;
+  --p-surface: #ffffff;
+  --p-ink: #151b2e;
+  --p-muted: #505873;
+  --p-faint: #6a7088;
+  --p-line: #ecebe5;
+  --p-line-strong: #e2e0d9;
+  --p-input: #d3d0c6;
 
-  --color-bg: var(--marble);
-  --color-surface: var(--surface);
-  --color-mist: var(--line);
-  --color-mist-soft: var(--marble-deep);
-  --color-parchment: var(--gold-soft);
-  --color-ink: var(--ink);
-  --color-ink-strong: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
-  --color-gold-deep: var(--gold-deep);
-  --color-body: var(--ink);
-  --color-muted: var(--ink-soft);
-  --color-faint: color-mix(in srgb, var(--ink-soft) 70%, var(--marble));
-  --color-line: var(--line);
-  --color-line-strong: var(--line);
-  --color-strong: var(--olive);
-  --color-strong-bg: var(--olive-soft);
-  --color-average: var(--gold-deep);
-  --color-average-bg: var(--gold-soft);
-  --color-weak: var(--terracotta);
-  --color-weak-bg: var(--terracotta-soft);
+  --p-night: #1c2a4a;
+  --p-on-night: #ffffff;
 
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-marcellus), Georgia, serif;
+  --p-panel: #1c2a4a;
+  --p-on-panel: #ece8dd;
+  --p-panel-muted: #b8c5ee;
+  --p-panel-line: #34456e;
+  --p-panel-field: #f3f2ee;
 
-  font-family: var(--font-sans);
-  color: var(--color-ink);
+  --p-lavender: #d3dbf4;
+  --p-on-lavender: #151b2e;
+  --p-lavender-soft: #e7ebf8;
+  --p-lavender-strong: #b8c5ee;
+  --p-lavender-deep: #7f93d4;
+  --p-lavender-ink: #2f3f74;
+
+  --p-glauco: #b5ddd6;
+  --p-on-glauco: #1f4f4c;
+  --p-glauco-soft: #d8eeea;
+  --p-glauco-mid: #6fb5ab;
+  --p-glauco-ink: #1f4f4c;
+  --p-glauco-deep: #2a6663;
+
+  --p-lamp: #f7d99a;
+  --p-on-lamp: #151b2e;
+  --p-lamp-soft: #fbefd3;
+  --p-lamp-ink: #7a5410;
+  --p-on-lamp-accent: #7a5410;
+
+  --p-coin: #e2a23a;
+  --p-coin-ring: #f2c768;
+
+  --p-coral: #f4c3b6;
+  --p-on-coral: #8a2f1c;
+  --p-coral-soft: #fbe1da;
+  --p-coral-mid: #e48e78;
+  --p-coral-ink: #8a2f1c;
 }
 
 @media (prefers-color-scheme: dark) {
-  /* Cerâmica de figuras negras, à noite */
-  .theme-greek {
+  :root {
     color-scheme: dark;
-    --marble: #17130f;
-    --marble-deep: #0f0c09;
-    --surface: #221c16;
-    --ink: #f2e9da;
-    --ink-soft: #b7a993;
-    --line: #3a3027;
-    --terracotta: #e2733f;
-    --terracotta-deep: #f0925f;
-    --terracotta-soft: #3d2217;
-    --aegean: #6fa3d2;
-    --aegean-deep: #9cc3e6;
-    --aegean-soft: #1a2c3d;
-    --gold: #f0c145;
-    --gold-deep: #f6d77e;
-    --gold-soft: #3a2e10;
-    --olive: #a9bf6c;
-    --olive-soft: #262d17;
+
+    --p-bg: #0e1322;
+    --p-surface: #171e33;
+    --p-ink: #ece8dd;
+    --p-muted: #9aa1b8;
+    --p-faint: #7d849b;
+    --p-line: #28304a;
+    --p-line-strong: #28304a;
+    --p-input: #343e5c;
+
+    --p-night: #b8c5ee;
+    --p-on-night: #0e1322;
+
+    --p-panel: #1f2a4a;
+    --p-panel-line: #34456e;
+    --p-panel-field: #0e1322;
+
+    --p-lavender: #2a3558;
+    --p-on-lavender: #ece8dd;
+    --p-lavender-soft: #1f2742;
+    --p-lavender-strong: #4b5b8f;
+    --p-lavender-deep: #8fa2e0;
+    --p-lavender-ink: #b8c5ee;
+
+    --p-glauco: #9fd3cb;
+    --p-on-glauco: #173432;
+    --p-glauco-soft: #183331;
+    --p-glauco-mid: #5fa79d;
+    --p-glauco-ink: #9fd3cb;
+    --p-glauco-deep: #9fd3cb;
+
+    --p-lamp: #f3d291;
+    --p-on-lamp: #2a1d05;
+    --p-lamp-soft: #362b14;
+    --p-lamp-ink: #f3d291;
+    --p-on-lamp-accent: #5a3d08;
+
+    --p-coin: #c98a1e;
+    --p-coin-ring: #e2a23a;
+
+    --p-coral: #f0ae9f;
+    --p-on-coral: #6e2415;
+    --p-coral-soft: #3b2220;
+    --p-coral-mid: #e48e78;
+    --p-coral-ink: #f0ae9f;
   }
 }
 
-/* Marcellus só tem um peso: sem negrito sintético e sem o tracking apertado do Bricolage. */
-.theme-greek :is(h1, h2, h3) {
-  font-weight: 400;
-  letter-spacing: 0;
+@theme inline {
+  --color-bg: var(--p-bg);
+  --color-surface: var(--p-surface);
+  --color-ink: var(--p-ink);
+  --color-muted: var(--p-muted);
+  --color-faint: var(--p-faint);
+  --color-line: var(--p-line);
+  --color-line-strong: var(--p-line-strong);
+  --color-input: var(--p-input);
+
+  --color-night: var(--p-night);
+  --color-on-night: var(--p-on-night);
+  --color-panel: var(--p-panel);
+  --color-on-panel: var(--p-on-panel);
+  --color-panel-muted: var(--p-panel-muted);
+  --color-panel-line: var(--p-panel-line);
+  --color-panel-field: var(--p-panel-field);
+
+  --color-lavender: var(--p-lavender);
+  --color-on-lavender: var(--p-on-lavender);
+  --color-lavender-soft: var(--p-lavender-soft);
+  --color-lavender-strong: var(--p-lavender-strong);
+  --color-lavender-deep: var(--p-lavender-deep);
+  --color-lavender-ink: var(--p-lavender-ink);
+
+  --color-glauco: var(--p-glauco);
+  --color-on-glauco: var(--p-on-glauco);
+  --color-glauco-soft: var(--p-glauco-soft);
+  --color-glauco-mid: var(--p-glauco-mid);
+  --color-glauco-ink: var(--p-glauco-ink);
+  --color-glauco-deep: var(--p-glauco-deep);
+
+  --color-lamp: var(--p-lamp);
+  --color-on-lamp: var(--p-on-lamp);
+  --color-lamp-soft: var(--p-lamp-soft);
+  --color-lamp-ink: var(--p-lamp-ink);
+  --color-on-lamp-accent: var(--p-on-lamp-accent);
+
+  --color-coin: var(--p-coin);
+  --color-coin-ring: var(--p-coin-ring);
+
+  --color-coral: var(--p-coral);
+  --color-on-coral: var(--p-on-coral);
+  --color-coral-soft: var(--p-coral-soft);
+  --color-coral-mid: var(--p-coral-mid);
+  --color-coral-ink: var(--p-coral-ink);
+
+  /* Nomes antigos, mapeados para a paleta nova. */
+  --color-ink-strong: var(--p-night);
+  --color-ink-soft: var(--p-muted);
+  --color-body: var(--p-ink);
+  --color-mist: var(--p-input);
+  --color-mist-soft: var(--p-line);
+  --color-parchment: var(--p-lamp-soft);
+  --color-gold: var(--p-lamp);
+  --color-gold-soft: var(--p-lamp-soft);
+  --color-gold-deep: var(--p-lamp-ink);
+  --color-strong: var(--p-glauco-ink);
+  --color-strong-bg: var(--p-glauco-soft);
+  --color-average: var(--p-lamp-ink);
+  --color-average-bg: var(--p-lamp-soft);
+  --color-weak: var(--p-coral-ink);
+  --color-weak-bg: var(--p-coral-soft);
+  --color-marble: var(--p-bg);
+  --color-marble-deep: var(--p-line);
+  --color-terracotta: var(--p-coral-ink);
+  --color-terracotta-deep: var(--p-coral-ink);
+  --color-terracotta-soft: var(--p-coral-soft);
+  --color-aegean: var(--p-lavender-ink);
+  --color-aegean-deep: var(--p-night);
+  --color-aegean-soft: var(--p-lavender-soft);
+  --color-olive: var(--p-glauco-ink);
+  --color-olive-soft: var(--p-glauco-soft);
+
+  --font-display: var(--font-young-serif), Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mark: var(--font-marcellus), Georgia, serif;
+}
+
+@theme {
+  --radius-sm: 0.625rem; /* 10px: inputs */
+  --radius: 0.75rem; /* 12px: botões */
+  --radius-lg: 0.875rem; /* 14px: cartões */
+}
+
+/* Variáveis cruas do tema grego, usadas em SVG (fill/stroke). */
+:root {
+  --marble: var(--p-bg);
+  --marble-deep: var(--p-line);
+  --surface: var(--p-surface);
+  --ink: var(--p-ink);
+  --ink-soft: var(--p-muted);
+  --line: var(--p-line-strong);
+  --terracotta: var(--p-coral-mid);
+  --terracotta-deep: var(--p-coral-ink);
+  --terracotta-soft: var(--p-coral-soft);
+  --aegean: var(--p-lavender-deep);
+  --aegean-deep: var(--p-night);
+  --aegean-soft: var(--p-lavender-soft);
+  --gold: var(--p-coin);
+  --gold-deep: var(--p-lamp-ink);
+  --gold-soft: var(--p-lamp-soft);
+  --olive: var(--p-glauco-mid);
+  --olive-soft: var(--p-glauco-soft);
 }
 
 body {
   background: var(--color-bg);
-  color: var(--color-body);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
+/* Young Serif só tem o peso 400: nada de negrito sintético nos títulos. */
+h1,
+h2,
+h3,
+.font-display {
+  font-synthesis: none;
+}
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
+  font-weight: 400;
   color: var(--color-ink);
-  letter-spacing: -0.02em;
 }
 
 /* Barra de rolagem escondida — o app é mobile-first, estilo app nativo. */
@@ -192,12 +262,12 @@ h3 {
 
 /* Foco visível e consistente para quem navega por teclado. */
 *:focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-night);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ---------- Movimento do tema grego ---------- */
+/* ---------- Movimento ---------- */
 
 @keyframes paideia-rise {
   from {

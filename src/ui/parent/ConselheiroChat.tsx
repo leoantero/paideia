@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { RichText } from "@/src/ui/RichText";
 import type { LinkedChild } from "@/src/features/user-profiles/parent-profile-service";
-import { Segmented } from "@/src/ui/kit";
+import { ArrowRightIcon, LampIcon } from "@/src/ui/paideia/line-icons";
+import { ChildTabs } from "./PainelView";
 
 interface Msg {
   role: "user" | "assistant";
@@ -12,7 +13,7 @@ interface Msg {
 
 function bubbleLabel(child?: LinkedChild) {
   return child
-    ? `Lê o progresso de ${child.full_name.split(" ")[0]} · não as conversas`
+    ? `Lê o progresso de ${child.full_name.split(" ")[0]}, não as conversas`
     : "";
 }
 
@@ -82,126 +83,109 @@ export function ConselheiroChat({ students }: { students: LinkedChild[] }) {
     );
   }
 
+  const firstName = child.full_name.split(" ")[0];
+
   return (
     <div className="flex h-full flex-col">
-      <div className="border-b border-line bg-surface px-5 py-3.5">
-        <div className="flex items-center gap-2.5">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-gold text-lg">
-            💡
+      <div className="flex flex-col gap-3 border-b border-line-strong bg-surface px-5 pb-3.5 pt-[18px]">
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-sm bg-lamp text-on-lamp-accent">
+            <LampIcon size={23} />
           </span>
-          <div className="min-w-0">
-            <div className="font-display text-[15px] font-bold text-ink">
-              Conselheiro
-            </div>
-            <div className="truncate text-[11px] text-muted">
+          <div className="flex min-w-0 flex-col">
+            <h1 className="text-[22px] leading-tight">Conselheiro</h1>
+            <span className="truncate text-[13px] text-muted">
               {bubbleLabel(child)}
-            </div>
+            </span>
           </div>
         </div>
         {students.length > 1 && (
-          <Segmented
-            className="mt-3"
-            value={selected}
-            onChange={selectChild}
-            options={students.map((c) => ({
-              value: c.id,
-              label: c.full_name.split(" ")[0],
-            }))}
+          <ChildTabs
+            size="sm"
+            students={students}
+            selected={child.id}
+            onSelect={selectChild}
           />
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-5 py-4">
-        {messages.length === 0 && (
-          <div className="rounded-[14px] border-[1.5px] border-mist bg-mist px-3.5 py-2.5 text-sm leading-relaxed text-ink">
-            Olá! Pergunte como apoiar {child.full_name.split(" ")[0]} em casa —
-            posso falar sobre o domínio por matéria e onde vale focar.
-          </div>
+      <ol className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 py-[18px]">
+        <AdvisorLine>
+          Olá! Pergunte como apoiar {firstName} em casa. Posso falar sobre o
+          domínio por matéria e onde vale focar.
+        </AdvisorLine>
+        {messages.map((m, i) =>
+          m.role === "user" ? (
+            <li key={i} className="flex flex-col items-end gap-1">
+              <span className="text-xs font-bold text-lavender-ink">Você</span>
+              <p className="max-w-[82%] whitespace-pre-wrap rounded-[12px_2px_12px_12px] bg-lavender px-3.5 py-2.5 text-[15px] leading-[1.45] text-on-lavender">
+                {m.content}
+              </p>
+            </li>
+          ) : (
+            <AdvisorLine key={i}>
+              <RichText text={m.content} />
+            </AdvisorLine>
+          )
         )}
-        {messages.map((m, i) => (
-          <Bubble key={i} msg={m} />
-        ))}
-        {sending && <Typing />}
-        {error && <p className="text-sm font-medium text-weak">{error}</p>}
+        {sending && (
+          <AdvisorLine>
+            <span className="flex gap-1 py-2" aria-label="Pensando">
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  className="h-1.5 w-1.5 animate-pulse rounded-full bg-coin"
+                  style={{ animationDelay: `${i * 150}ms` }}
+                />
+              ))}
+            </span>
+          </AdvisorLine>
+        )}
+        {error && (
+          <li className="text-sm font-semibold text-coral-ink">{error}</li>
+        )}
         <div ref={bottomRef} />
-      </div>
+      </ol>
 
-      <div className="border-t border-line bg-surface px-4 py-3">
-        <form
-          className="flex gap-2"
-          onSubmit={(e) => {
-            e.preventDefault();
-            send();
-          }}
-        >
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Como posso ajudar em casa?"
-            className="flex-1 rounded-[12px] border-2 border-mist bg-bg px-3.5 py-2.5 text-sm text-ink placeholder:text-faint focus:border-ink"
-          />
-          <button
-            type="submit"
-            disabled={!input.trim() || sending}
-            className={`grid h-[42px] w-[42px] shrink-0 place-items-center rounded-[12px] ${
-              input.trim() && !sending ? "bg-ink" : "bg-mist"
-            }`}
-          >
-            <svg
-              width="15"
-              height="15"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="white"
-              strokeWidth="2.5"
-              aria-hidden
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 19V5M5 12l7-7 7 7"
-              />
-            </svg>
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-function Bubble({ msg }: { msg: Msg }) {
-  const mine = msg.role === "user";
-  return (
-    <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-      {!mine && (
-        <span className="mr-2 grid h-7 w-7 shrink-0 self-end place-items-center rounded-lg bg-gold text-sm">
-          💡
-        </span>
-      )}
-      <div
-        className={`max-w-[78%] whitespace-pre-wrap border-[1.5px] px-3.5 py-2.5 text-sm leading-relaxed text-ink ${
-          mine
-            ? "rounded-[14px] rounded-br-[4px] border-mist-soft bg-mist"
-            : "rounded-[14px] rounded-bl-[4px] border-line bg-surface"
-        }`}
+      <form
+        className="flex gap-2 border-t border-line-strong bg-surface px-5 py-3"
+        onSubmit={(e) => {
+          e.preventDefault();
+          send();
+        }}
       >
-        <RichText text={msg.content} />
-      </div>
+        <label htmlFor="conselheiro-pergunta" className="sr-only">
+          Sua pergunta
+        </label>
+        <input
+          id="conselheiro-pergunta"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Como posso ajudar em casa?"
+          className="h-[46px] min-w-0 flex-1 rounded-sm border-[1.5px] border-input bg-bg px-3.5 text-[15px] text-ink placeholder:text-faint focus:border-night focus:outline-none"
+        />
+        <button
+          type="submit"
+          aria-label="Enviar"
+          disabled={!input.trim() || sending}
+          className="grid h-[46px] w-[46px] shrink-0 place-items-center rounded-sm bg-night text-on-night disabled:opacity-40"
+        >
+          <ArrowRightIcon size={21} />
+        </button>
+      </form>
     </div>
   );
 }
 
-function Typing() {
+function AdvisorLine({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-gold text-sm">
-        💡
+    <li className="flex gap-2.5">
+      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[8px] bg-lamp text-on-lamp-accent">
+        <LampIcon size={17} strokeWidth={1.8} />
       </span>
-      <div className="flex gap-1 rounded-[14px] rounded-bl-[4px] border-[1.5px] border-line bg-surface px-4 py-2.5">
-        {[0, 1, 2].map((i) => (
-          <span key={i} className="h-1.5 w-1.5 rounded-full bg-ink/40" />
-        ))}
+      <div className="min-w-0 whitespace-pre-wrap text-[15px] leading-[1.55]">
+        {children}
       </div>
-    </div>
+    </li>
   );
 }

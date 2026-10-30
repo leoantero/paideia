@@ -14,11 +14,20 @@ export default async function StudentHomePage() {
   const profile = await requireRole("student");
   const { supabase } = await getVerifiedUser();
 
-  const [progress, leaderboard, decks] = await Promise.all([
-    getMyProgress(supabase),
-    getClassLeaderboard(supabase),
-    getDeckOverview(supabase),
-  ]);
+  const [progress, leaderboard, decks, { data: lastConvo }] = await Promise.all(
+    [
+      getMyProgress(supabase),
+      getClassLeaderboard(supabase),
+      getDeckOverview(supabase),
+      // RLS já escopa para o aluno logado.
+      supabase
+        .from("conversations")
+        .select("id, title, subject")
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]
+  );
 
   return (
     <HomeView
@@ -28,6 +37,14 @@ export default async function StudentHomePage() {
       myRank={leaderboard.entries.find((e) => e.is_me) ?? null}
       classroomName={leaderboard.classroom?.name ?? null}
       decks={decks}
+      lastConversation={
+        lastConvo
+          ? {
+              id: lastConvo.id,
+              title: lastConvo.title || lastConvo.subject || "Conversa",
+            }
+          : null
+      }
     />
   );
 }

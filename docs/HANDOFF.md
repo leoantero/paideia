@@ -1,4 +1,28 @@
-# Paideia — checkpoint (2026‑10‑04)
+# Paideia — checkpoint (2026‑10‑29)
+
+## Redesign Glaukópis pastel aplicado (2026‑10‑29)
+
+Os tokens, fontes e todas as telas dos 4 perfis foram migrados para a paleta
+`design/redesign-glaukopis/HANDOFF.md` (ordem sugerida 1–4 completa: tokens,
+fontes, casca do aluno, telas do aluno/entrada/login/adultos). Validado tela a
+tela no dev server (`/dev` → entrar como qualquer perfil), nos 4 perfis,
+incluindo estados (card de revisão virado, loja, dashboard do gestor nas 4
+abas, erro do tutor). `tsc`, `lint` e `build` limpos.
+
+**Próxima sessão:** varrer o app em busca de pontos onde o visual novo e o
+antigo ficaram "meio a meio" — classes/cores antigas (`ink`, `muted`, `gold`,
+`mist`, `strong`, `weak`, variáveis `--terracotta`/`--aegean` do tema grego)
+que `app/globals.css` mantém mapeadas por compatibilidade mas que não
+deveriam mais aparecer soltas em componentes não tocados por este redesign,
+e qualquer tela/componente fora da lista do `design/redesign-glaukopis/
+HANDOFF.md` que ainda não foi revisado. Objetivo: unificar tudo num design
+system só, sem resquício do antigo.
+
+- **Telas novas sem rota ainda** (`TelaQuestoes`, `TelaQuestao`/acerto/erro,
+  `TelaSimulacoes`): não implementar sem alinhar escopo antes.
+- `src/ui/paideia/line-icons.tsx` (novo set de ícones) e `nextsteps/` (plano
+  de negócio/técnico, não versionado ainda) seguem fora deste commit —
+  decidir o que fazer com eles.
 
 ## Integração do redesign do `main` (2026‑10‑04)
 

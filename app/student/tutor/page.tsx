@@ -6,7 +6,12 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function TutorPage() {
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export default async function TutorPage({
+  searchParams,
+}: PageProps<"/student/tutor">) {
+  const { q, c } = await searchParams;
   const { supabase, user } = await getVerifiedUser();
 
   let conversations: ConversationSummary[] = [];
@@ -26,11 +31,21 @@ export default async function TutorPage() {
     firstName = (prof?.full_name ?? "").split(" ")[0] ?? "";
   }
 
-  // Altura fixa: o chat rola por dentro e a caixa de texto fica sempre à vista
-  // acima da barra de navegação.
+  // `?q=` e `?c=` vêm do Início. A conversa só abre se for do aluno: a rota
+  // /api/tutor/history passa pela RLS.
+  const question = typeof q === "string" ? q.slice(0, 2000) : undefined;
+  const convId = typeof c === "string" && UUID.test(c) ? c : undefined;
+
+  // Altura fixa: o chat rola por dentro e a caixa de texto fica logo acima da
+  // barra de navegação (o -mb desconta parte do respiro da casca).
   return (
-    <div className="flex h-[calc(100dvh-12.5rem)] min-h-[420px] flex-col overflow-hidden rounded-3xl border border-line bg-surface">
-      <TutorScreen firstName={firstName} conversations={conversations} />
+    <div className="-mb-6 flex h-[calc(100dvh-156px)] min-h-[420px] flex-col">
+      <TutorScreen
+        firstName={firstName}
+        conversations={conversations}
+        initialQuestion={question}
+        initialConversationId={convId}
+      />
     </div>
   );
 }

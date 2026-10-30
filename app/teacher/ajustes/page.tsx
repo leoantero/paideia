@@ -1,6 +1,6 @@
 import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
 import { SettingsView } from "@/src/ui/SettingsView";
-import { Callout } from "@/src/ui/kit";
+import { Callout, InfoList } from "@/src/ui/kit";
 
 export const dynamic = "force-dynamic";
 
@@ -40,50 +40,34 @@ export default async function TeacherAjustesPage() {
     <SettingsView
       extra={
         <>
-          {schools?.[0] && (
-            <div className="flex items-center justify-between rounded-[12px] border border-line bg-surface px-[18px] py-3.5">
-              <span className="text-[13px] text-muted">Escola</span>
-              <span className="text-sm font-medium text-ink">
-                {schools[0].name}
-              </span>
-            </div>
-          )}
+          <InfoList
+            rows={[
+              ...(schools?.[0]
+                ? [{ label: "Escola", value: schools[0].name as string }]
+                : []),
+              ...(subjects.length > 0
+                ? [
+                    {
+                      label: "Matéria",
+                      value: subjects
+                        .map((s) => SUBJECT_LABELS[s] ?? s)
+                        .join(", "),
+                    },
+                  ]
+                : []),
+              ...((classes ?? []).length === 0
+                ? [{ label: "Turmas", value: "Nenhuma atribuída" }]
+                : (classes ?? []).map((c) => ({
+                    label: c.name as string,
+                    value: String(c.academic_year ?? ""),
+                  }))),
+            ]}
+          />
 
-          {subjects.length > 0 && (
-            <div className="flex items-center justify-between rounded-[12px] border border-line bg-surface px-[18px] py-3.5">
-              <span className="text-[13px] text-muted">Matéria</span>
-              <span className="text-sm font-medium text-ink">
-                {subjects.map((s) => SUBJECT_LABELS[s] ?? s).join(", ")}
-              </span>
-            </div>
-          )}
-
-          <div className="rounded-[12px] border border-line bg-surface px-[18px] py-3.5">
-            <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-faint">
-              Turmas
-            </div>
-            {(classes ?? []).length === 0 ? (
-              <p className="py-1 text-sm text-muted">
-                Nenhuma turma atribuída.
-              </p>
-            ) : (
-              (classes ?? []).map((c) => (
-                <div
-                  key={c.id}
-                  className="flex items-center justify-between border-t border-bg py-2 first:border-t-0"
-                >
-                  <span className="text-sm font-medium text-ink">{c.name}</span>
-                  <span className="text-[13px] text-muted">
-                    {c.academic_year}
-                  </span>
-                </div>
-              ))
-            )}
-          </div>
-
-          <Callout tone="warm">
-            <strong>Privacidade:</strong> você vê domínio agregado por conceito
-            dos alunos das suas turmas — nunca as conversas deles com o Tutor.
+          <Callout tone="cool">
+            <strong>Privacidade:</strong> você vê o domínio agregado por
+            conceito dos alunos das suas turmas, nunca as conversas deles com o
+            tutor.
           </Callout>
         </>
       }

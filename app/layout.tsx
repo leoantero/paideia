@@ -1,27 +1,17 @@
 import type { Metadata } from "next";
-import {
-  Bricolage_Grotesque,
-  Inter,
-  Manrope,
-  Marcellus,
-} from "next/font/google";
+import { Manrope, Marcellus, Young_Serif } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+// Identidade Glaukópis (design/redesign-glaukopis/HANDOFF.md):
+//  - Young Serif: títulos de tela (só tem o peso 400).
+//  - Manrope: texto corrido e interface.
+//  - Marcellus: só o logotipo PAIDEIA, o grego (παιδεία) e os glifos de matéria.
+const youngSerif = Young_Serif({
+  variable: "--font-young-serif",
+  weight: "400",
   subsets: ["latin"],
 });
 
-// Grotesca contemporânea com personalidade — a identidade tipográfica do
-// Paideia. Evita o clichê da serifa "IA premium".
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-// Tema grego do app do aluno (.theme-greek em globals.css): Marcellus nos
-// títulos, com o ar de inscrição em pedra, e Manrope no texto corrido.
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
@@ -43,7 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`${inter.variable} ${bricolage.variable} ${manrope.variable} ${marcellus.variable} h-full`}
+      className={`${youngSerif.variable} ${manrope.variable} ${marcellus.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

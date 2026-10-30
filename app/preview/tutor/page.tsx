@@ -1,12 +1,16 @@
 import { TutorScreen } from "@/src/ui/student/TutorScreen";
 
-export default function PreviewTutor() {
+export default async function PreviewTutor({
+  searchParams,
+}: PageProps<"/preview/tutor">) {
+  const { q } = await searchParams;
   return (
-    <div className="flex h-[calc(100dvh-12.5rem)] min-h-[420px] flex-col overflow-hidden rounded-3xl border border-line bg-surface">
+    <div className="-mb-6 flex h-[calc(100dvh-156px)] min-h-[420px] flex-col">
       <TutorScreen
         firstName="Ana"
         conversations={[]}
         endpoint="/preview/api/chat"
+        initialQuestion={typeof q === "string" ? q : undefined}
       />
     </div>
   );

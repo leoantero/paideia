@@ -6,6 +6,8 @@ import Link from "next/link";
 import { createClient } from "@/src/lib/supabase/client";
 import { ROLE_HOME, matriculaToEmail, type Role } from "@/src/core/auth/types";
 import { Button, ErrorText } from "@/src/ui/kit";
+import { Marca } from "@/src/ui/paideia/Marca";
+import { ChevronLeftIcon } from "@/src/ui/paideia/line-icons";
 
 interface RoleConfig {
   title: string;
@@ -39,7 +41,7 @@ const CONFIG: Record<Role, RoleConfig> = {
     placeholder: "seu@email.com",
     hint: {
       tone: "warm",
-      text: "Primeiro acesso? Verifique seu e-mail — a escola enviou um link de ativação.",
+      text: "Primeiro acesso? Verifique seu e-mail: a escola enviou um link de ativação.",
     },
   },
   teacher: {
@@ -80,10 +82,12 @@ export function LoginForm({ role }: { role: Role }) {
         ? matriculaToEmail(value)
         : value.trim().toLowerCase();
 
-    const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { data, error: signInError } = await supabase.auth.signInWithPassword(
+      {
+        email,
+        password,
+      }
+    );
 
     if (signInError || !data.user) {
       setLoading(false);
@@ -106,39 +110,44 @@ export function LoginForm({ role }: { role: Role }) {
     router.refresh();
   }
 
+  const field =
+    "h-[50px] w-full rounded-sm border-[1.5px] border-input bg-surface px-3.5 text-base text-ink placeholder:text-faint focus:border-night focus:outline-none";
+
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-[420px] flex-col px-6">
-      {/* Top bar */}
-      <div className="flex items-center justify-between pt-12">
+    <main className="mx-auto flex min-h-dvh w-full max-w-[420px] flex-col gap-[26px] px-6 pt-[18px]">
+      <div className="flex items-center justify-between">
         <Link
           href="/"
-          className="flex items-center gap-1.5 text-[14px] font-medium text-muted hover:text-ink"
+          className="-ml-1.5 flex min-h-11 items-center gap-1 text-sm font-bold text-muted hover:text-ink"
         >
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" aria-hidden>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
+          <ChevronLeftIcon size={20} />
           Voltar
         </Link>
-        <span
-          aria-hidden
-          className="grid h-[30px] w-[30px] place-items-center rounded-lg bg-ink font-display text-[17px] font-extrabold text-white"
-        >
-          Π
+        <span className="flex items-center gap-2">
+          <Marca
+            variante="busto"
+            peso="compacta"
+            size={30}
+            linha="var(--p-night)"
+            louro="var(--p-coin)"
+            title={null}
+          />
+          <span className="font-mark text-lg tracking-[0.16em]">PAIDEIA</span>
         </span>
       </div>
 
-      {/* Header */}
-      <div className="pt-10">
-        <h1 className="font-display text-[28px] font-extrabold tracking-tight text-ink">
-          {c.title}
-        </h1>
-        <p className="mt-2 text-[14px] leading-relaxed text-muted">{c.subtitle}</p>
+      <div className="mt-6 flex flex-col gap-1.5">
+        <h1 className="text-[30px] leading-tight">{c.title}</h1>
+        <p className="text-[15px] text-muted">{c.subtitle}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-9 flex flex-col gap-4">
-        <label className="flex flex-col gap-1.5">
-          <span className="text-[13px] font-semibold text-ink">{c.fieldLabel}</span>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="login-id" className="text-sm font-bold">
+            {c.fieldLabel}
+          </label>
           <input
+            id="login-id"
             type={c.fieldType}
             inputMode={c.identifier === "matricula" ? "numeric" : undefined}
             autoComplete={c.identifier === "matricula" ? "username" : "email"}
@@ -146,59 +155,68 @@ export function LoginForm({ role }: { role: Role }) {
             required
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-full rounded-[var(--radius-sm)] border-2 border-mist bg-surface px-4 py-3 text-[15px] text-ink placeholder:text-faint transition-colors focus:border-ink"
+            className={`${field} ${
+              c.identifier === "matricula"
+                ? "font-bold tracking-[0.06em] tabular-nums"
+                : ""
+            }`}
           />
-        </label>
+        </div>
 
-        <label className="flex flex-col gap-1.5">
-          <span className="text-[13px] font-semibold text-ink">Senha</span>
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-baseline justify-between">
+            <label htmlFor="login-senha" className="text-sm font-bold">
+              Senha
+            </label>
+            <button
+              type="button"
+              className="text-[13px] font-bold text-glauco-deep"
+              onClick={() =>
+                setError(
+                  "Recuperação de senha: peça à secretaria da escola para reenviar o acesso."
+                )
+              }
+            >
+              Esqueci minha senha
+            </button>
+          </div>
           <input
+            id="login-senha"
             type="password"
             autoComplete="current-password"
-            placeholder="••••••••"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-[var(--radius-sm)] border-2 border-mist bg-surface px-4 py-3 text-[15px] text-ink placeholder:text-faint transition-colors focus:border-ink"
+            className={field}
           />
-        </label>
-
-        <div className="text-right">
-          <button
-            type="button"
-            className="text-[13px] text-muted hover:text-ink"
-            onClick={() =>
-              setError(
-                "Recuperação de senha: peça à secretaria da escola para reenviar o acesso."
-              )
-            }
-          >
-            Esqueci minha senha
-          </button>
         </div>
 
         {error && <ErrorText>{error}</ErrorText>}
 
-        <Button type="submit" disabled={loading} className="mt-2 w-full py-4">
+        <Button
+          type="submit"
+          disabled={loading}
+          className="mt-1 h-[52px] w-full text-base"
+        >
           {loading ? "Entrando…" : "Entrar"}
         </Button>
       </form>
 
       {c.hint && (
-        <div
-          className={`mt-6 rounded-[12px] border-[1.5px] p-4 text-[13px] leading-relaxed text-ink ${
+        <p
+          className={`rounded-[12px] px-4 py-3.5 text-sm leading-normal ${
             c.hint.tone === "warm"
-              ? "border-gold bg-parchment"
-              : "border-transparent bg-mist"
+              ? "bg-lamp-soft text-ink"
+              : "bg-lavender text-on-lavender"
           }`}
         >
           {c.hint.text}
-        </div>
+        </p>
       )}
 
-      <div className="mt-auto py-8 text-center">
-        <p className="text-xs text-faint">Paideia · Educação com IA · Conforme a LGPD</p>
-      </div>
+      <p className="mt-auto py-6 text-center text-xs text-muted">
+        Paideia · Educação com IA · Conforme a LGPD
+      </p>
     </main>
   );
 }

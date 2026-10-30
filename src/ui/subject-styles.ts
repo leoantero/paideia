@@ -1,31 +1,39 @@
 /**
- * Cor, fundo e ícone de cada matéria nos apps de professor e gestor (paleta
- * do Figma). O app do aluno usa a paleta grega de
- * src/ui/student/subject-style.ts.
+ * Cor, fundo e glifo de cada matéria nos apps de professor e gestor. Deriva
+ * da mesma tabela do aluno (src/ui/student/subject-style.ts), então os quatro
+ * perfis falam a mesma língua visual: um matiz Glaukópis e uma letra grega.
  */
+import { subjectStyle } from "@/src/ui/student/subject-style";
 
 export interface SubjectStyle {
   label: string;
+  /** texto/realce da matéria */
   color: string;
+  /** fundo sutil */
   bg: string;
+  /** barra de domínio */
+  bar: string;
+  /** letra grega; renderize com `font-mark` */
   icon: string;
 }
 
-export const SUBJECT_STYLES: Record<string, SubjectStyle> = {
-  math: { label: "Matemática", color: "#1e3a8a", bg: "#e8f0fb", icon: "📐" },
-  language: { label: "Português", color: "#b8960a", bg: "#fdf8e1", icon: "📝" },
-  physics: { label: "Física", color: "#2d7a4f", bg: "#e5f5ed", icon: "⚡" },
-  history: { label: "História", color: "#8b4513", bg: "#f9ede3", icon: "📜" },
-  biology: { label: "Biologia", color: "#1a7a8a", bg: "#e3f4f6", icon: "🌿" },
-  chemistry: { label: "Química", color: "#6a2d7a", bg: "#f3e8fb", icon: "🧪" },
+const LABELS: Record<string, string> = {
+  math: "Matemática",
+  science: "Ciências",
+  language: "Português",
+  physics: "Física",
+  history: "História",
+  biology: "Biologia",
+  chemistry: "Química",
 };
 
-export const FALLBACK_STYLE: SubjectStyle = {
-  label: "Geral",
-  color: "#4a6080",
-  bg: "#eef3f6",
-  icon: "📚",
+export const styleFor = (subject: string): SubjectStyle => {
+  const s = subjectStyle(subject);
+  return {
+    label: LABELS[subject] ?? (subject || "Geral"),
+    color: s.color,
+    bg: s.soft,
+    bar: s.bar,
+    icon: s.glyph,
+  };
 };
-
-export const styleFor = (subject: string): SubjectStyle =>
-  SUBJECT_STYLES[subject] ?? { ...FALLBACK_STYLE, label: subject };

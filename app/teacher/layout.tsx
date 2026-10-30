@@ -14,5 +14,9 @@ export default async function TeacherLayout({
   children: React.ReactNode;
 }) {
   await requireRole("teacher");
-  return <AppShell nav={NAV}>{children}</AppShell>;
+  return (
+    <AppShell nav={NAV} label="Professor">
+      {children}
+    </AppShell>
+  );
 }

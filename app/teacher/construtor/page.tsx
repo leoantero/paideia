@@ -7,7 +7,10 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function ConstrutorPage() {
+export default async function ConstrutorPage({
+  searchParams,
+}: PageProps<"/teacher/construtor">) {
+  const { conceito } = await searchParams;
   const { supabase, user } = await getVerifiedUser();
 
   // A matéria do professor vem do vínculo, não de um seletor livre.
@@ -55,6 +58,7 @@ export default async function ConstrutorPage() {
     <ConstrutorView
       concepts={(concepts ?? []) as BuilderConcept[]}
       saved={savedQuestions}
+      initialConceptId={typeof conceito === "string" ? conceito : undefined}
     />
   );
 }

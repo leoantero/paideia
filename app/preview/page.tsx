@@ -15,6 +15,7 @@ export default function PreviewHome() {
       myRank={PREVIEW_LEADERBOARD.entries.find((e) => e.is_me) ?? null}
       classroomName={PREVIEW_LEADERBOARD.classroom?.name ?? null}
       decks={PREVIEW_DECK_OVERVIEW}
+      lastConversation={{ id: "preview", title: "Por que 2⁻³ dá 1/8?" }}
     />
   );
 }

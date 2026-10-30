@@ -2,23 +2,35 @@ import type { ReactNode } from "react";
 import { BottomNav, type NavItem } from "@/src/ui/BottomNav";
 
 /**
- * Casca dos apps logados (padrão do Figma): coluna de 420px centralizada,
+ * Casca dos apps logados dos adultos: coluna de 420px centralizada,
  * área de conteúdo que rola, e a barra de navegação inferior fixa. Cada tela
  * cuida do próprio cabeçalho e do próprio padding.
  */
-export function AppShell({ nav, children }: { nav: NavItem[]; children: ReactNode }) {
+export function AppShell({
+  nav,
+  label,
+  children,
+}: {
+  nav: NavItem[];
+  /** Perfil ao lado do logotipo: "Família", "Professor", "Gestão". */
+  label: string;
+  children: ReactNode;
+}) {
   return (
-    <div className="mx-auto flex h-dvh w-full max-w-[420px] flex-col border-x border-line bg-bg">
+    <div className="mx-auto flex h-dvh w-full max-w-[420px] flex-col bg-bg">
+      <header className="flex h-14 shrink-0 items-center px-5">
+        <span className="flex items-baseline gap-2">
+          <span className="font-mark text-xl tracking-[0.16em]">PAIDEIA</span>
+          <span className="text-xs font-semibold text-muted">{label}</span>
+        </span>
+      </header>
       <div className="flex-1 overflow-y-auto">{children}</div>
       <BottomNav items={nav} />
     </div>
   );
 }
 
-/**
- * Cabeçalho padrão de tela interna: título em Bricolage extrabold + subtítulo.
- * (O "?" da marca só aparece na entrada/login/home do tutor, não aqui.)
- */
+/** Cabeçalho padrão de tela interna: título em Young Serif + subtítulo. */
 export function ScreenHeader({
   title,
   subtitle,
@@ -29,21 +41,23 @@ export function ScreenHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="mb-4 flex items-start justify-between gap-3">
-      <div>
-        <h1 className="font-display text-[22px] font-extrabold tracking-tight text-ink">
-          {title}
-        </h1>
-        {subtitle && <p className="mt-0.5 text-[13px] text-muted">{subtitle}</p>}
+    <div className="mb-5 flex items-start justify-between gap-3">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-[28px] leading-tight">{title}</h1>
+        {subtitle && (
+          <p className="text-sm leading-[1.45] text-muted">{subtitle}</p>
+        )}
       </div>
       {action}
     </div>
   );
 }
 
-/** Padding padrão de uma tela que rola (equivale ao `padding: 20px` do Figma). */
+/** Padding padrão de uma tela que rola. */
 export function ScreenBody({ children }: { children: ReactNode }) {
-  return <div className="flex min-h-full flex-col p-5">{children}</div>;
+  return (
+    <div className="flex min-h-full flex-col px-5 pb-6 pt-1.5">{children}</div>
+  );
 }
 
 /**
@@ -54,9 +68,7 @@ export function ScreenBody({ children }: { children: ReactNode }) {
 export function PageTitle({ children }: { children: ReactNode }) {
   return (
     <div className="p-5">
-      <h1 className="font-display text-[22px] font-extrabold tracking-tight text-ink">
-        {children}
-      </h1>
+      <h1 className="text-[28px] leading-tight">{children}</h1>
     </div>
   );
 }

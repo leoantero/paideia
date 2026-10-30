@@ -9,10 +9,10 @@ import type { DemoAccount } from "@/src/features/dev/dev-access";
 import { Button, Callout, Input, Segmented } from "@/src/ui/kit";
 
 const ROLE_TONE: Record<Role, string> = {
-  student: "border-ink/25 bg-ink-soft/20",
-  parent: "border-gold/40 bg-parchment",
+  student: "border-lavender-strong bg-lavender-soft",
+  parent: "border-lamp bg-lamp-soft",
   teacher: "border-strong/30 bg-strong-bg",
-  director: "border-mist bg-mist-soft",
+  director: "border-input bg-line",
 };
 
 export function DevPanel({
@@ -88,14 +88,14 @@ export function DevPanel({
     <main className="mx-auto flex min-h-dvh w-full max-w-[560px] flex-col gap-6 px-6 py-10">
       <div>
         <div className="mb-2 flex items-center gap-2">
-          <span className="rounded-md bg-weak px-2 py-0.5 font-display text-[11px] font-bold uppercase tracking-wide text-white">
+          <span className="rounded-md bg-coral px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wide text-on-coral">
             Para devs
           </span>
           <Link href="/" className="text-[13px] text-muted hover:text-ink">
             ← início
           </Link>
         </div>
-        <h1 className="font-display text-[26px] font-extrabold tracking-tight text-ink">
+        <h1 className="text-[28px] leading-tight">
           Entrar como qualquer perfil
         </h1>
         <p className="mt-1.5 text-[14px] leading-relaxed text-muted">
@@ -116,7 +116,7 @@ export function DevPanel({
       </Callout>
 
       {error && (
-        <p role="alert" className="text-sm font-medium text-weak">
+        <p role="alert" className="text-sm font-semibold text-coral-ink">
           {error}
         </p>
       )}
@@ -149,7 +149,7 @@ export function DevPanel({
                           {a.scope}
                         </span>
                       </span>
-                      <span className="ml-3 shrink-0 font-display text-[12px] font-bold text-ink">
+                      <span className="ml-3 shrink-0 text-[12px] font-bold text-ink">
                         {busy === a.id ? "entrando…" : "entrar →"}
                       </span>
                     </button>
@@ -163,9 +163,7 @@ export function DevPanel({
 
       {/* ── criar nova ──────────────────────────────────────── */}
       <section className="rounded-[14px] border border-line bg-surface p-[18px]">
-        <h2 className="font-display text-[16px] font-bold text-ink">
-          Criar uma conta de teste
-        </h2>
+        <h2 className="text-lg">Criar uma conta de teste</h2>
         <p className="mt-1 text-[13px] leading-relaxed text-muted">
           A conta já nasce com escopo — matrícula, vínculo ou turma conforme o
           perfil — senão ela entra e vê tela vazia.

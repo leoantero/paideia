@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { RichText } from "@/src/ui/RichText";
-import { DrachmaCoin, OwlIcon } from "@/src/ui/paideia/icons";
+import {
+  ArrowRightIcon,
+  CoinDot,
+  MenuIcon,
+  OwlLineIcon,
+  PlusIcon,
+} from "@/src/ui/paideia/line-icons";
 
 export interface ConversationSummary {
   id: string;
@@ -36,45 +42,32 @@ const convoLabel = (c: ConversationSummary) =>
 const dateLabel = (iso: string) => {
   const d = new Date(iso);
   const today = new Date();
-  const isToday = d.toDateString() === today.toDateString();
-  if (isToday) return "Hoje";
+  if (d.toDateString() === today.toDateString()) return "Hoje";
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
 };
 
-function SendArrow({ on }: { on: boolean }) {
-  return (
-    <svg
-      width="15"
-      height="15"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke={on ? "var(--color-bg)" : "currentColor"}
-      strokeWidth="2.5"
-      aria-hidden
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 19V5M5 12l7-7 7 7"
-      />
-    </svg>
-  );
-}
-
+/**
+ * Tutor socrático (prancha `TelaTutor`). Uma tela só: a conversa aberta, ou,
+ * sem conversa, sugestões e conversas recentes. O histórico completo abre
+ * numa gaveta.
+ */
 export function TutorScreen({
   firstName,
   conversations,
   endpoint = "/api/tutor/chat",
+  initialQuestion,
+  initialConversationId,
 }: {
   firstName: string;
   conversations: ConversationSummary[];
   /** /preview swaps in a canned stand-in (no model call). */
   endpoint?: string;
+  /** Pergunta vinda do Início (`?q=`): abre uma conversa nova com ela. */
+  initialQuestion?: string;
+  /** Conversa vinda do Início (`?c=`): reabre essa conversa. */
+  initialConversationId?: string;
 }) {
-  const [view, setView] = useState<"home" | "chat">("home");
-  const convos = conversations;
   const [conversationId, setConversationId] = useState<string | null>(null);
-  const [topic, setTopic] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -82,6 +75,7 @@ export function TutorScreen({
   const [drawer, setDrawer] = useState(false);
   const [reward, setReward] = useState<Reward | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -114,24 +108,21 @@ export function TutorScreen({
     }
   }
 
-  function startNew(text: string) {
-    if (!text.trim()) return;
-    setTopic(text.trim());
+  function startNew() {
     setConversationId(null);
     setMessages([]);
-    setView("chat");
-    send(text, null);
+    setReward(null);
+    setError(null);
   }
 
-  async function openConversation(c: ConversationSummary) {
+  async function openConversation(id: string) {
     setDrawer(false);
-    setTopic(convoLabel(c));
-    setConversationId(c.id);
-    setView("chat");
+    setConversationId(id);
     setMessages([]);
+    setReward(null);
     setSending(true);
     try {
-      const res = await fetch(`/api/tutor/history?conversationId=${c.id}`);
+      const res = await fetch(`/api/tutor/history?conversationId=${id}`);
       const data = await res.json();
       setMessages((data.messages ?? []) as Msg[]);
     } catch {
@@ -141,243 +132,260 @@ export function TutorScreen({
     }
   }
 
-  // ────────────────────────────── CHAT ──────────────────────────────
-  if (view === "chat") {
-    return (
-      <div className="flex h-full flex-col">
-        <div className="flex items-center gap-2.5 border-b border-line bg-surface px-5 py-3.5">
-          <button
-            type="button"
-            onClick={() => setView("home")}
-            aria-label="Voltar"
-            className="text-ink"
-          >
-            <svg
-              width="18"
-              height="18"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <span className="grid h-[34px] w-[34px] place-items-center rounded-full bg-aegean text-marble">
-            <OwlIcon size={20} />
-          </span>
-          <div className="min-w-0">
-            <div className="truncate font-display text-[14px] font-bold text-ink">
-              {topic || "Tutor"}
-            </div>
-            <div className="text-[11px] text-muted">Coruja de Atena</div>
-          </div>
-        </div>
+  // Vindo do Início: abre a conversa pedida ou começa uma com a pergunta.
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+    // Fora do corpo do efeito: é uma chamada de rede, não sincronização de estado.
+    void Promise.resolve().then(() => {
+      if (initialConversationId) openConversation(initialConversationId);
+      else if (initialQuestion) send(initialQuestion, null);
+    });
+    // Só na montagem.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-        <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-5 py-4">
-          {messages.map((m, i) => (
-            <Bubble key={i} msg={m} />
-          ))}
-          {sending && <Typing />}
-          {error && <p className="text-sm font-medium text-weak">{error}</p>}
-          {reward && (
-            <p className="flex items-center justify-center gap-2 self-center rounded-full bg-ink px-4 py-2 text-sm font-bold text-gold animate-coin-pop">
-              Sessão de estudo! +{reward.points} pts · +{reward.coins}{" "}
-              <DrachmaCoin size={16} />
-            </p>
-          )}
-          <div ref={bottomRef} />
-        </div>
+  const empty = messages.length === 0 && !sending;
 
-        <div className="border-t border-line bg-surface px-4 py-3">
-          <form
-            className="flex gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              send(input, conversationId);
-            }}
-          >
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Continue o raciocínio…"
-              className="flex-1 rounded-[12px] border-2 border-mist bg-bg px-3.5 py-2.5 text-sm text-ink placeholder:text-faint focus:border-ink"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || sending}
-              className={`grid h-[42px] w-[42px] shrink-0 place-items-center rounded-[12px] ${
-                input.trim() && !sending ? "bg-ink" : "bg-mist"
-              }`}
-            >
-              <SendArrow on={!!input.trim() && !sending} />
-            </button>
-          </form>
-        </div>
-      </div>
-    );
-  }
-
-  // ────────────────────────────── HOME ──────────────────────────────
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between px-5 pb-2.5 pt-3.5">
-        <button
-          type="button"
-          onClick={() => setDrawer(true)}
-          aria-label="Conversas anteriores"
-          className="flex flex-col gap-1 p-1"
-        >
-          {[0, 1, 2].map((i) => (
-            <span key={i} className="h-[2.5px] w-5 rounded bg-ink" />
-          ))}
-        </button>
-        <div className="flex items-center gap-2">
-          <span className="grid h-[30px] w-[30px] place-items-center rounded-full bg-aegean text-marble">
-            <OwlIcon size={18} />
-          </span>
-          <span className="font-display text-base text-ink">
-            Coruja de Atena
-          </span>
-        </div>
-        <span className="w-9" />
-      </div>
-
-      <div className="flex-1 overflow-y-auto px-5 pt-1">
-        <div className="mb-[18px] mt-1">
-          <h1 className="font-display text-[22px] font-extrabold tracking-tight text-ink">
-            Olá{firstName ? `, ${firstName}` : ""}! 👋
-          </h1>
-          <p className="mt-0.5 text-sm text-muted">
-            O que vamos aprender hoje?
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-[28px] leading-tight">Seu tutor</h1>
+          <p className="text-sm leading-[1.45] text-muted">
+            Ele não entrega a resposta. Faz perguntas até você chegar lá.
           </p>
         </div>
-
-        <div className="mb-4 mt-3.5 overflow-hidden rounded-[16px] border-2 border-mist bg-surface focus-within:border-ink">
-          <form
-            className="flex items-end gap-2 p-3 pl-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              startNew(input);
-            }}
-          >
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Digite sua dúvida ou matéria…"
-              className="flex-1 bg-transparent text-[15px] text-ink outline-none placeholder:text-faint"
-            />
+        <div className="-mr-2 flex shrink-0">
+          {!empty && (
             <button
-              type="submit"
-              disabled={!input.trim()}
-              className={`grid h-[38px] w-[38px] shrink-0 place-items-center rounded-[10px] ${
-                input.trim() ? "bg-ink" : "bg-mist-soft"
-              }`}
+              type="button"
+              onClick={startNew}
+              aria-label="Nova conversa"
+              className="grid h-11 w-11 place-items-center text-muted hover:text-ink"
             >
-              <SendArrow on={!!input.trim()} />
+              <PlusIcon size={21} />
             </button>
-          </form>
+          )}
+          <button
+            type="button"
+            onClick={() => setDrawer(true)}
+            aria-label="Conversas anteriores"
+            className="grid h-11 w-11 place-items-center text-muted hover:text-ink"
+          >
+            <MenuIcon size={21} />
+          </button>
         </div>
-
-        <div className="mb-5">
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-faint">
-            Sugestões
-          </p>
-          <div className="flex flex-wrap gap-[7px]">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => startNew(s)}
-                className="rounded-full border-[1.5px] border-mist bg-surface px-3.5 py-[7px] text-[13px] font-medium text-ink hover:border-ink"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {convos.length > 0 && (
-          <div className="mb-5">
-            <div className="mb-2.5 flex items-center justify-between">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-faint">
-                Recentes
-              </p>
-              <button
-                type="button"
-                onClick={() => setDrawer(true)}
-                className="text-xs font-medium text-ink"
-              >
-                ver todas
-              </button>
-            </div>
-            {convos.slice(0, 3).map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => openConversation(c)}
-                className="mb-[7px] flex w-full items-center justify-between rounded-[12px] border-[1.5px] border-line bg-surface px-3.5 py-2.5 text-left"
-              >
-                <span className="truncate text-[13px] font-medium text-ink">
-                  {convoLabel(c)}
-                </span>
-                <span className="ml-2 shrink-0 text-[11px] text-faint">
-                  {dateLabel(c.updated_at)}
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
       </div>
+
+      <div className="-mx-5 mt-5 flex-1 overflow-y-auto px-5 pb-4">
+        {empty ? (
+          <EmptyState
+            conversations={conversations}
+            onSuggestion={(s) => send(s, null)}
+            onOpen={openConversation}
+            onAll={() => setDrawer(true)}
+          />
+        ) : (
+          <ol className="flex flex-col gap-[18px]">
+            {messages.map((m, i) =>
+              m.role === "student" ? (
+                <StudentLine key={i} name={firstName || "Você"}>
+                  {m.content}
+                </StudentLine>
+              ) : (
+                <TutorLine key={i}>
+                  <HighlightLastQuestion text={m.content} />
+                </TutorLine>
+              )
+            )}
+            {sending && (
+              <TutorLine>
+                <span className="flex gap-1 py-2" aria-label="Pensando">
+                  {[0, 1, 2].map((i) => (
+                    <span
+                      key={i}
+                      className="h-1.5 w-1.5 animate-pulse rounded-full bg-glauco-mid"
+                      style={{ animationDelay: `${i * 150}ms` }}
+                    />
+                  ))}
+                </span>
+              </TutorLine>
+            )}
+            {reward && (
+              <li className="flex items-center gap-2 border-t border-dashed border-input pt-3 text-[13px] text-muted animate-coin-pop">
+                <CoinDot size={14} />+{reward.points} pts e +{reward.coins}{" "}
+                dracmas por estudar conversando.
+              </li>
+            )}
+          </ol>
+        )}
+        {error && (
+          <p className="mt-3 text-sm font-medium text-coral-ink">{error}</p>
+        )}
+        <div ref={bottomRef} />
+      </div>
+
+      <form
+        className="flex gap-2 pt-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          send(input, conversationId);
+        }}
+      >
+        <label htmlFor="duvida-tutor" className="sr-only">
+          Sua resposta ou dúvida
+        </label>
+        <input
+          id="duvida-tutor"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={empty ? "Escreva sua dúvida" : "Responda ou pergunte"}
+          className="h-12 min-w-0 flex-1 rounded-sm border-[1.5px] border-input bg-surface px-3.5 text-[15px] text-ink placeholder:text-faint focus:border-night focus:outline-none"
+        />
+        <button
+          type="submit"
+          aria-label="Enviar"
+          disabled={!input.trim() || sending}
+          className="grid h-12 w-12 shrink-0 place-items-center rounded-sm bg-night text-on-night disabled:opacity-40"
+        >
+          <ArrowRightIcon size={22} />
+        </button>
+      </form>
 
       {drawer && (
         <HistoryDrawer
-          conversations={convos}
+          conversations={conversations}
           onClose={() => setDrawer(false)}
-          onSelect={openConversation}
+          onSelect={(c) => openConversation(c.id)}
         />
       )}
     </div>
   );
 }
 
-function Bubble({ msg }: { msg: Msg }) {
-  const student = msg.role === "student";
+function StudentLine({ name, children }: { name: string; children: string }) {
   return (
-    <div className={`flex ${student ? "justify-end" : "justify-start"}`}>
-      {!student && (
-        <span className="mr-2 grid h-7 w-7 shrink-0 self-end place-items-center rounded-full bg-aegean text-marble">
-          <OwlIcon size={16} />
-        </span>
-      )}
-      <div
-        className={`max-w-[78%] whitespace-pre-wrap border-[1.5px] px-3.5 py-2.5 text-sm leading-relaxed text-ink ${
-          student
-            ? "rounded-[14px] rounded-br-[4px] border-gold-soft bg-parchment"
-            : "rounded-[14px] rounded-bl-[4px] border-aegean-soft bg-aegean-soft"
-        }`}
-      >
-        <RichText text={msg.content} />
-      </div>
-    </div>
+    <li className="flex flex-col items-end gap-1">
+      <span className="text-xs font-bold text-lavender-ink">{name}</span>
+      <p className="max-w-[82%] whitespace-pre-wrap rounded-[12px_2px_12px_12px] bg-lavender px-3.5 py-2.5 text-[15px] leading-[1.45] text-on-lavender">
+        {children}
+      </p>
+    </li>
   );
 }
 
-function Typing() {
+function TutorLine({ children }: { children: ReactNode }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-aegean text-marble">
-        <OwlIcon size={16} />
+    <li className="flex gap-2.5">
+      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-panel text-glauco">
+        <OwlLineIcon size={17} strokeWidth={1.9} />
       </span>
-      <div className="flex gap-1 rounded-[14px] rounded-bl-[4px] border-[1.5px] border-aegean-soft bg-aegean-soft px-4 py-2.5">
-        {[0, 1, 2].map((i) => (
-          <span key={i} className="h-1.5 w-1.5 rounded-full bg-ink/40" />
-        ))}
+      <div className="flex max-w-[86%] flex-col gap-[3px]">
+        <span className="text-xs font-bold text-glauco-deep">Tutor</span>
+        <div className="whitespace-pre-wrap text-[15px] leading-[1.55]">
+          {children}
+        </div>
       </div>
+    </li>
+  );
+}
+
+/**
+ * Destaca a última pergunta do tutor, a que o aluno precisa responder. Só
+ * destaca quando o corte não quebra um negrito/itálico ao meio.
+ */
+function HighlightLastQuestion({ text }: { text: string }) {
+  const q = text.lastIndexOf("?");
+  if (q === -1) return <RichText text={text} />;
+  const head = text.slice(0, q);
+  const start =
+    Math.max(
+      head.lastIndexOf(". "),
+      head.lastIndexOf("! "),
+      head.lastIndexOf("? "),
+      head.lastIndexOf("\n")
+    ) + 1;
+  const before = text.slice(0, start);
+  const question = text.slice(start, q + 1).trimStart();
+  const after = text.slice(q + 1);
+  const balanced = (s: string) => (s.match(/\*/g)?.length ?? 0) % 2 === 0;
+  if (question.length > 240 || !balanced(before) || !balanced(question)) {
+    return <RichText text={text} />;
+  }
+  return (
+    <>
+      <RichText text={before} />
+      {before && !before.endsWith(" ") && !before.endsWith("\n") ? " " : null}
+      <mark className="rounded-[3px] bg-glauco-soft px-[3px] py-px text-inherit">
+        <RichText text={question} />
+      </mark>
+      <RichText text={after} />
+    </>
+  );
+}
+
+function EmptyState({
+  conversations,
+  onSuggestion,
+  onOpen,
+  onAll,
+}: {
+  conversations: ConversationSummary[];
+  onSuggestion: (s: string) => void;
+  onOpen: (id: string) => void;
+  onAll: () => void;
+}) {
+  return (
+    <div className="flex flex-col gap-6">
+      <section className="flex flex-col gap-2.5">
+        <h2 className="text-lg">Por onde começar</h2>
+        <div className="flex flex-wrap gap-2">
+          {SUGGESTIONS.map((s) => (
+            <button
+              key={s}
+              type="button"
+              onClick={() => onSuggestion(s)}
+              className="min-h-11 rounded-full bg-surface px-4 text-[14px] font-semibold text-ink ring-1 ring-line-strong hover:ring-night"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {conversations.length > 0 && (
+        <section className="flex flex-col gap-2.5">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-lg">Conversas recentes</h2>
+            <button
+              type="button"
+              onClick={onAll}
+              className="text-[13px] font-bold text-glauco-deep"
+            >
+              Ver todas
+            </button>
+          </div>
+          <ul className="flex flex-col rounded-lg bg-surface">
+            {conversations.slice(0, 3).map((c, i) => (
+              <li key={c.id} className={i > 0 ? "border-t border-line" : ""}>
+                <button
+                  type="button"
+                  onClick={() => onOpen(c.id)}
+                  className="flex w-full items-center gap-3 px-4 py-3.5 text-left"
+                >
+                  <span className="min-w-0 flex-1 truncate text-[15px] font-bold">
+                    {convoLabel(c)}
+                  </span>
+                  <span className="shrink-0 text-[13px] text-muted">
+                    {dateLabel(c.updated_at)}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
@@ -393,12 +401,18 @@ function HistoryDrawer({
 }) {
   return (
     <>
-      <div className="fixed inset-0 z-[50] bg-ink/20" onClick={onClose} />
-      <div className="fixed inset-y-0 left-0 z-[60] flex w-[240px] flex-col bg-surface shadow-[4px_0_24px_rgba(31,26,22,0.18)]">
-        <div className="border-b border-line px-4 pb-4 pt-[52px]">
-          <div className="font-display text-[15px] font-bold text-ink">
-            Conversas anteriores
-          </div>
+      <div
+        className="fixed inset-0 z-[50] bg-panel/30"
+        onClick={onClose}
+        aria-hidden
+      />
+      <div
+        role="dialog"
+        aria-label="Conversas anteriores"
+        className="fixed inset-y-0 left-0 z-[60] flex w-[260px] flex-col bg-surface shadow-[4px_0_24px_rgba(28,42,74,0.18)]"
+      >
+        <div className="border-b border-line px-4 pb-4 pt-12">
+          <h2 className="text-lg">Conversas anteriores</h2>
         </div>
         <div className="flex-1 overflow-y-auto py-2">
           {conversations.length === 0 && (
@@ -411,12 +425,12 @@ function HistoryDrawer({
               key={c.id}
               type="button"
               onClick={() => onSelect(c)}
-              className="w-full border-b border-bg px-4 py-2.5 text-left"
+              className="w-full border-b border-line px-4 py-3 text-left"
             >
-              <div className="mb-0.5 text-[11px] text-faint">
+              <div className="mb-0.5 text-xs text-muted">
                 {dateLabel(c.updated_at)}
               </div>
-              <div className="text-[13px] font-medium leading-snug text-ink">
+              <div className="text-sm font-semibold leading-snug">
                 {convoLabel(c)}
               </div>
             </button>
@@ -426,7 +440,7 @@ function HistoryDrawer({
           <button
             type="button"
             onClick={onClose}
-            className="w-full rounded-[10px] bg-bg py-2.5 text-[13px] text-muted"
+            className="h-11 w-full rounded-sm bg-bg text-sm font-semibold text-muted"
           >
             Fechar
           </button>

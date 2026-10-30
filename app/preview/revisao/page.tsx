@@ -11,18 +11,18 @@ export default async function PreviewRevisao({
   const { deck } = await searchParams;
   const deckId = typeof deck === "string" ? deck : null;
   return (
-    <div className="flex flex-col gap-5">
-      <DeckFilter
-        decks={PREVIEW_DECK_OVERVIEW}
-        activeDeckId={deckId}
-        basePath="/preview"
-      />
+    <div className="flex flex-col gap-8">
       <StudySession
         key={deckId ?? "all"}
         basePath="/preview"
         initialQueue={previewQueue(deckId)}
         reviewEndpoint="/preview/api/review"
         openEndpoint="/preview/api/open"
+      />
+      <DeckFilter
+        decks={PREVIEW_DECK_OVERVIEW}
+        activeDeckId={deckId}
+        basePath="/preview"
       />
     </div>
   );
