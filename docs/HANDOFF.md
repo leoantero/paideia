@@ -1,4 +1,73 @@
-# Paideia — checkpoint (2026‑11‑01)
+# Paideia — checkpoint (2026‑11‑02)
+
+## Importador do ENEM — scaffold pronto, falta a chave (2026‑11‑02)
+
+Commits `cbede55` (passo 1: migrations 0026/0027 aplicadas no hospedado,
+seed, audit estendido) e `cdc0db0` (scaffold do importador) já na branch.
+
+**Decisões tomadas nesta sessão** (não re-discutir):
+
+- Fonte: scraping direto do INEP (`download.inep.gov.br`), não dataset de
+  terceiro — nenhum dataset aberto tem licença própria sobre o conteúdo das
+  provas, então trocar de fonte não mudava o risco jurídico.
+- Licença: seguir o padrão de mercado (QConcursos, Descomplica etc. usam
+  questões do ENEM integralmente há anos). Risco aceito, não eliminado — sem
+  parecer jurídico formal. Atribuição em `source.attribution`/`source.license`
+  já no schema (0026).
+- Escopo v1: 1 ano (2023), só Matemática (único grafo completo), sem extração
+  de imagem — questão que depende de figura/gráfico/tabela é marcada
+  `needs_image: true` e pulada pelo CLI de revisão (fica de fora do banco
+  nesta rodada).
+
+**Pipeline** (`scripts/questions/`, cache em `scripts/data/enem-raw/`,
+gitignored):
+
+1. `fetch-enem.ts <ano>` — baixa prova+gabarito de `download.inep.gov.br`.
+   Padrão de URL confirmado por inspeção manual (Claude in Chrome):
+   `{ano}_PV_impresso_D{dia}_CD{caderno}.pdf` /
+   `..._GB_impresso_...`. Cada cor de caderno é a mesma prova embaralhada —
+   só precisa de 1 caderno por dia (Azul CD1 dia 1, Amarelo CD5 dia 2) pra
+   cobrir as 180 questões do exame.
+2. `extract-enem.ts <ano>` — parse com `pdfjs-dist`. Layout é 2 colunas por
+   página (threshold = metade da largura da página); dentro de cada coluna,
+   agrupa por y arredondado = linha. Split por `QUESTÃO <n>`. Numeração
+   confirmada: Linguagens 1–45, Humanas 46–90, Natureza 91–135,
+   Matemática 136–180 (`enem-shared.ts`). **Validado**: 44/45 questões de
+   Matemática do ENEM 2023 extraídas com texto limpo (a que faltou não tinha
+   gabarito mapeado — item 177, não investigado). ~43% menciona
+   figura/gráfico/tabela — esperado, extração de texto não reconstrói isso.
+3. `tag-enem.ts <ano>` — Claude (`claude-sonnet-4-5`, tool use) limpa o texto
+   (a extração quebra frações/expoentes em glifos soltos sem estrutura),
+   atribui `concept_id` contra os conceitos de `subject=math` já no banco,
+   série, dificuldade, `needs_image`. Grava
+   `scripts/data/enem-raw/<ano>/tagged-matematica.json` — **não** escreve no
+   banco ainda.
+4. `review-enem.ts <ano>` — CLI interativo (readline): mostra cada questão
+   etiquetada, deixa aprovar/editar/rejeitar. Só aprovação humana insere em
+   `public_questions` como `review_status='approved'` (pula `needs_image` e
+   itens sem `concept_id` automaticamente).
+
+**Bloqueado agora**: `ANTHROPIC_API_KEY` do `.env.local` não tem workspace
+associado — a API devolve 400 em toda chamada do passo 3
+(`tag-enem.ts`). Leo vai gerar uma chave nova em console.anthropic.com
+dentro de um workspace e colar no `.env.local`.
+
+**Próxima sessão, nesta ordem:**
+
+1. Confirmar que a chave nova funciona (`npm run enem:tag -- 2023`).
+2. Rodar `npm run enem:review -- 2023` **com o Leo revisando de verdade** —
+   não é pra eu aprovar sozinho (mesmo espírito de "humano revisa IA" do
+   resto do produto). Conferir qualidade da classificação de conceito e do
+   texto limpo numa amostra antes de aprovar em lote.
+3. Se a amostra for boa: rodar mais anos, depois SAEB/OBMEP com o mesmo
+   pipeline (adaptar `enem-shared.ts`/`fetch-enem.ts` pra cada fonte).
+4. Resolver `needs_image` — decidir se vale a pena render full-page PNG via
+   `pdfjs-dist` + `@napi-rs/canvas` pra essas ~43% das questões, ou se ficam
+   de fora permanentemente.
+5. Grafos de Natureza, Linguagens e Humanas (pré-requisito pra importar essas
+   áreas do ENEM).
+
+## Checkpoint anterior (2026‑11‑01)
 
 ## Questões, Simulações e grafo de Matemática completo (2026‑10‑31 → 11‑01)
 
