@@ -20,13 +20,18 @@
     "seed:gamification": "tsx scripts/seed-gamification.ts",
     "demo:rotate-password": "tsx scripts/rotate-demo-password.ts",
     "usage:report": "tsx scripts/usage-report.ts",
-    "monitor:set-token": "tsx scripts/set-monitor-token.ts"
+    "monitor:set-token": "tsx scripts/set-monitor-token.ts",
+    "enem:fetch": "tsx scripts/questions/fetch-enem.ts",
+    "enem:extract": "tsx scripts/questions/extract-enem.ts",
+    "enem:tag": "tsx scripts/questions/tag-enem.ts",
+    "enem:review": "tsx scripts/questions/review-enem.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.3",
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.45.4",
     "next": "^16.3.8",
+    "pdfjs-dist": "^6.5.438",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "^0.0.1",
