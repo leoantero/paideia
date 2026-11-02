@@ -1,4 +1,53 @@
-# Paideia — checkpoint (2026‑10‑29)
+# Paideia — checkpoint (2026‑11‑01)
+
+## Questões, Simulações e grafo de Matemática completo (2026‑10‑31 → 11‑01)
+
+**Nada commitado ainda.** Plano aprovado em
+`~/.claude/plans/sprightly-bubbling-church.md`; `tsc`, `lint` e 120 testes
+limpos.
+
+- **Questões** (`/student/questoes`): questões públicas (ENEM/SAEB/OBMEP) por
+  área e conteúdo, direcionadas pela série da turma (série e as 3 anteriores;
+  EM vê tudo até a 3ª). Tela minimalista, seleção + "Confirmar". **No erro a
+  coruja abre sozinha** perguntando o porquê da escolha; gabarito só em "Ver
+  resposta". Correção, pontos e evidência (`assessment_item`) no servidor.
+  Migration `0026_questions_and_simulations.sql`: `public_questions` **sem
+  policy de select** (só RPC), `question_attempts`, `simulation_completions`,
+  `question_origin_settings` (origem só é servida depois de ligada — reservado
+  para depois da checagem de licença). 13 testes PGlite em
+  `src/tests/db/questions.test.ts`.
+- **Simulações** (`/student/simulacoes`): 5 interativas (pizza, elevador e
+  termômetro, balança, receita, cercado), desafios auto-marcados, recompensa
+  única, "Pergunte à coruja" leva o contexto ao Tutor.
+- **Grafo de Matemática do 5º ano ao EM**: `scripts/data/math-ef1.json`,
+  `math-ef2.json`, `math-em.json` — 140 conceitos, 250 arestas, cobrindo as
+  189 habilidades de Matemática (EF05–EF09 + EM13MAT). Texto oficial em
+  `scripts/data/bncc-matematica.json` (dataset bncc.dev, CC BY 4.0, conferido
+  contra o PDF do MEC). Migration `0027_concept_bncc_codes.sql` adiciona
+  `concepts.bncc_codes` e **renomeia 6 códigos** que apontavam para a
+  habilidade errada (EF08MA07→EF07MA-EQ1, EF08MA15→EF07MA-PARAL,
+  EF08MA02→EF09MA-PORCSUC, EF08MA-PN/FAT→EF09MA-PN/FAT, EF07MA-ANG→EF06MA-ANG);
+  o `id` não muda. `src/tests/curriculum-graph.test.ts` valida DAG, séries e
+  cobertura BNCC nos dois sentidos. **Revisar as arestas** (pré-requisitos e
+  forças foram rascunhados por IA) antes do seed em produção.
+- Correção de bug antigo: evidência da Revisão se perdia quando o card tinha
+  id em texto (`review-evidence.ts`).
+
+**Próximos passos, nesta ordem:**
+
+1. Aplicar `0026` e `0027` no banco hospedado (com confirmação) e rodar
+   `npm run seed:curriculum` + `npm run audit:security` (adicionar
+   `public_questions`/`question_attempts` ao `scripts/audit-security.ts`).
+2. Importador do ENEM (`scripts/questions/`): confirmar endpoint e licença do
+   dataset, copiar imagens para o bucket `question-media`, etiquetar com Sonnet
+   (`bncc_codes` + série + dificuldade + alt), inserir como `pending_review`,
+   CLI de revisão. Depois SAEB e OBMEP.
+3. Grafos de Natureza, Linguagens e Humanas no mesmo formato (um
+   `bncc-<area>.json` de referência + arquivos por segmento).
+4. Teste de ponta a ponta com aluno real via `/dev` (learning_events gravado,
+   conversa no histórico do Tutor, heatmap do professor).
+5. Achado fora de escopo: `cards_select_approved` (0021) deixa o aluno ler
+   `correct_choice` com select direto — mesmo modelo "só via RPC".
 
 ## Redesign Glaukópis pastel aplicado (2026‑10‑29)
 
@@ -18,8 +67,8 @@ e qualquer tela/componente fora da lista do `design/redesign-glaukopis/
 HANDOFF.md` que ainda não foi revisado. Objetivo: unificar tudo num design
 system só, sem resquício do antigo.
 
-- **Telas novas sem rota ainda** (`TelaQuestoes`, `TelaQuestao`/acerto/erro,
-  `TelaSimulacoes`): não implementar sem alinhar escopo antes.
+- ~~Telas novas sem rota ainda (`TelaQuestoes`, `TelaSimulacoes`)~~ — feitas
+  em 2026‑10‑31 (ver topo).
 - `src/ui/paideia/line-icons.tsx` (novo set de ícones) e `nextsteps/` (plano
   de negócio/técnico, não versionado ainda) seguem fora deste commit —
   decidir o que fazer com eles.

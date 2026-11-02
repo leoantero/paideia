@@ -1,18 +1,13 @@
 // @vitest-environment node
-import { readFileSync, readdirSync } from "node:fs";
-import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { loadCurriculumFiles } from "@/scripts/lib/curriculum";
 import { cardConceptCode, loadDecks } from "@/scripts/lib/decks";
 
 /** Every concept code scripts/seed-curriculum.ts will create. */
 function curriculumCodes(): Set<string> {
-  const dir = path.join(__dirname, "../../scripts/data");
-  const codes = new Set<string>();
-  for (const file of readdirSync(dir)) {
-    const data = JSON.parse(readFileSync(path.join(dir, file), "utf8"));
-    for (const c of data.concepts ?? []) codes.add(c.code);
-  }
-  return codes;
+  return new Set(
+    loadCurriculumFiles().flatMap((f) => f.concepts.map((c) => c.code))
+  );
 }
 
 describe("content/decks", () => {

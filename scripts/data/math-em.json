@@ -1,0 +1,341 @@
+{
+  "_comment": "Matemática e suas Tecnologias, Ensino Médio. A BNCC do EM não é seriada: `grade_year` (10, 11, 12 = 1ª, 2ª, 3ª série) segue a sequência usual dos livros didáticos e serve só para ordenar o conteúdo e direcionar questões. `bncc` lista as habilidades EM13MAT cobertas (texto em bncc-matematica.json). Pré-requisitos podem apontar para math-ef1.json e math-ef2.json.",
+  "curriculum": {
+    "code": "bncc-2018-v1",
+    "label": "BNCC 2018 (versão homologada)"
+  },
+  "subject": "math",
+  "grade_band": "high_school",
+  "concepts": [
+    {
+      "code": "EM13MAT-FUNC",
+      "name": "Funções: gráficos e taxa de variação",
+      "grade_year": 10,
+      "difficulty": 0.6,
+      "description": "Ler gráficos de funções em situações econômicas, sociais e científicas; domínio, imagem, crescimento e taxa de variação.",
+      "bncc": ["EM13MAT101"],
+      "prerequisites": [{ "code": "EF09MA-FUNC", "strength": 1.0 }]
+    },
+    {
+      "code": "EM13MAT-AFIM",
+      "name": "Função afim",
+      "grade_year": 10,
+      "difficulty": 0.6,
+      "description": "Função polinomial do 1º grau: lei, gráfico (reta), coeficientes, proporcionalidade; modelar problemas; generalizar padrões de tabelas.",
+      "bncc": ["EM13MAT302", "EM13MAT401", "EM13MAT501"],
+      "prerequisites": [
+        { "code": "EM13MAT-FUNC", "strength": 1.0 },
+        { "code": "EF07MA-EQ1", "strength": 0.8 },
+        { "code": "EF09MA-PROP", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EM13MAT-QUAD",
+      "name": "Função quadrática",
+      "grade_year": 10,
+      "difficulty": 0.7,
+      "description": "Função polinomial do 2º grau: parábola, raízes, vértice, máximos e mínimos; modelar problemas de área, finanças e cinemática.",
+      "bncc": ["EM13MAT302", "EM13MAT402", "EM13MAT502", "EM13MAT503"],
+      "prerequisites": [
+        { "code": "EM13MAT-AFIM", "strength": 0.8 },
+        { "code": "EF09MA-EQ2", "strength": 1.0 }
+      ]
+    },
+    {
+      "code": "EM13MAT-SENT",
+      "name": "Funções definidas por mais de uma sentença",
+      "grade_year": 10,
+      "difficulty": 0.6,
+      "description": "Tabela do IR, contas de luz e água: domínios de validade, imagem, crescimento, conversão entre forma algébrica e gráfica.",
+      "bncc": ["EM13MAT404"],
+      "prerequisites": [{ "code": "EM13MAT-AFIM", "strength": 0.9 }]
+    },
+    {
+      "code": "EM13MAT-EXP",
+      "name": "Função exponencial",
+      "grade_year": 10,
+      "difficulty": 0.7,
+      "description": "Lei, gráfico, domínio, imagem e crescimento; problemas de crescimento populacional, juros e decaimento.",
+      "bncc": ["EM13MAT304", "EM13MAT403"],
+      "prerequisites": [
+        { "code": "EM13MAT-FUNC", "strength": 0.9 },
+        { "code": "EF09MA-REAIS", "strength": 0.9 }
+      ]
+    },
+    {
+      "code": "EM13MAT-LOG",
+      "name": "Logaritmos e função logarítmica",
+      "grade_year": 10,
+      "difficulty": 0.75,
+      "description": "Logaritmo como inverso da exponencial; propriedades; problemas com pH, escala Richter, radioatividade e finanças.",
+      "bncc": ["EM13MAT305", "EM13MAT403"],
+      "prerequisites": [{ "code": "EM13MAT-EXP", "strength": 1.0 }]
+    },
+    {
+      "code": "EM13MAT-PA",
+      "name": "Progressão aritmética",
+      "grade_year": 10,
+      "difficulty": 0.55,
+      "description": "PA como função afim de domínio discreto; termo geral e soma dos termos.",
+      "bncc": ["EM13MAT507"],
+      "prerequisites": [
+        { "code": "EF08MA-SEQ", "strength": 0.9 },
+        { "code": "EM13MAT-AFIM", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EM13MAT-PG",
+      "name": "Progressão geométrica",
+      "grade_year": 10,
+      "difficulty": 0.65,
+      "description": "PG como função exponencial de domínio discreto; termo geral e soma dos termos.",
+      "bncc": ["EM13MAT508"],
+      "prerequisites": [
+        { "code": "EM13MAT-PA", "strength": 0.7 },
+        { "code": "EM13MAT-EXP", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EM13MAT-SISLIN",
+      "name": "Sistemas de equações lineares",
+      "grade_year": 10,
+      "difficulty": 0.6,
+      "description": "Equações lineares simultâneas resolvidas por técnicas algébricas e gráficas, em problemas do cotidiano e de outras áreas.",
+      "bncc": ["EM13MAT301"],
+      "prerequisites": [{ "code": "EF08MA08", "strength": 1.0 }]
+    },
+    {
+      "code": "EM13MAT-FIN",
+      "name": "Matemática financeira: juros simples e compostos",
+      "grade_year": 10,
+      "difficulty": 0.65,
+      "description": "Crescimento linear dos juros simples e exponencial dos compostos; planilhas e simuladores para orçamento e decisões.",
+      "bncc": ["EM13MAT203", "EM13MAT303"],
+      "prerequisites": [
+        { "code": "EF09MA-PORCSUC", "strength": 1.0 },
+        { "code": "EM13MAT-EXP", "strength": 0.7 },
+        { "code": "EM13MAT-AFIM", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EM13MAT-INDIC",
+      "name": "Taxas e índices socioeconômicos",
+      "grade_year": 10,
+      "difficulty": 0.55,
+      "description": "IDH, inflação e outros índices: como são calculados e como lê-los criticamente.",
+      "bncc": ["EM13MAT104"],
+      "prerequisites": [
+        { "code": "EF09MA-PORCSUC", "strength": 0.9 },
+        { "code": "EF09MA-GRAND", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EM13MAT-ESTDESC",
+      "name": "Estatística descritiva: tabelas, gráficos e leitura crítica",
+      "grade_year": 10,
+      "difficulty": 0.55,
+      "description": "Tabelas e gráficos de frequência; histograma, box-plot e ramos e folhas; identificar escalas e amostras inadequadas na mídia.",
+      "bncc": ["EM13MAT102", "EM13MAT406", "EM13MAT407"],
+      "prerequisites": [
+        { "code": "EF09MA-GRAFCRIT", "strength": 1.0 },
+        { "code": "EF08MA24", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EM13MAT-MEDIDAS",
+      "name": "Medidas de tendência central e de dispersão",
+      "grade_year": 10,
+      "difficulty": 0.6,
+      "description": "Média, moda e mediana; amplitude, variância e desvio padrão; interpretação em pesquisas.",
+      "bncc": ["EM13MAT316", "EM13MAT202"],
+      "prerequisites": [
+        { "code": "EF08MA25", "strength": 1.0 },
+        { "code": "EM13MAT-ESTDESC", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EM13MAT-ALGOR",
+      "name": "Algoritmos e programação",
+      "grade_year": 10,
+      "difficulty": 0.5,
+      "description": "Registrar em fluxograma um algoritmo que resolve um problema e implementá-lo em uma linguagem de programação.",
+      "bncc": ["EM13MAT315", "EM13MAT405"],
+      "prerequisites": [{ "code": "EF08MA-SEQ", "strength": 0.6 }]
+    },
+    {
+      "code": "EM13MAT-UNID",
+      "name": "Unidades de medida, SI e algarismos significativos",
+      "grade_year": 10,
+      "difficulty": 0.5,
+      "description": "Conversões entre unidades (inclusive de dados: bytes, velocidade de transferência); notação científica, algarismos significativos e erro de medida.",
+      "bncc": ["EM13MAT103", "EM13MAT313"],
+      "prerequisites": [
+        { "code": "EF09MA-UNID", "strength": 1.0 },
+        { "code": "EF09MA-REAIS", "strength": 0.6 }
+      ]
+    },
+
+    {
+      "code": "EM13MAT-TRIGRET",
+      "name": "Trigonometria no triângulo: razões, lei dos senos e dos cossenos",
+      "grade_year": 11,
+      "difficulty": 0.7,
+      "description": "Seno, cosseno e tangente no triângulo retângulo; relações métricas; lei dos senos e lei dos cossenos em triângulos quaisquer.",
+      "bncc": ["EM13MAT308"],
+      "prerequisites": [
+        { "code": "EF09MA-PITAG", "strength": 1.0 },
+        { "code": "EF09MA-SEMELH", "strength": 0.9 }
+      ]
+    },
+    {
+      "code": "EM13MAT-TRIGFUN",
+      "name": "Funções trigonométricas e fenômenos periódicos",
+      "grade_year": 11,
+      "difficulty": 0.75,
+      "description": "Círculo trigonométrico; funções seno e cosseno; modelar ondas, marés e fases da lua.",
+      "bncc": ["EM13MAT306"],
+      "prerequisites": [
+        { "code": "EM13MAT-TRIGRET", "strength": 1.0 },
+        { "code": "EM13MAT-FUNC", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EM13MAT-RAZOES",
+      "name": "Grandezas compostas: razão e produto de grandezas",
+      "grade_year": 11,
+      "difficulty": 0.55,
+      "description": "Velocidade, densidade demográfica, consumo de energia elétrica e outras grandezas definidas por razão ou produto.",
+      "bncc": ["EM13MAT314"],
+      "prerequisites": [{ "code": "EF09MA-GRAND", "strength": 1.0 }]
+    },
+    {
+      "code": "EM13MAT-CONT",
+      "name": "Análise combinatória",
+      "grade_year": 11,
+      "difficulty": 0.7,
+      "description": "Princípios aditivo e multiplicativo; agrupamentos ordenáveis ou não (arranjos, permutações, combinações); diagrama de árvore.",
+      "bncc": ["EM13MAT310"],
+      "prerequisites": [{ "code": "EF08MA-PMC", "strength": 1.0 }]
+    },
+    {
+      "code": "EM13MAT-PROB",
+      "name": "Probabilidade: espaço amostral e eventos",
+      "grade_year": 11,
+      "difficulty": 0.65,
+      "description": "Espaços amostrais discretos ou não, eventos equiprováveis ou não; probabilidade por contagem; decisões sob risco.",
+      "bncc": ["EM13MAT311", "EM13MAT511", "EM13MAT106"],
+      "prerequisites": [
+        { "code": "EF09MA-PROBIND", "strength": 0.9 },
+        { "code": "EM13MAT-CONT", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EM13MAT-PROBSUC",
+      "name": "Probabilidade em experimentos sucessivos",
+      "grade_year": 11,
+      "difficulty": 0.7,
+      "description": "Probabilidade de eventos em experimentos aleatórios sucessivos, com e sem reposição.",
+      "bncc": ["EM13MAT312"],
+      "prerequisites": [{ "code": "EM13MAT-PROB", "strength": 1.0 }]
+    },
+    {
+      "code": "EM13MAT-AREAS",
+      "name": "Áreas de figuras planas: métodos e expressões",
+      "grade_year": 11,
+      "difficulty": 0.6,
+      "description": "Obter áreas por reconfiguração e aproximação; deduzir e aplicar expressões em situações reais (plantações, terrenos).",
+      "bncc": ["EM13MAT307", "EM13MAT201"],
+      "prerequisites": [
+        { "code": "EF08MA-AREA", "strength": 1.0 },
+        { "code": "EM13MAT-TRIGRET", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EM13MAT-POLREG",
+      "name": "Polígonos regulares: ladrilhamento e variação de área e perímetro",
+      "grade_year": 11,
+      "difficulty": 0.65,
+      "description": "Quais polígonos ladrilham o plano; como perímetro (linear) e área (quadrática) variam com o lado.",
+      "bncc": ["EM13MAT505", "EM13MAT506"],
+      "prerequisites": [
+        { "code": "EF07MA-POLANG", "strength": 0.9 },
+        { "code": "EM13MAT-QUAD", "strength": 0.6 },
+        { "code": "EM13MAT-AREAS", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EM13MAT-SOLIDOS",
+      "name": "Geometria espacial: áreas e volumes",
+      "grade_year": 11,
+      "difficulty": 0.7,
+      "description": "Prismas, pirâmides, cilindros, cones e esferas: área total e volume; princípio de Cavalieri; composições de sólidos.",
+      "bncc": ["EM13MAT309", "EM13MAT504"],
+      "prerequisites": [
+        { "code": "EF09MA-VOL", "strength": 1.0 },
+        { "code": "EM13MAT-AREAS", "strength": 0.9 },
+        { "code": "EF09MA-PITAG", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EM13MAT-TRANSF",
+      "name": "Transformações isométricas e homotéticas",
+      "grade_year": 11,
+      "difficulty": 0.55,
+      "description": "Translação, reflexão, rotação e homotetia para construir figuras e analisar fractais, obras de arte e construções.",
+      "bncc": ["EM13MAT105"],
+      "prerequisites": [
+        { "code": "EF08MA18", "strength": 0.9 },
+        { "code": "EF09MA-SEMELH", "strength": 0.7 }
+      ]
+    },
+
+    {
+      "code": "EM13MAT-ANALIT",
+      "name": "Geometria analítica: ponto e reta",
+      "grade_year": 12,
+      "difficulty": 0.7,
+      "description": "Equação da reta, coeficiente angular, paralelismo e perpendicularismo, distância; a reta como gráfico da função afim.",
+      "bncc": ["EM13MAT401"],
+      "prerequisites": [
+        { "code": "EF09MA-DIST", "strength": 1.0 },
+        { "code": "EM13MAT-AFIM", "strength": 0.9 }
+      ]
+    },
+    {
+      "code": "EM13MAT-CARTOG",
+      "name": "Projeções cartográficas",
+      "grade_year": 12,
+      "difficulty": 0.6,
+      "description": "Deformação de ângulos e áreas nas projeções cilíndrica e cônica.",
+      "bncc": ["EM13MAT509"],
+      "prerequisites": [
+        { "code": "EM13MAT-TRANSF", "strength": 0.6 },
+        { "code": "EM13MAT-AREAS", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EM13MAT-CORREL",
+      "name": "Correlação entre duas variáveis",
+      "grade_year": 12,
+      "difficulty": 0.65,
+      "description": "Diagrama de dispersão; descrever a relação entre duas variáveis numéricas com uma reta de tendência.",
+      "bncc": ["EM13MAT510"],
+      "prerequisites": [
+        { "code": "EM13MAT-MEDIDAS", "strength": 0.8 },
+        { "code": "EM13MAT-AFIM", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EM13MAT-PESQ",
+      "name": "Pesquisa amostral e relatório estatístico",
+      "grade_year": 12,
+      "difficulty": 0.6,
+      "description": "Planejar e executar pesquisa amostral e comunicar em relatório com gráficos, tendência central e dispersão.",
+      "bncc": ["EM13MAT202"],
+      "prerequisites": [
+        { "code": "EM13MAT-MEDIDAS", "strength": 1.0 },
+        { "code": "EF09MA-PESQ", "strength": 0.8 }
+      ]
+    }
+  ]
+}

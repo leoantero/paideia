@@ -9,7 +9,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:pedagogy": "vitest run src/features/tutoring src/features/spaced-repetition",
+    "test:pedagogy": "vitest run src/features/tutoring src/features/spaced-repetition src/features/questions src/features/simulations",
     "seed:curriculum": "tsx scripts/seed-curriculum.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
     "seed:learning": "tsx scripts/seed-learning-data.ts",

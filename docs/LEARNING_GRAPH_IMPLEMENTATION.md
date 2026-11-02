@@ -33,7 +33,7 @@ e é o suficiente para o piloto.
 
 Criar `scripts/seed-curriculum.ts`:
 
-- lê um YAML/JSON em `scripts/data/math-ef8.json` (conceito + código BNCC + pré-requisitos)
+- lê os JSON em `scripts/data/math-*.json` (conceito + habilidades BNCC + pré-requisitos; o 8º ano original virou `math-ef2.json`)
 - insere `curriculum_versions` (`bncc-2018-v1`), `concepts`, `concept_prerequisites`
 - **valida que o grafo é um DAG antes de inserir** (DFS com detecção de ciclo).
   Ciclo em pré-requisito trava a recursão de `concept_prerequisite_closure`;
@@ -72,12 +72,21 @@ Em `app/api/tutor/chat/route.ts`, depois do `appendMessage` da resposta:
 
 ```ts
 // dispara instrumentacao SEM bloquear a resposta do aluno
-void tagTurn({ supabase, studentMessage: message, tutorReply: guarded.text,
-               subject, gradeBand, messageId })
+void tagTurn({
+  supabase,
+  studentMessage: message,
+  tutorReply: guarded.text,
+  subject,
+  gradeBand,
+  messageId,
+})
   .then(({ events }) => recordEvidence(supabase, events))
   .catch((e) => console.warn("[tutor/chat] instrumentacao falhou:", e));
 
-return NextResponse.json({ conversationId: conversation.id, reply: guarded.text });
+return NextResponse.json({
+  conversationId: conversation.id,
+  reply: guarded.text,
+});
 ```
 
 Cuidado com o runtime: em serverless a função pode ser congelada antes da

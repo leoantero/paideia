@@ -1,0 +1,218 @@
+{
+  "_comment": "Matemática, 5º ano (Fundamental anos iniciais). Um conceito agrupa uma ou mais habilidades da BNCC; `bncc` lista os códigos oficiais cobertos (texto em bncc-matematica.json). O código do conceito é um identificador interno estável: nunca renomeie sem migrar `concepts.code`, porque learning_events e cards apontam para o id.",
+  "curriculum": {
+    "code": "bncc-2018-v1",
+    "label": "BNCC 2018 (versão homologada)"
+  },
+  "subject": "math",
+  "grade_band": "elementary_1",
+  "concepts": [
+    {
+      "code": "EF05MA-NAT",
+      "name": "Números naturais até a centena de milhar",
+      "grade_year": 5,
+      "difficulty": 0.25,
+      "description": "Ler, escrever, comparar e ordenar números naturais até seis ordens; valor posicional e composição/decomposição.",
+      "bncc": ["EF05MA01"],
+      "prerequisites": []
+    },
+    {
+      "code": "EF05MA-FRAC",
+      "name": "Frações: parte-todo, quociente e equivalência",
+      "grade_year": 5,
+      "difficulty": 0.4,
+      "description": "Fração como parte de um todo e como resultado de divisão, inclusive maior que a unidade; frações equivalentes; posição na reta numérica.",
+      "bncc": ["EF05MA03", "EF05MA04"],
+      "prerequisites": [{ "code": "EF05MA-NAT", "strength": 0.7 }]
+    },
+    {
+      "code": "EF05MA-DEC",
+      "name": "Números decimais: leitura, comparação e reta numérica",
+      "grade_year": 5,
+      "difficulty": 0.35,
+      "description": "Ler, escrever e ordenar decimais; comparar frações e decimais e localizá-los na reta numérica.",
+      "bncc": ["EF05MA02", "EF05MA05"],
+      "prerequisites": [
+        { "code": "EF05MA-NAT", "strength": 0.8 },
+        { "code": "EF05MA-FRAC", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF05MA-PORC",
+      "name": "Porcentagens de referência (10%, 25%, 50%, 75%, 100%)",
+      "grade_year": 5,
+      "difficulty": 0.4,
+      "description": "Associar 10%, 25%, 50%, 75% e 100% à décima parte, quarta parte, metade, três quartos e inteiro para calcular porcentagens.",
+      "bncc": ["EF05MA06"],
+      "prerequisites": [{ "code": "EF05MA-FRAC", "strength": 0.9 }]
+    },
+    {
+      "code": "EF05MA-ADSUB",
+      "name": "Adição e subtração com naturais e decimais",
+      "grade_year": 5,
+      "difficulty": 0.3,
+      "description": "Problemas de adição e subtração com números naturais e decimais finitos, por estimativa, cálculo mental e algoritmos.",
+      "bncc": ["EF05MA07"],
+      "prerequisites": [
+        { "code": "EF05MA-NAT", "strength": 0.9 },
+        { "code": "EF05MA-DEC", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF05MA-MULDIV",
+      "name": "Multiplicação e divisão com naturais e decimais",
+      "grade_year": 5,
+      "difficulty": 0.4,
+      "description": "Problemas de multiplicação e divisão com naturais e decimais finitos (multiplicador e divisor naturais).",
+      "bncc": ["EF05MA08"],
+      "prerequisites": [
+        { "code": "EF05MA-ADSUB", "strength": 0.9 },
+        { "code": "EF05MA-DEC", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF05MA-CONT",
+      "name": "Contagem: princípio multiplicativo",
+      "grade_year": 5,
+      "difficulty": 0.4,
+      "description": "Contar agrupamentos combinando elementos de duas coleções, por árvore de possibilidades ou tabela.",
+      "bncc": ["EF05MA09"],
+      "prerequisites": [{ "code": "EF05MA-MULDIV", "strength": 0.8 }]
+    },
+    {
+      "code": "EF05MA-IGUAL",
+      "name": "Igualdade e termo desconhecido",
+      "grade_year": 5,
+      "difficulty": 0.4,
+      "description": "A igualdade se mantém ao operar os dois membros pelo mesmo número; resolver sentenças com um termo desconhecido.",
+      "bncc": ["EF05MA10", "EF05MA11"],
+      "prerequisites": [
+        { "code": "EF05MA-ADSUB", "strength": 0.8 },
+        { "code": "EF05MA-MULDIV", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF05MA-PROP",
+      "name": "Proporcionalidade direta: problemas",
+      "grade_year": 5,
+      "difficulty": 0.45,
+      "description": "Variação proporcional direta entre duas grandezas: preço por quantidade, receitas, escalas em mapas.",
+      "bncc": ["EF05MA12"],
+      "prerequisites": [{ "code": "EF05MA-MULDIV", "strength": 0.9 }]
+    },
+    {
+      "code": "EF05MA-PART",
+      "name": "Partilha em partes desiguais e razão",
+      "grade_year": 5,
+      "difficulty": 0.5,
+      "description": "Dividir uma quantidade em duas partes desiguais (uma o dobro da outra etc.), com a ideia de razão entre as partes e com o todo.",
+      "bncc": ["EF05MA13"],
+      "prerequisites": [
+        { "code": "EF05MA-MULDIV", "strength": 0.8 },
+        { "code": "EF05MA-FRAC", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF05MA-LOC",
+      "name": "Localização no plano e primeiras coordenadas",
+      "grade_year": 5,
+      "difficulty": 0.3,
+      "description": "Localizar e movimentar objetos em mapas, planilhas e no 1º quadrante do plano cartesiano; direção, sentido e giros.",
+      "bncc": ["EF05MA14", "EF05MA15"],
+      "prerequisites": [{ "code": "EF05MA-NAT", "strength": 0.5 }]
+    },
+    {
+      "code": "EF05MA-SOLID",
+      "name": "Figuras espaciais e planificações",
+      "grade_year": 5,
+      "difficulty": 0.35,
+      "description": "Associar prismas, pirâmides, cilindros e cones às suas planificações; nomear e comparar atributos.",
+      "bncc": ["EF05MA16"],
+      "prerequisites": []
+    },
+    {
+      "code": "EF05MA-POLIG",
+      "name": "Polígonos: lados, vértices e ângulos",
+      "grade_year": 5,
+      "difficulty": 0.3,
+      "description": "Reconhecer, nomear, comparar e desenhar polígonos a partir de lados, vértices e ângulos.",
+      "bncc": ["EF05MA17"],
+      "prerequisites": []
+    },
+    {
+      "code": "EF05MA-AMPL",
+      "name": "Ampliação e redução de figuras",
+      "grade_year": 5,
+      "difficulty": 0.45,
+      "description": "Em malhas quadriculadas, reconhecer que ampliar ou reduzir mantém os ângulos e multiplica os lados pelo mesmo fator.",
+      "bncc": ["EF05MA18"],
+      "prerequisites": [
+        { "code": "EF05MA-POLIG", "strength": 0.7 },
+        { "code": "EF05MA-PROP", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF05MA-MED",
+      "name": "Medidas: comprimento, área, massa, tempo, temperatura e capacidade",
+      "grade_year": 5,
+      "difficulty": 0.4,
+      "description": "Problemas com medidas e transformações entre as unidades mais usuais.",
+      "bncc": ["EF05MA19"],
+      "prerequisites": [
+        { "code": "EF05MA-DEC", "strength": 0.7 },
+        { "code": "EF05MA-MULDIV", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF05MA-PERAREA",
+      "name": "Perímetro e área: grandezas diferentes",
+      "grade_year": 5,
+      "difficulty": 0.4,
+      "description": "Figuras de mesmo perímetro podem ter áreas diferentes, e vice-versa.",
+      "bncc": ["EF05MA20"],
+      "prerequisites": [
+        { "code": "EF05MA-MED", "strength": 0.7 },
+        { "code": "EF05MA-POLIG", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF05MA-VOL",
+      "name": "Volume por empilhamento de cubos",
+      "grade_year": 5,
+      "difficulty": 0.35,
+      "description": "Volume como grandeza de sólidos; medir contando cubos empilhados.",
+      "bncc": ["EF05MA21"],
+      "prerequisites": [
+        { "code": "EF05MA-SOLID", "strength": 0.6 },
+        { "code": "EF05MA-MULDIV", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF05MA-PROB",
+      "name": "Resultados possíveis e probabilidade",
+      "grade_year": 5,
+      "difficulty": 0.45,
+      "description": "Listar todos os resultados de um experimento aleatório, julgar se são igualmente prováveis e calcular a probabilidade no caso equiprovável.",
+      "bncc": ["EF05MA22", "EF05MA23"],
+      "prerequisites": [{ "code": "EF05MA-FRAC", "strength": 0.8 }]
+    },
+    {
+      "code": "EF05MA-DADOS",
+      "name": "Leitura de tabelas e gráficos",
+      "grade_year": 5,
+      "difficulty": 0.3,
+      "description": "Interpretar dados em textos, tabelas e gráficos de colunas ou linhas e sintetizar conclusões.",
+      "bncc": ["EF05MA24"],
+      "prerequisites": [{ "code": "EF05MA-NAT", "strength": 0.6 }]
+    },
+    {
+      "code": "EF05MA-PESQ",
+      "name": "Pesquisa: coleta e organização de dados",
+      "grade_year": 5,
+      "difficulty": 0.35,
+      "description": "Pesquisar variáveis categóricas e numéricas, organizar em tabelas e gráficos e redigir a síntese.",
+      "bncc": ["EF05MA25"],
+      "prerequisites": [{ "code": "EF05MA-DADOS", "strength": 0.9 }]
+    }
+  ]
+}

@@ -14,7 +14,9 @@ import {
   CupIcon,
   FlameLineIcon,
   OwlLineIcon,
+  QuestionsIcon,
 } from "@/src/ui/paideia/line-icons";
+import { SIMULATIONS } from "@/src/features/simulations/catalog";
 import { subjectStyle } from "./subject-style";
 
 export interface HomeViewProps {
@@ -198,6 +200,16 @@ export function HomeView({
             }
           />
           <DayRow
+            href={`${basePath}/questoes`}
+            icon={<QuestionsIcon size={22} strokeWidth={1.7} />}
+            tile="bg-glauco-soft text-glauco-ink"
+            title="Questões"
+            detail="Treine com provas de verdade, da sua série ao ENEM."
+            trailing={
+              <ChevronRightIcon size={18} className="shrink-0 text-faint" />
+            }
+          />
+          <DayRow
             icon={<AmphoraLineIcon size={22} />}
             tile="bg-glauco-soft text-glauco-ink"
             title="Meta do dia"
@@ -277,6 +289,25 @@ export function HomeView({
           )}
         </ul>
       </section>
+
+      {/* Simulação em destaque (prancha TelaInicio) */}
+      <Link
+        href={`${basePath}/simulacoes/${SIMULATIONS[0].slug}`}
+        className="flex items-center gap-4 rounded-lg bg-lamp px-5 py-4 text-on-lamp animate-rise [animation-delay:150ms]"
+      >
+        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className="text-[12px] font-extrabold uppercase tracking-[0.08em]">
+            Simulação nova
+          </span>
+          <span className="font-display text-[20px] leading-tight">
+            {SIMULATIONS[0].title}
+          </span>
+          <span className="text-[13px] leading-snug">
+            Corte, pegue fatias e veja a fração mudar.
+          </span>
+        </span>
+        <ChevronRightIcon size={20} />
+      </Link>
 
       {/* Baralhos */}
       <section className="flex flex-col gap-2.5 animate-rise [animation-delay:180ms]">

@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { RichText } from "@/src/ui/RichText";
+import { useEffect, useRef, useState } from "react";
+import { CoinDot, MenuIcon, PlusIcon } from "@/src/ui/paideia/line-icons";
 import {
-  ArrowRightIcon,
-  CoinDot,
-  MenuIcon,
-  OwlLineIcon,
-  PlusIcon,
-} from "@/src/ui/paideia/line-icons";
+  ChatComposer,
+  HighlightLastQuestion,
+  StudentLine,
+  ThinkingDots,
+  TutorLine,
+} from "@/src/ui/student/chat/ChatParts";
 
 export interface ConversationSummary {
   id: string;
@@ -57,6 +57,7 @@ export function TutorScreen({
   endpoint = "/api/tutor/chat",
   initialQuestion,
   initialConversationId,
+  simulation,
 }: {
   firstName: string;
   conversations: ConversationSummary[];
@@ -66,6 +67,8 @@ export function TutorScreen({
   initialQuestion?: string;
   /** Conversa vinda do Início (`?c=`): reabre essa conversa. */
   initialConversationId?: string;
+  /** Vindo de uma simulação (`?sim=`): a conversa nova nasce com esse contexto. */
+  simulation?: { id: string; title: string };
 }) {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -92,7 +95,11 @@ export function TutorScreen({
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ conversationId: convId, message: trimmed }),
+        body: JSON.stringify({
+          conversationId: convId,
+          message: trimmed,
+          simulationId: convId ? undefined : simulation?.id,
+        }),
       });
       if (!res.ok) {
         throw new Error((await res.json())?.error ?? "Algo deu errado.");
@@ -178,8 +185,19 @@ export function TutorScreen({
         </div>
       </div>
 
+      {simulation && !conversationId && (
+        <p className="mt-3 self-start rounded-full bg-glauco-soft px-3 py-1.5 text-[13px] font-bold text-glauco-ink">
+          Sobre a simulação: {simulation.title}
+        </p>
+      )}
+
       <div className="-mx-5 mt-5 flex-1 overflow-y-auto px-5 pb-4">
-        {empty ? (
+        {empty && simulation ? (
+          <p className="text-[15px] leading-[1.55] text-muted">
+            O que você viu na simulação que te deixou curioso? Pergunte, ou
+            conte o que você acha que está acontecendo.
+          </p>
+        ) : empty ? (
           <EmptyState
             conversations={conversations}
             onSuggestion={(s) => send(s, null)}
@@ -201,15 +219,7 @@ export function TutorScreen({
             )}
             {sending && (
               <TutorLine>
-                <span className="flex gap-1 py-2" aria-label="Pensando">
-                  {[0, 1, 2].map((i) => (
-                    <span
-                      key={i}
-                      className="h-1.5 w-1.5 animate-pulse rounded-full bg-glauco-mid"
-                      style={{ animationDelay: `${i * 150}ms` }}
-                    />
-                  ))}
-                </span>
+                <ThinkingDots />
               </TutorLine>
             )}
             {reward && (
@@ -226,32 +236,14 @@ export function TutorScreen({
         <div ref={bottomRef} />
       </div>
 
-      <form
-        className="flex gap-2 pt-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          send(input, conversationId);
-        }}
-      >
-        <label htmlFor="duvida-tutor" className="sr-only">
-          Sua resposta ou dúvida
-        </label>
-        <input
-          id="duvida-tutor"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={empty ? "Escreva sua dúvida" : "Responda ou pergunte"}
-          className="h-12 min-w-0 flex-1 rounded-sm border-[1.5px] border-input bg-surface px-3.5 text-[15px] text-ink placeholder:text-faint focus:border-night focus:outline-none"
-        />
-        <button
-          type="submit"
-          aria-label="Enviar"
-          disabled={!input.trim() || sending}
-          className="grid h-12 w-12 shrink-0 place-items-center rounded-sm bg-night text-on-night disabled:opacity-40"
-        >
-          <ArrowRightIcon size={22} />
-        </button>
-      </form>
+      <ChatComposer
+        id="duvida-tutor"
+        value={input}
+        onChange={setInput}
+        onSubmit={() => send(input, conversationId)}
+        disabled={sending}
+        placeholder={empty ? "Escreva sua dúvida" : "Responda ou pergunte"}
+      />
 
       {drawer && (
         <HistoryDrawer
@@ -261,67 +253,6 @@ export function TutorScreen({
         />
       )}
     </div>
-  );
-}
-
-function StudentLine({ name, children }: { name: string; children: string }) {
-  return (
-    <li className="flex flex-col items-end gap-1">
-      <span className="text-xs font-bold text-lavender-ink">{name}</span>
-      <p className="max-w-[82%] whitespace-pre-wrap rounded-[12px_2px_12px_12px] bg-lavender px-3.5 py-2.5 text-[15px] leading-[1.45] text-on-lavender">
-        {children}
-      </p>
-    </li>
-  );
-}
-
-function TutorLine({ children }: { children: ReactNode }) {
-  return (
-    <li className="flex gap-2.5">
-      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-panel text-glauco">
-        <OwlLineIcon size={17} strokeWidth={1.9} />
-      </span>
-      <div className="flex max-w-[86%] flex-col gap-[3px]">
-        <span className="text-xs font-bold text-glauco-deep">Tutor</span>
-        <div className="whitespace-pre-wrap text-[15px] leading-[1.55]">
-          {children}
-        </div>
-      </div>
-    </li>
-  );
-}
-
-/**
- * Destaca a última pergunta do tutor, a que o aluno precisa responder. Só
- * destaca quando o corte não quebra um negrito/itálico ao meio.
- */
-function HighlightLastQuestion({ text }: { text: string }) {
-  const q = text.lastIndexOf("?");
-  if (q === -1) return <RichText text={text} />;
-  const head = text.slice(0, q);
-  const start =
-    Math.max(
-      head.lastIndexOf(". "),
-      head.lastIndexOf("! "),
-      head.lastIndexOf("? "),
-      head.lastIndexOf("\n")
-    ) + 1;
-  const before = text.slice(0, start);
-  const question = text.slice(start, q + 1).trimStart();
-  const after = text.slice(q + 1);
-  const balanced = (s: string) => (s.match(/\*/g)?.length ?? 0) % 2 === 0;
-  if (question.length > 240 || !balanced(before) || !balanced(question)) {
-    return <RichText text={text} />;
-  }
-  return (
-    <>
-      <RichText text={before} />
-      {before && !before.endsWith(" ") && !before.endsWith("\n") ? " " : null}
-      <mark className="rounded-[3px] bg-glauco-soft px-[3px] py-px text-inherit">
-        <RichText text={question} />
-      </mark>
-      <RichText text={after} />
-    </>
   );
 }
 

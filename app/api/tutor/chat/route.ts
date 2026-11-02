@@ -4,7 +4,12 @@ import { tagTurn } from "@/src/features/learning-graph/concept-tagger";
 import { recordEvidence } from "@/src/features/learning-graph/evidence-recorder";
 import { generateTutorResponse } from "@/src/core/ai-integration/anthropic-client";
 import { buildSocraticSystemPrompt } from "@/src/features/tutoring/socratic-system-prompt";
-import { detectSubject } from "@/src/features/tutoring/curriculum-snippets";
+import {
+  detectSubject,
+  type Subject,
+} from "@/src/features/tutoring/curriculum-snippets";
+import { buildSimulationContext } from "@/src/features/tutoring/simulation-context";
+import { findSimulation } from "@/src/features/simulations/catalog";
 import {
   applySocraticGuard,
   logGuardViolation,
@@ -68,9 +73,17 @@ export async function POST(request: Request) {
     );
   }
 
+  // Vindo de uma simulação: só ids do catálogo valem.
+  const requestedSim =
+    typeof body?.simulationId === "string"
+      ? findSimulation(body.simulationId)
+      : undefined;
+
   const studentProfile = await getStudentProfile(supabase, user.id);
   const gradeBand = studentProfile?.grade_level ?? "elementary_1";
-  const subject = detectSubject(message);
+  const subject = requestedSim
+    ? (requestedSim.subject as Subject)
+    : detectSubject(message);
 
   const conversation = await getOrCreateConversation(
     supabase,
@@ -78,13 +91,20 @@ export async function POST(request: Request) {
     conversationId,
     subject,
     // primeira mensagem do aluno vira o título da conversa
-    message
+    message,
+    requestedSim?.slug
   );
 
   await appendMessage(supabase, conversation.id, "student", message);
 
   const history = await getRecentMessages(supabase, conversation.id);
-  const systemPrompt = buildSocraticSystemPrompt(gradeBand, subject);
+  const simulation = conversation.simulation_id
+    ? findSimulation(conversation.simulation_id)
+    : undefined;
+  const systemPrompt = simulation
+    ? buildSocraticSystemPrompt(gradeBand, simulation.subject as Subject) +
+      buildSimulationContext(simulation)
+    : buildSocraticSystemPrompt(gradeBand, subject);
 
   let reply: string;
   try {

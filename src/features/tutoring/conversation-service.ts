@@ -15,6 +15,8 @@ export interface ConversationRow {
   student_id: string;
   subject: string | null;
   title: string | null;
+  simulation_id: string | null;
+  question_attempt_id: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -35,7 +37,9 @@ export async function getOrCreateConversation(
   conversationId: string | null,
   subject: string,
   /** Título da conversa (assunto que o aluno digitou). Só usado ao criar. */
-  title?: string
+  title?: string,
+  /** Simulação de onde a conversa nasceu. Só usado ao criar. */
+  simulationId?: string | null
 ): Promise<ConversationRow> {
   if (conversationId) {
     const { data, error } = await supabase
@@ -49,7 +53,12 @@ export async function getOrCreateConversation(
   const cleanTitle = title?.trim().slice(0, 80) || null;
   const { data, error } = await supabase
     .from("conversations")
-    .insert({ student_id: studentId, subject, title: cleanTitle })
+    .insert({
+      student_id: studentId,
+      subject,
+      title: cleanTitle,
+      ...(simulationId ? { simulation_id: simulationId } : {}),
+    })
     .select("*")
     .single();
 
@@ -73,12 +82,10 @@ export async function getRecentMessages(
 
   if (error || !data) return [];
 
-  return data
-    .reverse()
-    .map((m) => ({
-      role: m.role === "student" ? "user" : "assistant",
-      content: m.content,
-    }));
+  return data.reverse().map((m) => ({
+    role: m.role === "student" ? "user" : "assistant",
+    content: m.content,
+  }));
 }
 
 /** Returns the new message's id — the tagger anchors evidence to it via `source_ref`. */

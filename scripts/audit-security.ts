@@ -87,6 +87,18 @@ async function main() {
       "aluno não vê o banco de questões do professor",
       (q ?? []).length === 0
     );
+    const { data: pq } = await st.c.from("public_questions").select("id");
+    check(
+      "aluno não lê public_questions direto (só via RPC)",
+      (pq ?? []).length === 0
+    );
+    const { data: qa } = await st.c
+      .from("question_attempts")
+      .select("student_id");
+    check(
+      "aluno não vê tentativa de outro aluno",
+      (qa ?? []).every((r) => r.student_id === st.uid)
+    );
   }
 
   console.log("\n=== RESPONSÁVEL ===");
@@ -117,6 +129,8 @@ async function main() {
     check("professor NÃO vê evidência bruta", (le ?? []).length === 0);
     const { data: msg } = await tc.c.from("messages").select("id");
     check("professor NÃO vê conversas de aluno", (msg ?? []).length === 0);
+    const { data: qa } = await tc.c.from("question_attempts").select("id");
+    check("professor NÃO vê tentativas de questão", (qa ?? []).length === 0);
 
     const { data: before } = await admin
       .from("concept_mastery")
@@ -152,6 +166,8 @@ async function main() {
       "gestor NÃO vê o banco de questões do professor",
       (q ?? []).length === 0
     );
+    const { data: qa } = await gs.c.from("question_attempts").select("id");
+    check("gestor NÃO vê tentativas de questão", (qa ?? []).length === 0);
     const { data: ov } = await gs.c.rpc("school_overview");
     const row = Array.isArray(ov) ? ov[0] : ov;
     check(
@@ -177,6 +193,10 @@ async function main() {
       "reward_events",
       "card_states",
       "review_logs",
+      "public_questions",
+      "question_attempts",
+      "simulation_completions",
+      "question_origin_settings",
     ];
     for (const t of tables) {
       const { data } = await c.from(t).select("*").limit(1);

@@ -67,10 +67,19 @@ isso `learning_events` é append-only e nunca sofre `update`.
 
 ### [1] Currículo
 
-`concepts` é a unidade atômica de "coisa que se aprende". Ancore em código
-BNCC (`EF08MA06`) sempre que existir — é o vocabulário que a coordenação
-pedagógica da escola já fala, e é o que permite mapear para o material
-didático que a rede já usa (Bernoulli, Poliedro, sistema próprio).
+`concepts` é a unidade atômica de "coisa que se aprende". Ancore nas
+habilidades da BNCC (`bncc_codes = {EF07MA24, EF07MA25}`, desde `0027`) — é o
+vocabulário que a coordenação pedagógica da escola já fala, e é o que permite
+mapear para o material didático que a rede já usa (Bernoulli, Poliedro,
+sistema próprio). `code` é só o identificador interno estável; um conceito de
+tópico costuma cobrir mais de uma habilidade.
+
+Fonte dos dados: `scripts/data/math-ef1.json`, `math-ef2.json` e `math-em.json`
+(Matemática do 5º ano ao EM, 140 conceitos) mais um arquivo por matéria do 8º
+ano. O texto oficial das habilidades fica em `scripts/data/bncc-matematica.json`
+e `src/tests/curriculum-graph.test.ts` exige, no `npm test`: DAG, arestas
+resolvidas, pré-requisito nunca de série posterior, toda habilidade do 5º ao EM
+coberta por algum conceito e nenhum código BNCC inventado.
 
 `concept_prerequisites` é a aresta. É o que permite a única frase que vale
 R$60/aluno/mês:

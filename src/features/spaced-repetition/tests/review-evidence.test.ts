@@ -17,9 +17,19 @@ describe("reviewToEvidence", () => {
       signal: "correct",
       confidence: 0.9,
       difficulty: 0.7,
-      source_ref: "ef2-mat-potencias-01",
-      metadata: { via: "revisao", grade: "good" },
+      metadata: {
+        via: "revisao",
+        grade: "good",
+        card_id: "ef2-mat-potencias-01",
+      },
     });
+  });
+
+  it("keeps uuid card ids as source_ref (learning_events.source_ref is uuid)", () => {
+    const id = "0b5e6f1c-2a3d-4e5f-8a9b-0c1d2e3f4a5b";
+    expect(reviewToEvidence({ ...base, card_id: id }, "x")?.source_ref).toBe(
+      id
+    );
   });
 
   it("maps every SM-2 grade to a learning-graph signal", () => {

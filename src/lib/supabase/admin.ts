@@ -16,6 +16,12 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
  * sustenta o contrato com a rede: o número ser derivado de evidência real.
  * Ver supabase/migrations/0013_harden_privileges.sql.
  *
+ * ÚNICA EXCEÇÃO DE LEITURA: `question_tutor_context` (0026), o contexto da
+ *   questão com o gabarito para o prompt do tutor. Nenhuma RPC do aluno pode
+ *   devolver gabarito, então ela é só de service_role e confere a posse da
+ *   tentativa com o student_id da sessão. O resultado vai para o prompt,
+ *   nunca para a tela.
+ *
  * O QUE NUNCA FAZER AQUI:
  *   - Ler dado de aluno para renderizar tela. Leitura continua passando pelo
  *     cliente de sessão (src/lib/supabase/server.ts), onde a RLS é a fronteira.

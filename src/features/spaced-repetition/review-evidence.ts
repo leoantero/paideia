@@ -39,7 +39,11 @@ export function reviewToEvidence(
     signal: SIGNAL_BY_GRADE[result.grade],
     confidence: 0.9,
     difficulty: result.concept_difficulty ?? 0.5,
-    source_ref: result.card_id,
-    metadata: { via, grade: result.grade },
+    // learning_events.source_ref é uuid; ids de card do seed são texto
+    // ('ef2-mat-potencias-01') e derrubariam o insert inteiro.
+    ...(UUID.test(result.card_id) ? { source_ref: result.card_id } : {}),
+    metadata: { via, grade: result.grade, card_id: result.card_id },
   };
 }
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

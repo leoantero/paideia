@@ -8,6 +8,8 @@ import {
   CupIcon,
   OwlLineIcon,
   PedimentIcon,
+  QuestionsIcon,
+  SimulationIcon,
 } from "@/src/ui/paideia/line-icons";
 
 interface NavItem {
@@ -16,17 +18,19 @@ interface NavItem {
   Icon: ComponentType<{ size?: number }>;
 }
 
-/**
- * Barra inferior do aluno (prancha `Nav`). A prancha tem 6 abas; Questões e
- * Simulação ainda não têm rota nem modelo de dados, então ficam de fora até o
- * escopo ser combinado.
- */
+/** Barra inferior do aluno (prancha `Nav`): as 6 abas da prancha. */
 export function BottomNav({ basePath = "/student" }: { basePath?: string }) {
   const pathname = usePathname();
   const items: NavItem[] = [
     { href: basePath, label: "Início", Icon: PedimentIcon },
     { href: `${basePath}/tutor`, label: "Tutor", Icon: OwlLineIcon },
     { href: `${basePath}/revisao`, label: "Revisar", Icon: CardsIcon },
+    { href: `${basePath}/questoes`, label: "Questões", Icon: QuestionsIcon },
+    {
+      href: `${basePath}/simulacoes`,
+      label: "Simulação",
+      Icon: SimulationIcon,
+    },
     { href: `${basePath}/podio`, label: "Pódio", Icon: CupIcon },
   ];
 

@@ -1,0 +1,1035 @@
+{
+  "_comment": "Matemática, 6º ao 9º ano (Fundamental anos finais). Absorve o antigo math-ef8.json: os códigos daquele arquivo foram mantidos (ou renomeados em 0027_concept_bncc_codes.sql) para preservar o histórico. `bncc` lista as habilidades oficiais cobertas (texto em bncc-matematica.json). Pré-requisitos podem apontar para math-ef1.json.",
+  "curriculum": {
+    "code": "bncc-2018-v1",
+    "label": "BNCC 2018 (versão homologada)"
+  },
+  "subject": "math",
+  "grade_band": "elementary_2",
+  "concepts": [
+    {
+      "code": "EF06MA-NUMNAT",
+      "name": "Números naturais: sistema decimal, cálculos e estimativas",
+      "grade_year": 6,
+      "difficulty": 0.3,
+      "description": "Comparar, ordenar e representar naturais e decimais na reta; características do sistema decimal; cálculos exatos e aproximados; arredondar para potências de 10.",
+      "bncc": ["EF06MA01", "EF06MA02", "EF06MA03", "EF06MA12"],
+      "prerequisites": [
+        { "code": "EF05MA-NAT", "strength": 0.9 },
+        { "code": "EF05MA-DEC", "strength": 0.6 },
+        { "code": "EF05MA-MULDIV", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF06MA-ALG",
+      "name": "Algoritmos e fluxogramas",
+      "grade_year": 6,
+      "difficulty": 0.35,
+      "description": "Descrever a resolução de um problema passo a passo em linguagem natural e por fluxograma; ler fluxogramas simples.",
+      "bncc": ["EF06MA04", "EF06MA23", "EF06MA34"],
+      "prerequisites": []
+    },
+    {
+      "code": "EF06MA-DIV",
+      "name": "Múltiplos, divisores, primos e divisibilidade",
+      "grade_year": 6,
+      "difficulty": 0.45,
+      "description": "Primos e compostos; múltiplo, divisor e fator; critérios de divisibilidade por 2, 3, 4, 5, 6, 8, 9, 10, 100 e 1000.",
+      "bncc": ["EF06MA05", "EF06MA06"],
+      "prerequisites": [{ "code": "EF05MA-MULDIV", "strength": 0.9 }]
+    },
+    {
+      "code": "EF06MA-FRAC",
+      "name": "Frações: significado, comparação e equivalência",
+      "grade_year": 6,
+      "difficulty": 0.4,
+      "description": "Fração como parte de inteiro e como quociente; comparar, ordenar e reconhecer frações equivalentes.",
+      "bncc": ["EF06MA07"],
+      "prerequisites": [
+        { "code": "EF05MA-FRAC", "strength": 1.0 },
+        { "code": "EF06MA-DIV", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF06MA-FRACDEC",
+      "name": "Fração e decimal: conversão e reta numérica",
+      "grade_year": 6,
+      "difficulty": 0.45,
+      "description": "Passar da forma fracionária para a decimal e vice-versa; localizar racionais positivos na reta.",
+      "bncc": ["EF06MA08"],
+      "prerequisites": [
+        { "code": "EF06MA-FRAC", "strength": 0.9 },
+        { "code": "EF05MA-DEC", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EF06MA-FRACOP",
+      "name": "Fração de quantidade; adição e subtração de frações",
+      "grade_year": 6,
+      "difficulty": 0.5,
+      "description": "Calcular a fração de uma quantidade; somar e subtrair frações, inclusive com denominadores diferentes.",
+      "bncc": ["EF06MA09", "EF06MA10"],
+      "prerequisites": [
+        { "code": "EF06MA-FRAC", "strength": 1.0 },
+        { "code": "EF06MA-DIV", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF06MA-DECOP",
+      "name": "Operações com decimais e potenciação",
+      "grade_year": 6,
+      "difficulty": 0.45,
+      "description": "As quatro operações e potências com decimais; estimar e arredondar para checar a razoabilidade.",
+      "bncc": ["EF06MA11"],
+      "prerequisites": [
+        { "code": "EF05MA-MULDIV", "strength": 0.9 },
+        { "code": "EF06MA-FRACDEC", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF06MA-PORC",
+      "name": "Porcentagem por proporcionalidade",
+      "grade_year": 6,
+      "difficulty": 0.45,
+      "description": "Porcentagem como fração de denominador 100; calcular porcentagens pela ideia de proporcionalidade, sem regra de três.",
+      "bncc": ["EF06MA13"],
+      "prerequisites": [
+        { "code": "EF05MA-PORC", "strength": 0.9 },
+        { "code": "EF06MA-FRACDEC", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF06MA-IGUAL",
+      "name": "Propriedades da igualdade",
+      "grade_year": 6,
+      "difficulty": 0.45,
+      "description": "Operar os dois membros de uma igualdade pelo mesmo número para determinar valores desconhecidos.",
+      "bncc": ["EF06MA14"],
+      "prerequisites": [{ "code": "EF05MA-IGUAL", "strength": 1.0 }]
+    },
+    {
+      "code": "EF06MA-PART",
+      "name": "Partilha e razão entre partes",
+      "grade_year": 6,
+      "difficulty": 0.5,
+      "description": "Partilha em partes desiguais com relações aditivas e multiplicativas; razão entre as partes e com o todo.",
+      "bncc": ["EF06MA15"],
+      "prerequisites": [
+        { "code": "EF05MA-PART", "strength": 0.9 },
+        { "code": "EF06MA-FRAC", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF06MA-CART1Q",
+      "name": "Plano cartesiano: 1º quadrante",
+      "grade_year": 6,
+      "difficulty": 0.3,
+      "description": "Associar pares ordenados a pontos do 1º quadrante, como os vértices de um polígono.",
+      "bncc": ["EF06MA16"],
+      "prerequisites": [{ "code": "EF05MA-LOC", "strength": 1.0 }]
+    },
+    {
+      "code": "EF06MA-POLIED",
+      "name": "Prismas e pirâmides: vértices, faces e arestas",
+      "grade_year": 6,
+      "difficulty": 0.4,
+      "description": "Relacionar o número de vértices, faces e arestas de prismas e pirâmides ao polígono da base.",
+      "bncc": ["EF06MA17"],
+      "prerequisites": [{ "code": "EF05MA-SOLID", "strength": 0.9 }]
+    },
+    {
+      "code": "EF06MA-POLIG",
+      "name": "Polígonos, triângulos e quadriláteros: classificação",
+      "grade_year": 6,
+      "difficulty": 0.4,
+      "description": "Polígonos regulares e não regulares; triângulos por lados e ângulos; quadriláteros e a inclusão entre suas classes.",
+      "bncc": ["EF06MA18", "EF06MA19", "EF06MA20"],
+      "prerequisites": [{ "code": "EF05MA-POLIG", "strength": 0.9 }]
+    },
+    {
+      "code": "EF06MA-SEMELH",
+      "name": "Ampliação, redução e figuras semelhantes",
+      "grade_year": 6,
+      "difficulty": 0.45,
+      "description": "Construir figuras semelhantes por ampliação e redução em malhas, plano cartesiano ou software.",
+      "bncc": ["EF06MA21"],
+      "prerequisites": [
+        { "code": "EF05MA-AMPL", "strength": 0.9 },
+        { "code": "EF06MA-CART1Q", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF06MA-CONSTR",
+      "name": "Retas paralelas e perpendiculares: construções",
+      "grade_year": 6,
+      "difficulty": 0.35,
+      "description": "Representar paralelas e perpendiculares e construir quadriláteros com régua, esquadro ou software.",
+      "bncc": ["EF06MA22"],
+      "prerequisites": [{ "code": "EF06MA-POLIG", "strength": 0.6 }]
+    },
+    {
+      "code": "EF06MA-MED",
+      "name": "Medidas de grandezas: problemas sem fórmulas",
+      "grade_year": 6,
+      "difficulty": 0.4,
+      "description": "Comprimento, massa, tempo, temperatura, área de triângulos e retângulos, capacidade e volume de blocos, em contextos reais.",
+      "bncc": ["EF06MA24"],
+      "prerequisites": [
+        { "code": "EF05MA-MED", "strength": 0.9 },
+        { "code": "EF06MA-DECOP", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF06MA-ANG",
+      "name": "Ângulos: conceito e medida",
+      "grade_year": 6,
+      "difficulty": 0.35,
+      "description": "Abertura do ângulo como grandeza; ângulo em contextos reais (ângulo de visão); medir com transferidor.",
+      "bncc": ["EF06MA25", "EF06MA26", "EF06MA27"],
+      "prerequisites": [{ "code": "EF06MA-POLIG", "strength": 0.5 }]
+    },
+    {
+      "code": "EF06MA-PLANTA",
+      "name": "Plantas baixas e vistas aéreas",
+      "grade_year": 6,
+      "difficulty": 0.35,
+      "description": "Interpretar, descrever e desenhar plantas baixas simples e vistas aéreas.",
+      "bncc": ["EF06MA28"],
+      "prerequisites": [
+        { "code": "EF05MA-LOC", "strength": 0.6 },
+        { "code": "EF06MA-MED", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF06MA-PERAREA",
+      "name": "Perímetro e área ao variar o lado",
+      "grade_year": 6,
+      "difficulty": 0.5,
+      "description": "Ao ampliar o lado de um quadrado, o perímetro varia proporcionalmente e a área não.",
+      "bncc": ["EF06MA29"],
+      "prerequisites": [
+        { "code": "EF05MA-PERAREA", "strength": 0.9 },
+        { "code": "EF06MA-DECOP", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF06MA-PROB",
+      "name": "Probabilidade: fração, decimal e porcentagem",
+      "grade_year": 6,
+      "difficulty": 0.5,
+      "description": "Expressar a probabilidade de um evento como racional e comparar com a frequência de experimentos sucessivos.",
+      "bncc": ["EF06MA30"],
+      "prerequisites": [
+        { "code": "EF05MA-PROB", "strength": 1.0 },
+        { "code": "EF06MA-FRACDEC", "strength": 0.7 },
+        { "code": "EF06MA-PORC", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF06MA-GRAF",
+      "name": "Gráficos: elementos e leitura",
+      "grade_year": 6,
+      "difficulty": 0.35,
+      "description": "Variáveis e frequências; título, eixos, legendas, fontes e datas; interpretar tabelas e gráficos da mídia.",
+      "bncc": ["EF06MA31", "EF06MA32"],
+      "prerequisites": [{ "code": "EF05MA-DADOS", "strength": 0.9 }]
+    },
+    {
+      "code": "EF06MA-PESQ",
+      "name": "Pesquisa estatística com planilhas",
+      "grade_year": 6,
+      "difficulty": 0.4,
+      "description": "Planejar e coletar dados de uma pesquisa e registrá-los em planilha, tabelas, gráficos e texto.",
+      "bncc": ["EF06MA33"],
+      "prerequisites": [
+        { "code": "EF05MA-PESQ", "strength": 0.8 },
+        { "code": "EF06MA-GRAF", "strength": 0.8 }
+      ]
+    },
+
+    {
+      "code": "EF07MA-MDCMMC",
+      "name": "Múltiplos e divisores: mdc e mmc",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Problemas com divisor e múltiplo, incluindo máximo divisor comum e mínimo múltiplo comum, sem algoritmo decorado.",
+      "bncc": ["EF07MA01"],
+      "prerequisites": [{ "code": "EF06MA-DIV", "strength": 1.0 }]
+    },
+    {
+      "code": "EF07MA-PORC",
+      "name": "Porcentagem: acréscimos e decréscimos simples",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Aumentos e descontos percentuais em contexto de educação financeira.",
+      "bncc": ["EF07MA02"],
+      "prerequisites": [{ "code": "EF06MA-PORC", "strength": 1.0 }]
+    },
+    {
+      "code": "EF07MA-INT",
+      "name": "Números inteiros: comparação e operações",
+      "grade_year": 7,
+      "difficulty": 0.45,
+      "description": "Inteiros na reta numérica; adição, subtração, multiplicação e divisão com negativos; regras de sinais.",
+      "bncc": ["EF07MA03", "EF07MA04"],
+      "prerequisites": [{ "code": "EF06MA-NUMNAT", "strength": 0.7 }]
+    },
+    {
+      "code": "EF07MA-ALG",
+      "name": "Estratégias de resolução e fluxogramas",
+      "grade_year": 7,
+      "difficulty": 0.4,
+      "description": "Resolver um problema por algoritmos diferentes; reconhecer problemas de mesma estrutura; registrar os passos em fluxograma.",
+      "bncc": ["EF07MA05", "EF07MA06", "EF07MA07"],
+      "prerequisites": [{ "code": "EF06MA-ALG", "strength": 0.8 }]
+    },
+    {
+      "code": "EF07MA-RAZAO",
+      "name": "Fração como razão e operador",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Comparar frações nos significados parte-todo, quociente, razão e operador; usar 2/3 para expressar razão entre grandezas.",
+      "bncc": ["EF07MA08", "EF07MA09"],
+      "prerequisites": [
+        { "code": "EF06MA-FRAC", "strength": 1.0 },
+        { "code": "EF06MA-PART", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF07MA-DEC",
+      "name": "Números racionais: comparação e reta numérica",
+      "grade_year": 7,
+      "difficulty": 0.4,
+      "description": "Comparar e ordenar racionais positivos e negativos e associá-los a pontos da reta.",
+      "bncc": ["EF07MA10"],
+      "prerequisites": [
+        { "code": "EF06MA-FRACDEC", "strength": 0.9 },
+        { "code": "EF07MA-INT", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EF07MA-FRACOP",
+      "name": "Operações com números racionais",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Multiplicação e divisão de frações e decimais, suas propriedades, e problemas com as quatro operações.",
+      "bncc": ["EF07MA11", "EF07MA12"],
+      "prerequisites": [
+        { "code": "EF06MA-FRACOP", "strength": 1.0 },
+        { "code": "EF06MA-DECOP", "strength": 0.8 },
+        { "code": "EF07MA-INT", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF07MA-VAR",
+      "name": "Variável, incógnita e linguagem algébrica",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Letra como variável (relação entre grandezas) e como incógnita (valor a descobrir).",
+      "bncc": ["EF07MA13"],
+      "prerequisites": [{ "code": "EF06MA-IGUAL", "strength": 0.8 }]
+    },
+    {
+      "code": "EF07MA-SEQ",
+      "name": "Sequências: regularidade e expressão algébrica",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Sequências recursivas e não recursivas; escrever a regularidade com símbolos; reconhecer expressões equivalentes.",
+      "bncc": ["EF07MA14", "EF07MA15", "EF07MA16"],
+      "prerequisites": [{ "code": "EF07MA-VAR", "strength": 0.9 }]
+    },
+    {
+      "code": "EF07MA-PROP",
+      "name": "Proporcionalidade direta e inversa",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Grandezas direta e inversamente proporcionais, expressas por sentença algébrica.",
+      "bncc": ["EF07MA17"],
+      "prerequisites": [
+        { "code": "EF07MA-RAZAO", "strength": 0.8 },
+        { "code": "EF07MA-FRACOP", "strength": 0.8 },
+        { "code": "EF07MA-VAR", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF07MA-EQ1",
+      "name": "Equação polinomial do 1º grau",
+      "grade_year": 7,
+      "difficulty": 0.55,
+      "description": "Resolver problemas por equações redutíveis a ax + b = c usando as propriedades da igualdade.",
+      "bncc": ["EF07MA18"],
+      "prerequisites": [
+        { "code": "EF06MA-IGUAL", "strength": 1.0 },
+        { "code": "EF07MA-VAR", "strength": 0.9 },
+        { "code": "EF07MA-INT", "strength": 0.8 },
+        { "code": "EF07MA-FRACOP", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF07MA-CART",
+      "name": "Plano cartesiano: quatro quadrantes",
+      "grade_year": 7,
+      "difficulty": 0.4,
+      "description": "Pontos nos quatro quadrantes; simétrico em relação aos eixos e à origem; multiplicar coordenadas por um inteiro.",
+      "bncc": ["EF07MA19", "EF07MA20"],
+      "prerequisites": [
+        { "code": "EF06MA-CART1Q", "strength": 1.0 },
+        { "code": "EF07MA-INT", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EF07MA-SIM",
+      "name": "Simetrias: translação, rotação e reflexão",
+      "grade_year": 7,
+      "difficulty": 0.45,
+      "description": "Reconhecer e construir figuras simétricas por translação, rotação e reflexão, inclusive em obras de arte.",
+      "bncc": ["EF07MA21"],
+      "prerequisites": [
+        { "code": "EF07MA-CART", "strength": 0.6 },
+        { "code": "EF06MA-POLIG", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF07MA-CIRC",
+      "name": "Circunferência: construção e lugar geométrico",
+      "grade_year": 7,
+      "difficulty": 0.4,
+      "description": "Construir circunferências com compasso e usá-las como lugar geométrico dos pontos equidistantes.",
+      "bncc": ["EF07MA22"],
+      "prerequisites": [{ "code": "EF06MA-CONSTR", "strength": 0.6 }]
+    },
+    {
+      "code": "EF07MA-PARAL",
+      "name": "Ângulos em retas paralelas cortadas por transversal",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Ângulos correspondentes, alternos e colaterais formados por paralelas e uma transversal.",
+      "bncc": ["EF07MA23"],
+      "prerequisites": [{ "code": "EF06MA-ANG", "strength": 1.0 }]
+    },
+    {
+      "code": "EF07MA-TRI",
+      "name": "Triângulos: construção, existência e soma dos ângulos",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Construir triângulos com régua e compasso; condição de existência; soma dos ângulos internos igual a 180°; rigidez do triângulo.",
+      "bncc": ["EF07MA24", "EF07MA25", "EF07MA26"],
+      "prerequisites": [
+        { "code": "EF06MA-ANG", "strength": 0.9 },
+        { "code": "EF06MA-POLIG", "strength": 0.7 },
+        { "code": "EF07MA-ALG", "strength": 0.3 }
+      ]
+    },
+    {
+      "code": "EF07MA-POLANG",
+      "name": "Ângulos de polígonos regulares e ladrilhamento",
+      "grade_year": 7,
+      "difficulty": 0.55,
+      "description": "Ângulos internos e externos de polígonos regulares, sem fórmula, ligados a mosaicos; algoritmo para construir um polígono regular.",
+      "bncc": ["EF07MA27", "EF07MA28"],
+      "prerequisites": [
+        { "code": "EF07MA-TRI", "strength": 0.8 },
+        { "code": "EF07MA-PARAL", "strength": 0.4 }
+      ]
+    },
+    {
+      "code": "EF07MA-MED",
+      "name": "Medidas e aproximação",
+      "grade_year": 7,
+      "difficulty": 0.4,
+      "description": "Problemas com medidas de grandezas em contextos reais; toda medida empírica é aproximada.",
+      "bncc": ["EF07MA29"],
+      "prerequisites": [{ "code": "EF06MA-MED", "strength": 0.9 }]
+    },
+    {
+      "code": "EF07MA-VOL",
+      "name": "Volume de blocos retangulares",
+      "grade_year": 7,
+      "difficulty": 0.45,
+      "description": "Calcular volume de blocos retangulares em m³, dm³ e cm³.",
+      "bncc": ["EF07MA30"],
+      "prerequisites": [
+        { "code": "EF05MA-VOL", "strength": 0.8 },
+        { "code": "EF06MA-MED", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF07MA-AREA",
+      "name": "Área de triângulos e quadriláteros",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Deduzir expressões de área de triângulos e quadriláteros; área de figuras decompostas em quadrados, retângulos e triângulos.",
+      "bncc": ["EF07MA31", "EF07MA32"],
+      "prerequisites": [
+        { "code": "EF06MA-PERAREA", "strength": 0.8 },
+        { "code": "EF07MA-FRACOP", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF07MA-PI",
+      "name": "Comprimento da circunferência e o número π",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "π como razão entre o comprimento da circunferência e o diâmetro; problemas de comprimento.",
+      "bncc": ["EF07MA33"],
+      "prerequisites": [
+        { "code": "EF07MA-CIRC", "strength": 0.8 },
+        { "code": "EF07MA-DEC", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF07MA-PROBEXP",
+      "name": "Experimentos aleatórios e frequência",
+      "grade_year": 7,
+      "difficulty": 0.5,
+      "description": "Planejar experimentos ou simulações e estimar probabilidades pela frequência de ocorrências.",
+      "bncc": ["EF07MA34"],
+      "prerequisites": [{ "code": "EF06MA-PROB", "strength": 1.0 }]
+    },
+    {
+      "code": "EF07MA-MEDIA",
+      "name": "Média aritmética e amplitude",
+      "grade_year": 7,
+      "difficulty": 0.45,
+      "description": "Média como indicador de tendência; calcular e relacionar com a amplitude dos dados.",
+      "bncc": ["EF07MA35"],
+      "prerequisites": [{ "code": "EF07MA-FRACOP", "strength": 0.7 }]
+    },
+    {
+      "code": "EF07MA-PESQ",
+      "name": "Pesquisa censitária ou amostral",
+      "grade_year": 7,
+      "difficulty": 0.45,
+      "description": "Decidir entre censo e amostra; comunicar resultados em relatório, tabelas e gráficos.",
+      "bncc": ["EF07MA36"],
+      "prerequisites": [{ "code": "EF06MA-PESQ", "strength": 0.9 }]
+    },
+    {
+      "code": "EF07MA-SETOR",
+      "name": "Gráfico de setores",
+      "grade_year": 7,
+      "difficulty": 0.45,
+      "description": "Ler gráficos de setores da mídia e saber quando seu uso é adequado.",
+      "bncc": ["EF07MA37"],
+      "prerequisites": [
+        { "code": "EF07MA-PORC", "strength": 0.8 },
+        { "code": "EF06MA-GRAF", "strength": 0.9 }
+      ]
+    },
+
+    {
+      "code": "EF08MA-POT",
+      "name": "Potenciação e radiciação",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Relação entre potenciação e radiciação; raiz como potência de expoente fracionário; propriedades.",
+      "bncc": ["EF08MA02"],
+      "prerequisites": [
+        { "code": "EF07MA-INT", "strength": 0.9 },
+        { "code": "EF07MA-FRACOP", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF08MA01",
+      "name": "Potências de expoente inteiro e notação científica",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Cálculos com potências de expoente inteiro, inclusive negativo; números muito grandes ou pequenos em notação científica.",
+      "bncc": ["EF08MA01"],
+      "prerequisites": [{ "code": "EF08MA-POT", "strength": 1.0 }]
+    },
+    {
+      "code": "EF08MA-PMC",
+      "name": "Princípio multiplicativo da contagem",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Contar agrupamentos pelo princípio multiplicativo; árvore de possibilidades.",
+      "bncc": ["EF08MA03"],
+      "prerequisites": [{ "code": "EF05MA-CONT", "strength": 0.8 }]
+    },
+    {
+      "code": "EF08MA04",
+      "name": "Porcentagem e juros simples",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Cálculo de porcentagens, inclusive com calculadora e planilha; juros simples em contexto financeiro.",
+      "bncc": ["EF08MA04"],
+      "prerequisites": [
+        { "code": "EF07MA-PORC", "strength": 1.0 },
+        { "code": "EF07MA-PROP", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF08MA05",
+      "name": "Dízimas periódicas e fração geratriz",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Reconhecer dízimas periódicas e obter a fração geratriz.",
+      "bncc": ["EF08MA05"],
+      "prerequisites": [
+        { "code": "EF07MA-FRACOP", "strength": 1.0 },
+        { "code": "EF07MA-EQ1", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF08MA06",
+      "name": "Valor numérico de expressões algébricas",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Substituir variáveis por valores e calcular usando as propriedades das operações.",
+      "bncc": ["EF08MA06"],
+      "prerequisites": [
+        { "code": "EF07MA-VAR", "strength": 1.0 },
+        { "code": "EF07MA-FRACOP", "strength": 0.8 },
+        { "code": "EF07MA-INT", "strength": 0.9 }
+      ]
+    },
+    {
+      "code": "EF08MA08",
+      "name": "Sistemas de equações do 1º grau",
+      "grade_year": 8,
+      "difficulty": 0.65,
+      "description": "Equação linear com duas incógnitas como reta; resolver sistemas 2x2 por substituição, adição e pelo plano cartesiano.",
+      "bncc": ["EF08MA07", "EF08MA08"],
+      "prerequisites": [
+        { "code": "EF07MA-EQ1", "strength": 1.0 },
+        { "code": "EF07MA-CART", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF08MA-EQ2S",
+      "name": "Equações do tipo ax² = b",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Resolver problemas representados por equações do 2º grau da forma ax² = b.",
+      "bncc": ["EF08MA09"],
+      "prerequisites": [
+        { "code": "EF07MA-EQ1", "strength": 0.9 },
+        { "code": "EF08MA-POT", "strength": 0.9 }
+      ]
+    },
+    {
+      "code": "EF08MA-SEQ",
+      "name": "Sequências recursivas e não recursivas",
+      "grade_year": 8,
+      "difficulty": 0.45,
+      "description": "Identificar a regularidade de sequências numéricas ou figurais e escrever o algoritmo (fluxograma) que gera os próximos termos.",
+      "bncc": ["EF08MA10", "EF08MA11"],
+      "prerequisites": [
+        { "code": "EF07MA-SEQ", "strength": 1.0 },
+        { "code": "EF08MA06", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF08MA-FUNAF",
+      "name": "Variação entre grandezas e noção de função",
+      "grade_year": 8,
+      "difficulty": 0.65,
+      "description": "Variação direta, inversa ou não proporcional entre grandezas, expressa por sentença algébrica (y = ax + b) e no plano cartesiano.",
+      "bncc": ["EF08MA12"],
+      "prerequisites": [
+        { "code": "EF07MA-EQ1", "strength": 1.0 },
+        { "code": "EF07MA-CART", "strength": 0.9 },
+        { "code": "EF07MA-PROP", "strength": 0.7 },
+        { "code": "EF08MA-SEQ", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF08MA-PROP",
+      "name": "Grandezas proporcionais: problemas e regra de três",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Problemas com grandezas direta ou inversamente proporcionais por estratégias variadas.",
+      "bncc": ["EF08MA13"],
+      "prerequisites": [{ "code": "EF07MA-PROP", "strength": 1.0 }]
+    },
+    {
+      "code": "EF08MA14",
+      "name": "Congruência de triângulos e propriedades de quadriláteros",
+      "grade_year": 8,
+      "difficulty": 0.6,
+      "description": "Casos de congruência (LLL, LAL, ALA) usados para demonstrar propriedades de quadriláteros.",
+      "bncc": ["EF08MA14"],
+      "prerequisites": [
+        { "code": "EF07MA-TRI", "strength": 0.9 },
+        { "code": "EF07MA-PARAL", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF08MA-POL",
+      "name": "Construções: mediatriz, bissetriz, ângulos notáveis e polígonos regulares",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Construir com régua e compasso ou software: mediatriz, bissetriz, ângulos de 90°, 60°, 45° e 30°, hexágono e outros polígonos regulares.",
+      "bncc": ["EF08MA15", "EF08MA16"],
+      "prerequisites": [
+        { "code": "EF07MA-POLANG", "strength": 0.8 },
+        { "code": "EF07MA-CIRC", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF08MA17",
+      "name": "Mediatriz e bissetriz como lugares geométricos",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Usar as propriedades da mediatriz e da bissetriz para resolver problemas.",
+      "bncc": ["EF08MA17"],
+      "prerequisites": [
+        { "code": "EF08MA-POL", "strength": 0.8 },
+        { "code": "EF07MA-CIRC", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF08MA18",
+      "name": "Composição de transformações geométricas",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Figuras obtidas por composições de translação, reflexão e rotação.",
+      "bncc": ["EF08MA18"],
+      "prerequisites": [
+        { "code": "EF07MA-SIM", "strength": 1.0 },
+        { "code": "EF07MA-CART", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF08MA-AREA",
+      "name": "Área de quadriláteros, triângulos e círculos",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Usar expressões de área de quadriláteros, triângulos e círculos em situações como medir terrenos.",
+      "bncc": ["EF08MA19"],
+      "prerequisites": [
+        { "code": "EF07MA-AREA", "strength": 1.0 },
+        { "code": "EF07MA-PI", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EF08MA-VOL",
+      "name": "Volume e capacidade",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Volume de recipientes em forma de bloco retangular; relação entre litro, dm³ e m³.",
+      "bncc": ["EF08MA20", "EF08MA21"],
+      "prerequisites": [
+        { "code": "EF07MA-VOL", "strength": 1.0 },
+        { "code": "EF08MA-AREA", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF08MA22",
+      "name": "Probabilidade com espaço amostral",
+      "grade_year": 8,
+      "difficulty": 0.55,
+      "description": "Construir o espaço amostral pelo princípio multiplicativo; a soma das probabilidades é 1.",
+      "bncc": ["EF08MA22"],
+      "prerequisites": [
+        { "code": "EF07MA-PROBEXP", "strength": 0.9 },
+        { "code": "EF08MA-PMC", "strength": 0.8 },
+        { "code": "EF07MA-FRACOP", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF08MA23",
+      "name": "Escolha e adequação de gráficos",
+      "grade_year": 8,
+      "difficulty": 0.4,
+      "description": "Avaliar qual tipo de gráfico (barras, colunas, linhas, setores) representa melhor um conjunto de dados.",
+      "bncc": ["EF08MA23"],
+      "prerequisites": [
+        { "code": "EF07MA-SETOR", "strength": 0.8 },
+        { "code": "EF06MA-GRAF", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF08MA24",
+      "name": "Frequências em classes",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Agrupar os valores de uma variável contínua em classes para resumir os dados.",
+      "bncc": ["EF08MA24"],
+      "prerequisites": [
+        { "code": "EF06MA-GRAF", "strength": 0.6 },
+        { "code": "EF07MA-MEDIA", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF08MA25",
+      "name": "Média, mediana, moda e amplitude",
+      "grade_year": 8,
+      "difficulty": 0.45,
+      "description": "Medidas de tendência central, seus significados e a relação com a dispersão indicada pela amplitude.",
+      "bncc": ["EF08MA25"],
+      "prerequisites": [{ "code": "EF07MA-MEDIA", "strength": 1.0 }]
+    },
+    {
+      "code": "EF08MA27",
+      "name": "Pesquisa amostral: amostragem e relatório",
+      "grade_year": 8,
+      "difficulty": 0.5,
+      "description": "Por que amostrar; amostra casual simples, sistemática e estratificada; relatório com gráficos e medidas.",
+      "bncc": ["EF08MA26", "EF08MA27"],
+      "prerequisites": [
+        { "code": "EF07MA-PESQ", "strength": 0.9 },
+        { "code": "EF08MA25", "strength": 0.8 },
+        { "code": "EF08MA23", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF08MA-INEQ",
+      "name": "Inequações do 1º grau",
+      "grade_year": 8,
+      "difficulty": 0.6,
+      "description": "Resolver inequações do 1º grau e representar as soluções na reta. Conteúdo usual dos livros didáticos e do ENEM, sem habilidade própria na BNCC.",
+      "bncc": [],
+      "prerequisites": [
+        { "code": "EF07MA-EQ1", "strength": 1.0 },
+        { "code": "EF07MA-INT", "strength": 0.7 }
+      ]
+    },
+
+    {
+      "code": "EF09MA-IRRAC",
+      "name": "Números irracionais e reais",
+      "grade_year": 9,
+      "difficulty": 0.55,
+      "description": "Segmentos de medida não racional (diagonal, altura); irracional como decimal infinito não periódico; localização aproximada na reta.",
+      "bncc": ["EF09MA01", "EF09MA02"],
+      "prerequisites": [
+        { "code": "EF08MA-POT", "strength": 0.9 },
+        { "code": "EF08MA05", "strength": 0.6 },
+        { "code": "EF07MA-DEC", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF09MA-REAIS",
+      "name": "Cálculos com reais e expoentes fracionários",
+      "grade_year": 9,
+      "difficulty": 0.6,
+      "description": "Operações com reais, potências de expoente fracionário e notação científica em problemas.",
+      "bncc": ["EF09MA03", "EF09MA04"],
+      "prerequisites": [
+        { "code": "EF09MA-IRRAC", "strength": 0.9 },
+        { "code": "EF08MA01", "strength": 0.9 },
+        { "code": "EF08MA-POT", "strength": 1.0 }
+      ]
+    },
+    {
+      "code": "EF09MA-PORCSUC",
+      "name": "Porcentagens sucessivas e taxas percentuais",
+      "grade_year": 9,
+      "difficulty": 0.55,
+      "description": "Aplicar percentuais sucessivos (e entender por que não se somam) e determinar taxas percentuais, em educação financeira.",
+      "bncc": ["EF09MA05"],
+      "prerequisites": [{ "code": "EF08MA04", "strength": 1.0 }]
+    },
+    {
+      "code": "EF09MA-FUNC",
+      "name": "Função: conceito e representações",
+      "grade_year": 9,
+      "difficulty": 0.65,
+      "description": "Função como dependência unívoca entre duas variáveis; representações numérica, algébrica e gráfica.",
+      "bncc": ["EF09MA06"],
+      "prerequisites": [
+        { "code": "EF08MA-FUNAF", "strength": 1.0 },
+        { "code": "EF07MA-CART", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EF09MA-GRAND",
+      "name": "Razão entre grandezas diferentes",
+      "grade_year": 9,
+      "difficulty": 0.55,
+      "description": "Velocidade, densidade demográfica e outras razões entre grandezas de espécies diferentes.",
+      "bncc": ["EF09MA07"],
+      "prerequisites": [
+        { "code": "EF08MA-PROP", "strength": 0.9 },
+        { "code": "EF07MA-RAZAO", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EF09MA-PROP",
+      "name": "Proporcionalidade: escalas, partes proporcionais e taxa de variação",
+      "grade_year": 9,
+      "difficulty": 0.6,
+      "description": "Proporcionalidade direta e inversa entre duas ou mais grandezas; escalas; divisão em partes proporcionais; taxa de variação.",
+      "bncc": ["EF09MA08"],
+      "prerequisites": [
+        { "code": "EF08MA-PROP", "strength": 1.0 },
+        { "code": "EF07MA-RAZAO", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF09MA-PN",
+      "name": "Produtos notáveis",
+      "grade_year": 9,
+      "difficulty": 0.55,
+      "description": "Quadrado da soma, quadrado da diferença e produto da soma pela diferença.",
+      "bncc": ["EF09MA09"],
+      "prerequisites": [{ "code": "EF08MA06", "strength": 1.0 }]
+    },
+    {
+      "code": "EF09MA-FAT",
+      "name": "Fatoração de expressões algébricas",
+      "grade_year": 9,
+      "difficulty": 0.6,
+      "description": "Fator comum, agrupamento e uso dos produtos notáveis para fatorar.",
+      "bncc": ["EF09MA09"],
+      "prerequisites": [{ "code": "EF09MA-PN", "strength": 1.0 }]
+    },
+    {
+      "code": "EF09MA-EQ2",
+      "name": "Equação polinomial do 2º grau",
+      "grade_year": 9,
+      "difficulty": 0.65,
+      "description": "Resolver equações do 2º grau por fatoração, completamento de quadrados e fórmula resolutiva; problemas.",
+      "bncc": ["EF09MA09"],
+      "prerequisites": [
+        { "code": "EF09MA-FAT", "strength": 0.9 },
+        { "code": "EF08MA-EQ2S", "strength": 0.9 },
+        { "code": "EF07MA-EQ1", "strength": 0.8 },
+        { "code": "EF08MA-POT", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF09MA10",
+      "name": "Ângulos em paralelas: demonstrações",
+      "grade_year": 9,
+      "difficulty": 0.55,
+      "description": "Demonstrar relações entre os ângulos formados por paralelas cortadas por transversal.",
+      "bncc": ["EF09MA10"],
+      "prerequisites": [
+        { "code": "EF07MA-PARAL", "strength": 1.0 },
+        { "code": "EF08MA14", "strength": 0.5 }
+      ]
+    },
+    {
+      "code": "EF09MA-CIRC",
+      "name": "Arcos, ângulos centrais e inscritos",
+      "grade_year": 9,
+      "difficulty": 0.6,
+      "description": "Relações entre arcos, ângulos centrais e ângulos inscritos na circunferência.",
+      "bncc": ["EF09MA11"],
+      "prerequisites": [
+        { "code": "EF07MA-CIRC", "strength": 0.8 },
+        { "code": "EF06MA-ANG", "strength": 0.8 }
+      ]
+    },
+    {
+      "code": "EF09MA-SEMELH",
+      "name": "Semelhança de triângulos e teorema de Tales",
+      "grade_year": 9,
+      "difficulty": 0.65,
+      "description": "Condições de semelhança de triângulos; proporcionalidade em feixes de paralelas cortadas por secantes.",
+      "bncc": ["EF09MA12", "EF09MA14"],
+      "prerequisites": [
+        { "code": "EF07MA-PROP", "strength": 0.9 },
+        { "code": "EF08MA14", "strength": 0.7 },
+        { "code": "EF06MA-SEMELH", "strength": 0.6 },
+        { "code": "EF07MA-PARAL", "strength": 0.7 }
+      ]
+    },
+    {
+      "code": "EF09MA-PITAG",
+      "name": "Teorema de Pitágoras e relações métricas",
+      "grade_year": 9,
+      "difficulty": 0.65,
+      "description": "Relações métricas no triângulo retângulo, demonstradas por semelhança; aplicações do teorema de Pitágoras.",
+      "bncc": ["EF09MA13", "EF09MA14"],
+      "prerequisites": [
+        { "code": "EF09MA-SEMELH", "strength": 0.9 },
+        { "code": "EF08MA-POT", "strength": 0.9 },
+        { "code": "EF09MA-REAIS", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF09MA-CONSTR",
+      "name": "Construção de polígonos regulares",
+      "grade_year": 9,
+      "difficulty": 0.45,
+      "description": "Algoritmo e construção de polígono regular de lado dado, com régua e compasso ou software.",
+      "bncc": ["EF09MA15"],
+      "prerequisites": [{ "code": "EF08MA-POL", "strength": 1.0 }]
+    },
+    {
+      "code": "EF09MA-DIST",
+      "name": "Distância e ponto médio no plano cartesiano",
+      "grade_year": 9,
+      "difficulty": 0.6,
+      "description": "Ponto médio e distância entre pontos a partir das coordenadas, sem fórmula pronta; perímetros e áreas no plano.",
+      "bncc": ["EF09MA16"],
+      "prerequisites": [
+        { "code": "EF09MA-PITAG", "strength": 0.9 },
+        { "code": "EF07MA-CART", "strength": 0.9 }
+      ]
+    },
+    {
+      "code": "EF09MA-VISTAS",
+      "name": "Vistas ortogonais e perspectiva",
+      "grade_year": 9,
+      "difficulty": 0.45,
+      "description": "Reconhecer vistas ortogonais de sólidos e desenhar objetos em perspectiva.",
+      "bncc": ["EF09MA17"],
+      "prerequisites": [
+        { "code": "EF06MA-POLIED", "strength": 0.7 },
+        { "code": "EF06MA-PLANTA", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF09MA-UNID",
+      "name": "Unidades para medidas muito grandes ou muito pequenas",
+      "grade_year": 9,
+      "difficulty": 0.5,
+      "description": "Distâncias astronômicas, tamanho de vírus, capacidade de armazenamento: unidades e prefixos.",
+      "bncc": ["EF09MA18"],
+      "prerequisites": [
+        { "code": "EF08MA01", "strength": 1.0 },
+        { "code": "EF07MA-MED", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF09MA-VOL",
+      "name": "Volume de prismas e cilindros",
+      "grade_year": 9,
+      "difficulty": 0.55,
+      "description": "Volume de prismas e cilindros retos, inclusive com expressões de cálculo.",
+      "bncc": ["EF09MA19"],
+      "prerequisites": [
+        { "code": "EF08MA-VOL", "strength": 1.0 },
+        { "code": "EF08MA-AREA", "strength": 0.9 }
+      ]
+    },
+    {
+      "code": "EF09MA-PROBIND",
+      "name": "Eventos dependentes e independentes",
+      "grade_year": 9,
+      "difficulty": 0.6,
+      "description": "Reconhecer eventos independentes e dependentes e calcular suas probabilidades.",
+      "bncc": ["EF09MA20"],
+      "prerequisites": [{ "code": "EF08MA22", "strength": 1.0 }]
+    },
+    {
+      "code": "EF09MA-GRAFCRIT",
+      "name": "Leitura crítica e construção de gráficos",
+      "grade_year": 9,
+      "difficulty": 0.5,
+      "description": "Identificar escalas inapropriadas, legendas e omissões que induzem a erro; escolher e construir o gráfico adequado.",
+      "bncc": ["EF09MA21", "EF09MA22"],
+      "prerequisites": [
+        { "code": "EF08MA23", "strength": 1.0 },
+        { "code": "EF08MA25", "strength": 0.6 }
+      ]
+    },
+    {
+      "code": "EF09MA-PESQ",
+      "name": "Pesquisa amostral e relatório",
+      "grade_year": 9,
+      "difficulty": 0.5,
+      "description": "Planejar e executar pesquisa amostral sobre tema social e comunicar com medidas de tendência central, amplitude, tabelas e gráficos.",
+      "bncc": ["EF09MA23"],
+      "prerequisites": [
+        { "code": "EF08MA27", "strength": 1.0 },
+        { "code": "EF09MA-GRAFCRIT", "strength": 0.6 }
+      ]
+    }
+  ]
+}

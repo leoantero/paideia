@@ -1,5 +1,5 @@
 {
-  "_comment": "Cards de revisão para conceitos de matemática já existentes em math-ef8.json. Separado para não reescrever aquele arquivo. Chave = concept code.",
+  "_comment": "Cards de revisão para conceitos de matemática do 6º ao 9º ano (math-ef2.json). Separado para não inflar aquele arquivo. Chave = concept code.",
   "EF06MA-FRAC": [
     {
       "front": "O que significa a fração 3/4?",
@@ -50,7 +50,7 @@
       "back": "Porque têm expoentes diferentes na mesma letra. Só se somam termos com a parte literal idêntica."
     }
   ],
-  "EF08MA07": [
+  "EF07MA-EQ1": [
     {
       "front": "Resolva 3x + 5 = 20.",
       "back": "3x = 20 − 5 = 15 → x = 15 ÷ 3 = 5. A ideia é isolar o x fazendo a mesma operação nos dois lados."
@@ -80,7 +80,7 @@
       "back": "Quando a > 0. Se a < 0, ela é decrescente."
     }
   ],
-  "EF08MA-PN": [
+  "EF09MA-PN": [
     {
       "front": "Desenvolva (a + b)².",
       "back": "a² + 2ab + b². O erro clássico é esquecer o termo do meio (2ab)."
@@ -90,7 +90,7 @@
       "back": "a² − b² — o produto da soma pela diferença é a diferença dos quadrados."
     }
   ],
-  "EF07MA-ANG": [
+  "EF06MA-ANG": [
     {
       "front": "O que são ângulos complementares e suplementares?",
       "back": "Complementares somam 90°; suplementares somam 180°."
@@ -100,7 +100,7 @@
       "back": "55°. Ângulos opostos pelo vértice são sempre congruentes."
     }
   ],
-  "EF08MA15": [
+  "EF07MA-PARAL": [
     {
       "front": "Em retas paralelas cortadas por uma transversal, como são os ângulos alternos internos?",
       "back": "Congruentes (têm a mesma medida)."

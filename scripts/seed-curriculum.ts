@@ -3,99 +3,39 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { admin } from "./lib/admin";
+import {
+  loadBnccReference,
+  loadCurriculumFiles,
+  validateBnccCoverage,
+  validateGraph,
+  type CurriculumFile,
+} from "./lib/curriculum";
 
 /**
  * Seed do currículo: conceitos, arestas de pré-requisito e cards de revisão.
  * Ver docs/LEARNING_GRAPH.md. Idempotente: rodar duas vezes não duplica.
  *
- * Cada matéria é um arquivo em scripts/data/. Os cards podem vir inline no
- * conceito (`cards`) ou, para matemática — cujo arquivo é grande e veio antes
- * da tabela concept_cards existir —, do mapa em cards-math-ef8.json.
+ * Cada arquivo em scripts/data/ é uma matéria em um segmento. Pré-requisitos
+ * cruzam arquivos (o EM depende do 6º ano), então os conceitos de todos os
+ * arquivos entram primeiro e as arestas só depois, com o mapa global de ids.
+ * Os cards podem vir inline no conceito (`cards`) ou, para matemática, do mapa
+ * em cards-math-ef8.json.
  *
- * Valida que o grafo de pré-requisitos é um DAG ANTES de inserir — um ciclo
- * trava a recursão de concept_prerequisite_closure() e o CHECK da migration
- * só barra auto-referência.
+ * O grafo é validado ANTES de inserir (DAG, arestas resolvidas, cobertura
+ * BNCC) — é o mesmo validador do `npm test`, só que aqui ele barra o seed.
  */
 
 interface RawCard {
   front: string;
   back: string;
 }
-interface RawConcept {
-  code: string;
-  name: string;
-  grade_year: number;
-  difficulty: number;
-  description: string;
-  prerequisites: { code: string; strength: number }[];
-  cards?: RawCard[];
-}
-interface RawData {
-  curriculum: { code: string; label: string };
-  subject: string;
-  grade_band: string;
-  concepts: RawConcept[];
-}
 
 const here = dirname(fileURLToPath(import.meta.url));
-const readJson = <T>(name: string): T =>
-  JSON.parse(readFileSync(join(here, "data", name), "utf8")) as T;
-
-const SUBJECT_FILES = [
-  "math-ef8.json",
-  "portugues-ef8.json",
-  "fisica-ef8.json",
-  "historia-ef8.json",
-  "biologia-ef8.json",
-  "quimica-ef8.json",
-];
 
 /** Cards de matemática, mantidos fora do arquivo de conceitos. */
-const EXTRA_CARDS = readJson<Record<string, RawCard[] | string>>(
-  "cards-math-ef8.json"
-);
-
-/** Ciclo em pré-requisitos trava a recursão do fecho transitivo — barra antes de inserir. */
-function assertDag(concepts: RawConcept[], subject: string) {
-  const codes = new Set(concepts.map((c) => c.code));
-  const adj = new Map<string, string[]>();
-  for (const c of concepts) {
-    for (const p of c.prerequisites) {
-      if (!codes.has(p.code)) {
-        throw new Error(
-          `[${subject}] Pré-requisito ${p.code} de ${c.code} não existe na lista.`
-        );
-      }
-    }
-    adj.set(
-      c.code,
-      c.prerequisites.map((p) => p.code)
-    );
-  }
-
-  const WHITE = 0,
-    GRAY = 1,
-    BLACK = 2;
-  const color = new Map<string, number>([...codes].map((c) => [c, WHITE]));
-  const stack: string[] = [];
-
-  function visit(node: string) {
-    color.set(node, GRAY);
-    stack.push(node);
-    for (const next of adj.get(node) ?? []) {
-      if (color.get(next) === GRAY) {
-        throw new Error(
-          `[${subject}] Ciclo em pré-requisitos: ${[...stack, next].join(" -> ")}`
-        );
-      }
-      if (color.get(next) === WHITE) visit(next);
-    }
-    stack.pop();
-    color.set(node, BLACK);
-  }
-
-  for (const c of codes) if (color.get(c) === WHITE) visit(c);
-}
+const EXTRA_CARDS = JSON.parse(
+  readFileSync(join(here, "data", "cards-math-ef8.json"), "utf8")
+) as Record<string, RawCard[] | string>;
 
 const SUBJECT_LABELS: Record<string, string> = {
   math: "Matemática",
@@ -113,7 +53,7 @@ const SUBJECT_LABELS: Record<string, string> = {
  * alunos está preso ao id); card novo entra no fim do baralho.
  */
 async function upsertConceptDeck(
-  data: RawData,
+  data: CurriculumFile,
   flashcards: { concept_id: string; front: string; back: string }[]
 ): Promise<unknown[]> {
   if (flashcards.length === 0) return [];
@@ -159,32 +99,30 @@ async function upsertConceptDeck(
   return rows;
 }
 
-async function seedSubject(
-  file: string
-): Promise<{ concepts: number; edges: number; cards: number }> {
-  const data = readJson<RawData>(file);
-  assertDag(data.concepts, data.subject);
-
-  const { data: cv, error: cvErr } = await admin
+async function upsertCurriculumVersion(
+  code: string,
+  label: string
+): Promise<string> {
+  const { data: cv, error } = await admin
     .from("curriculum_versions")
-    .upsert(
-      {
-        code: data.curriculum.code,
-        label: data.curriculum.label,
-        is_active: true,
-      },
-      { onConflict: "code" }
-    )
+    .upsert({ code, label, is_active: true }, { onConflict: "code" })
     .select("id")
     .single();
-  if (cvErr || !cv)
-    throw cvErr ?? new Error("upsert curriculum_versions falhou");
+  if (error || !cv)
+    throw error ?? new Error("upsert curriculum_versions falhou");
+  return cv.id;
+}
 
-  const { data: inserted, error: cErr } = await admin
+/** Insere os conceitos de um arquivo e devolve code -> id. */
+async function seedConcepts(
+  data: CurriculumFile,
+  versionId: string
+): Promise<Map<string, string>> {
+  const { data: inserted, error } = await admin
     .from("concepts")
     .upsert(
       data.concepts.map((c) => ({
-        curriculum_version_id: cv.id,
+        curriculum_version_id: versionId,
         code: c.code,
         name: c.name,
         subject: data.subject,
@@ -192,30 +130,20 @@ async function seedSubject(
         grade_year: c.grade_year,
         description: c.description,
         intrinsic_difficulty: c.difficulty,
+        bncc_codes: c.bncc,
       })),
       { onConflict: "curriculum_version_id,code" }
     )
     .select("id, code");
-  if (cErr || !inserted)
-    throw cErr ?? new Error(`upsert concepts falhou (${data.subject})`);
+  if (error || !inserted)
+    throw error ?? new Error(`upsert concepts falhou (${data.file})`);
+  return new Map(inserted.map((r) => [r.code, r.id]));
+}
 
-  const idByCode = new Map(inserted.map((r) => [r.code, r.id]));
-
-  const prereqRows = data.concepts.flatMap((c) =>
-    c.prerequisites.map((p) => ({
-      concept_id: idByCode.get(c.code)!,
-      prerequisite_id: idByCode.get(p.code)!,
-      strength: p.strength,
-    }))
-  );
-  if (prereqRows.length > 0) {
-    const { error: pErr } = await admin
-      .from("concept_prerequisites")
-      .upsert(prereqRows, { onConflict: "concept_id,prerequisite_id" });
-    if (pErr) throw pErr;
-  }
-
-  // cards: inline no conceito, ou do mapa extra (matemática)
+async function seedCards(
+  data: CurriculumFile,
+  idByCode: Map<string, string>
+): Promise<number> {
   const flashcards = [...data.concepts]
     .sort((a, b) => a.code.localeCompare(b.code))
     .flatMap((c) => {
@@ -227,56 +155,85 @@ async function seedSubject(
         back: card.back,
       }));
     });
-  const cardRows = await upsertConceptDeck(data, flashcards);
-
-  console.log(
-    `  ${data.subject.padEnd(10)} ${String(inserted.length).padStart(2)} conceitos · ` +
-      `${String(prereqRows.length).padStart(2)} arestas · ${String(cardRows.length).padStart(2)} cards`
-  );
-  return {
-    concepts: inserted.length,
-    edges: prereqRows.length,
-    cards: cardRows.length,
-  };
+  return (await upsertConceptDeck(data, flashcards)).length;
 }
 
 async function main() {
-  let concepts = 0,
-    edges = 0,
-    cards = 0;
-  for (const file of SUBJECT_FILES) {
-    const r = await seedSubject(file);
-    concepts += r.concepts;
-    edges += r.edges;
-    cards += r.cards;
+  const files = loadCurriculumFiles();
+  const problems = [
+    ...validateGraph(files),
+    ...validateBnccCoverage(files, "math", loadBnccReference("matematica"), {
+      ef: [5, 6, 7, 8, 9],
+      em: true,
+    }),
+  ];
+  if (problems.length > 0) {
+    throw new Error(
+      `Grafo inválido, nada foi inserido:\n  ${problems.join("\n  ")}`
+    );
+  }
+
+  // 1. conceitos de todos os arquivos, para ter o mapa global de ids
+  const versionIds = new Map<string, string>();
+  const idByCode = new Map<string, string>();
+  const perFile: Array<{ data: CurriculumFile; ids: Map<string, string> }> = [];
+  for (const data of files) {
+    let versionId = versionIds.get(data.curriculum.code);
+    if (!versionId) {
+      versionId = await upsertCurriculumVersion(
+        data.curriculum.code,
+        data.curriculum.label
+      );
+      versionIds.set(data.curriculum.code, versionId);
+    }
+    const ids = await seedConcepts(data, versionId);
+    for (const [code, id] of ids) idByCode.set(code, id);
+    perFile.push({ data, ids });
+  }
+
+  // 2. arestas, que podem cruzar arquivos
+  const prereqRows = files.flatMap((f) =>
+    f.concepts.flatMap((c) =>
+      c.prerequisites.map((p) => ({
+        concept_id: idByCode.get(c.code)!,
+        prerequisite_id: idByCode.get(p.code)!,
+        strength: p.strength,
+      }))
+    )
+  );
+  if (prereqRows.length > 0) {
+    const { error } = await admin
+      .from("concept_prerequisites")
+      .upsert(prereqRows, { onConflict: "concept_id,prerequisite_id" });
+    if (error) throw error;
+  }
+
+  // 3. cards
+  let cards = 0;
+  for (const { data, ids } of perFile) {
+    const n = await seedCards(data, ids);
+    cards += n;
+    const edges = data.concepts.reduce((s, c) => s + c.prerequisites.length, 0);
+    console.log(
+      `  ${data.file.padEnd(20)} ${String(data.concepts.length).padStart(3)} conceitos · ` +
+        `${String(edges).padStart(3)} arestas · ${String(n).padStart(2)} cards`
+    );
   }
   console.log(
-    `\nTotal: ${concepts} conceitos, ${edges} arestas, ${cards} cards.`
+    `\nTotal: ${idByCode.size} conceitos, ${prereqRows.length} arestas, ${cards} cards.`
   );
 
   // Sanity: o fecho de "função afim" tem que alcançar "operações com frações".
   // É a consulta que sustenta o diagnóstico causal do produto — se ela quebrar,
   // o Conselheiro e o heatmap perdem o poder de explicar a raiz da dificuldade.
-  const { data: fun } = await admin
-    .from("concepts")
-    .select("id")
-    .eq("code", "EF08MA-FUNAF")
-    .single();
-  const { data: frac } = await admin
-    .from("concepts")
-    .select("id")
-    .eq("code", "EF07MA-FRACOP")
-    .single();
   const { data: closure, error: clErr } = await admin.rpc(
     "concept_prerequisite_closure",
-    {
-      p_concept_id: fun!.id,
-    }
+    { p_concept_id: idByCode.get("EF08MA-FUNAF")! }
   );
   if (clErr) throw clErr;
   const reached = (
     closure as { prerequisite_id: string; depth: number }[]
-  ).find((r) => r.prerequisite_id === frac!.id);
+  ).find((r) => r.prerequisite_id === idByCode.get("EF07MA-FRACOP"));
   if (!reached || reached.depth < 2) {
     throw new Error(
       "Sanity falhou: função afim não alcança operações com frações em depth >= 2."

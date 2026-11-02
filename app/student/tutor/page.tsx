@@ -1,4 +1,5 @@
 import { getVerifiedUser } from "@/src/lib/supabase/verified-user";
+import { findSimulation } from "@/src/features/simulations/catalog";
 import {
   TutorScreen,
   type ConversationSummary,
@@ -11,7 +12,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export default async function TutorPage({
   searchParams,
 }: PageProps<"/student/tutor">) {
-  const { q, c } = await searchParams;
+  const { q, c, sim } = await searchParams;
   const { supabase, user } = await getVerifiedUser();
 
   let conversations: ConversationSummary[] = [];
@@ -35,6 +36,7 @@ export default async function TutorPage({
   // /api/tutor/history passa pela RLS.
   const question = typeof q === "string" ? q.slice(0, 2000) : undefined;
   const convId = typeof c === "string" && UUID.test(c) ? c : undefined;
+  const simulation = typeof sim === "string" ? findSimulation(sim) : undefined;
 
   // Altura fixa: o chat rola por dentro e a caixa de texto fica logo acima da
   // barra de navegação (o -mb desconta parte do respiro da casca).
@@ -45,6 +47,11 @@ export default async function TutorPage({
         conversations={conversations}
         initialQuestion={question}
         initialConversationId={convId}
+        simulation={
+          simulation
+            ? { id: simulation.slug, title: simulation.title }
+            : undefined
+        }
       />
     </div>
   );
