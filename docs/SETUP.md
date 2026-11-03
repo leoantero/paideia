@@ -24,7 +24,7 @@ This guide will help you get up to speed on the project and set up your developm
 ```bash
 # Clone and install
 git clone <repo>
-cd yellow-ai-1
+cd paideia
 npm install
 
 # Verify setup

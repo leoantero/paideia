@@ -2,7 +2,7 @@
 # Run `supabase start` to spin up local Postgres + Auth + PostgREST.
 # See docs/SETUP.md for the full local dev workflow.
 
-project_id = "yellow-ai"
+project_id = "paideia"
 
 [api]
 enabled = true

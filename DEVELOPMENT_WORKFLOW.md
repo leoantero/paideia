@@ -1,6 +1,6 @@
 # Claude Code as Your Senior Engineer
 
-This document explains how to use Claude Code effectively as the senior engineer for Yellow AI.
+This document explains how to use Claude Code effectively as the senior engineer for Paideia.
 
 ## Philosophy
 
@@ -9,6 +9,7 @@ Claude Code is your **architectural advisor**, **code reviewer**, and **pedagogi
 ## Setup Complete ✓
 
 Your Claude Code environment is configured with:
+
 - ✓ Project principles in `CLAUDE.md`
 - ✓ Architecture guidelines in `docs/ARCHITECTURE.md`
 - ✓ Pedagogical rules in `docs/PEDAGOGY.md`
@@ -34,6 +35,7 @@ What's the right architecture? Any risks I should know about?
 ```
 
 **Claude will**:
+
 - Suggest architecture based on CLAUDE.md principles
 - Identify privacy/security risks early
 - Flag potential pedagogical issues
@@ -52,6 +54,7 @@ Any edge cases I'm missing?
 ```
 
 **Claude will**:
+
 - Spot socratic method violations immediately
 - Catch common bugs before testing
 - Suggest optimizations
@@ -71,6 +74,7 @@ Review this implementation for:
 ```
 
 **Claude will**:
+
 - Deep analysis of your changes
 - Verified findings (not just suggestions)
 - Clear explanations of issues
@@ -88,6 +92,7 @@ What's the root cause?
 ```
 
 **Claude will**:
+
 - Walk through the system systematically
 - Identify the actual problem (not just symptoms)
 - Suggest solutions
@@ -98,9 +103,11 @@ What's the root cause?
 ## When to Use Each Claude Tool
 
 ### `/plan` - Feature Design
+
 **Use when**: Starting a new feature, uncertain about architecture, need stakeholder alignment
 
 **Example**:
+
 ```
 /plan
 
@@ -110,9 +117,11 @@ What performance constraints do we have with analytics calculations?
 ```
 
 ### `/code-review ultra` - Pre-Merge Review
+
 **Use when**: Feature implementation complete, ready to merge to main
 
 **Example**:
+
 ```
 /code-review ultra
 
@@ -120,9 +129,11 @@ Reviewing spaced repetition algorithm before shipping.
 ```
 
 ### `/codebase-design` - Architecture Decisions
+
 **Use when**: Evaluating major architectural choices, refactoring decisions
 
 **Example**:
+
 ```
 /codebase-design
 
@@ -131,9 +142,11 @@ What are the data privacy implications?
 ```
 
 ### `/diagnosing-bugs` - Complex Problems
+
 **Use when**: Stuck on a complex issue, need systematic troubleshooting
 
 **Example**:
+
 ```
 /diagnosing-bugs
 
@@ -142,9 +155,11 @@ Math problems are too easy, Portuguese problems too hard.
 ```
 
 ### `/design` - UI/UX Mocks
+
 **Use when**: Need to design student/parent/teacher/director interfaces
 
 **Example**:
+
 ```
 /design
 
@@ -161,6 +176,7 @@ Claude makes recommendations. **You make final decisions.** Here's how to handle
 ### When Claude Suggests Something You Disagree With
 
 **Do this**:
+
 ```
 I hear you, but here's why I'm choosing differently:
 [Your reasoning]
@@ -169,6 +185,7 @@ Can you help me mitigate the risks of this approach?
 ```
 
 **Claude will**:
+
 - Adjust recommendations based on your constraints
 - Help you minimize downsides of your chosen approach
 - Respect your authority while providing expert input
@@ -176,6 +193,7 @@ Can you help me mitigate the risks of this approach?
 ### When Claude Flags Something Important
 
 **Do this**:
+
 ```
 I understand the privacy risk. Here's how I'm planning to handle it:
 [Your mitigation strategy]
@@ -184,6 +202,7 @@ Does this address your concern?
 ```
 
 **Claude will**:
+
 - Verify your approach is sufficient
 - Suggest improvements if needed
 - Confirm it's safe to proceed
@@ -193,6 +212,7 @@ Does this address your concern?
 ## Monthly Practices
 
 ### Weekly: Architecture Review
+
 ```
 /codebase-design
 
@@ -202,6 +222,7 @@ Is anything violating PEDAGOGY.md principles?
 ```
 
 ### Monthly: Pedagogical Audit
+
 ```
 /code-review ultra
 
@@ -211,7 +232,9 @@ Are personalization levels correct for each grade?
 ```
 
 ### Quarterly: Security & Privacy Audit
+
 Ask Claude to:
+
 - Review data handling for LGPD/GDPR compliance
 - Check for unintended data leaks
 - Audit role-based access control
@@ -222,6 +245,7 @@ Ask Claude to:
 ## Critical Workflows
 
 ### Adding New Role Type
+
 If you need to add a new user role (e.g., "tutors"):
 
 ```
@@ -234,11 +258,13 @@ What data should they see?
 ```
 
 Then `/code-review ultra` after implementation to verify:
+
 - ✓ Can't accidentally see student data inappropriately
 - ✓ Can't modify other roles' data
 - ✓ UI reflects their specific needs
 
 ### Integrating New LLM Features
+
 Before adding new AI capabilities:
 
 ```
@@ -251,6 +277,7 @@ Any privacy concerns with the prompt?
 ```
 
 ### Handling a Production Bug
+
 When something breaks:
 
 ```
@@ -268,16 +295,19 @@ What went wrong and how do I prevent it?
 ## Using Claude Code Across Your Team
 
 ### For Team Leads
+
 - Use `/plan` to design features before assigning to engineers
 - Use `/code-review ultra` before approving merges
 - Use `/codebase-design` to evaluate architectural proposals
 
 ### For Senior Engineers
+
 - Use `/diagnosing-bugs` to troubleshoot complex issues
 - Use `/codebase-design` to evaluate design decisions
 - Help junior engineers understand Claude's feedback
 
 ### For Junior Engineers
+
 - Use `/plan` to understand feature architecture before coding
 - Use `/diagnosing-bugs` when stuck
 - Learn from `/code-review ultra` feedback
@@ -287,6 +317,7 @@ What went wrong and how do I prevent it?
 ## Memory & Context
 
 Claude has memorized:
+
 - ✓ Your project's mission and features
 - ✓ Pedagogical principles (socratic method, spaced repetition)
 - ✓ Privacy requirements (student data protection)
@@ -294,6 +325,7 @@ Claude has memorized:
 - ✓ Decision rules in CLAUDE.md
 
 **You don't need to repeat context.** Just ask:
+
 ```
 I need help with the tutoring chatbot. [Your specific question]
 ```
@@ -305,6 +337,7 @@ Claude already knows it's for kids, needs socratic method, requires personalizat
 ## Example Day in Development
 
 ### 9:00 AM - Planning
+
 ```
 /plan
 
@@ -312,32 +345,39 @@ I want to build the test question generator for teachers.
 Should this use the same curriculum RAG as tutoring?
 How do I ensure questions are age-appropriate?
 ```
+
 → Claude designs the feature, identifies risks
 
 ### 10:00 AM - Implementation
+
 ```
 Here's my implementation of the test generator...
 [code]
 
 Does this preserve curriculum context?
 ```
+
 → Claude provides guidance on code quality
 
 ### 2:00 PM - Review
+
 ```
 /code-review ultra
 
 Ready to merge test generator to main.
 ```
+
 → Claude provides comprehensive review
 
 ### 4:00 PM - Bug Fix
+
 ```
 /diagnosing-bugs
 
 Questions generated are too hard for 4th graders.
 Same question generator for all grades.
 ```
+
 → Claude identifies the root cause (missing grade-level filtering)
 
 ---

@@ -1,6 +1,6 @@
 # ✅ Claude Code Senior Engineer Setup - COMPLETE
 
-Your Claude Code environment is now configured as a senior software engineer for Yellow AI.
+Your Claude Code environment is now configured as a senior software engineer for Paideia.
 
 ---
 
@@ -8,14 +8,14 @@ Your Claude Code environment is now configured as a senior software engineer for
 
 ### 📋 Documentation (Everything You Need to Know)
 
-| File | Purpose | Read First? |
-|------|---------|-------------|
-| `CLAUDE.md` | **Project standards & decision rules** | ✓ YES |
-| `DEVELOPMENT_WORKFLOW.md` | **How to use Claude Code daily** | ✓ YES |
-| `docs/SETUP.md` | Developer onboarding guide | After above |
-| `docs/ARCHITECTURE.md` | System design & components | After above |
-| `docs/PEDAGOGY.md` | Educational principles | Reference |
-| `README.md` | Project overview | ✓ Reference |
+| File                      | Purpose                                | Read First? |
+| ------------------------- | -------------------------------------- | ----------- |
+| `CLAUDE.md`               | **Project standards & decision rules** | ✓ YES       |
+| `DEVELOPMENT_WORKFLOW.md` | **How to use Claude Code daily**       | ✓ YES       |
+| `docs/SETUP.md`           | Developer onboarding guide             | After above |
+| `docs/ARCHITECTURE.md`    | System design & components             | After above |
+| `docs/PEDAGOGY.md`        | Educational principles                 | Reference   |
+| `README.md`               | Project overview                       | ✓ Reference |
 
 **Start here**: Read `CLAUDE.md` first (5 min), then `DEVELOPMENT_WORKFLOW.md` (10 min)
 
@@ -29,6 +29,7 @@ Your Claude Code environment is now configured as a senior software engineer for
 ### 🧠 Claude's Knowledge
 
 Claude Code now understands:
+
 - ✓ Your mission: Bridge education and technology responsibly
 - ✓ Your features: Tutoring, spaced repetition, analytics, gamification
 - ✓ Your users: Students, parents, teachers, directors
@@ -61,6 +62,7 @@ What's the right approach? Any risks?
 ```
 
 Claude will:
+
 - Design the architecture based on your project's principles
 - Flag any pedagogical issues early
 - Identify privacy/security risks
@@ -75,6 +77,7 @@ Ready to merge [feature] to main.
 ```
 
 Claude will:
+
 - Deep analysis of your implementation
 - Verify socratic method preserved (if tutoring)
 - Check for data privacy issues
@@ -85,6 +88,7 @@ Claude will:
 ## Key Interactions You'll Have
 
 ### 1. Architecture Decisions
+
 ```
 Use: /plan
 When: Designing new features or major refactors
@@ -92,6 +96,7 @@ Example: "Should tutoring and analytics be separate services?"
 ```
 
 ### 2. Code Quality Review
+
 ```
 Use: /code-review ultra
 When: Before merging to main
@@ -99,6 +104,7 @@ Example: "Ready to ship the tutoring chatbot"
 ```
 
 ### 3. Complex Debugging
+
 ```
 Use: /diagnosing-bugs
 When: Something unexpected is happening
@@ -106,6 +112,7 @@ Example: "Personalization isn't working for 4th graders"
 ```
 
 ### 4. Design Questions
+
 ```
 Use: /codebase-design
 When: Evaluating big architectural choices
@@ -113,6 +120,7 @@ Example: "How do we scale the analytics calculation?"
 ```
 
 ### 5. UI/UX Design
+
 ```
 Use: /design
 When: Need to design student/parent/teacher/director interfaces
@@ -124,6 +132,7 @@ Example: "Design the student dashboard"
 ## Important Principles (Enforce These)
 
 ### ✓ ALWAYS
+
 - Preserve the socratic method (questions guide, never answer)
 - Protect student data (no PII exposure)
 - Test educational logic (not just code logic)
@@ -131,6 +140,7 @@ Example: "Design the student dashboard"
 - Document decisions (why, not just what)
 
 ### ✗ NEVER
+
 - Commit API keys or secrets to repo
 - Give direct answers in tutoring responses
 - Log detailed student performance data
@@ -157,6 +167,7 @@ Questions → Ask in conversation (Claude has context)
 ### Special Commands for This Project
 
 After you build custom skills:
+
 ```
 Pedagogical Review → /pedagogical-review (coming soon)
 Privacy Audit → /privacy-audit (coming soon)
@@ -168,17 +179,20 @@ Role Access Check → /role-access-check (coming soon)
 ## What Success Looks Like
 
 ### Week 1
+
 - ✓ Team reads all documentation
 - ✓ First feature planned with `/plan`
 - ✓ First PR reviewed with `/code-review ultra`
 
 ### Month 1
+
 - ✓ Core architecture implemented (tutoring + analytics)
 - ✓ Zero pedagogical regressions
 - ✓ Zero security issues found in production
 - ✓ All features multi-role aware
 
 ### Month 3
+
 - ✓ MVP launched
 - ✓ Student interface working well
 - ✓ Parent dashboard providing value
@@ -214,7 +228,7 @@ A: Yes, add them to your project memory and Claude will use them going forward.
 Everything needed for a professional engineering environment:
 
 ```
-yellow-ai-1/
+paideia/
 ├── CLAUDE.md                          # Decision rules (REQUIRED READING)
 ├── DEVELOPMENT_WORKFLOW.md            # How to use Claude Code
 ├── SENIOR_ENGINEER_SETUP.md           # This file
@@ -235,6 +249,7 @@ yellow-ai-1/
 ## Your Next Move
 
 ### Right Now (5 min)
+
 ```bash
 git add .
 git commit -m "Initial: Claude Code senior engineer setup
@@ -248,17 +263,21 @@ This sets up Claude Code as the senior engineer for the team."
 ```
 
 ### Today (30 min)
+
 1. Read `CLAUDE.md`
 2. Read `DEVELOPMENT_WORKFLOW.md`
 3. Share with your team
 
 ### This Week
+
 1. Start first feature with `/plan`
 2. Get code reviewed with `/code-review ultra`
 3. Build momentum
 
 ### This Month
+
 Build the Phase 1 MVP:
+
 - Basic student auth
 - Socratic tutoring chatbot (working)
 - Parent dashboard (working)
@@ -271,6 +290,7 @@ Build the Phase 1 MVP:
 **Your senior engineer is in place.**
 
 Claude Code:
+
 - ✓ Understands your mission and values
 - ✓ Knows your technical constraints
 - ✓ Can spot pedagogical issues immediately
@@ -284,6 +304,7 @@ Claude Code:
 ## Support
 
 If something isn't working:
+
 - **Claude Code help**: `/help`
 - **Project questions**: Ask in chat (Claude has context)
 - **General questions**: Check `/help` or GitHub issues

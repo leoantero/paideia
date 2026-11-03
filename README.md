@@ -1,145 +1,69 @@
-# Yellow AI - Educational AI Platform
+# Paideia
 
-Building the future of responsible AI in education through Socratic tutoring and parental supervision.
+Educational AI platform that teaches students to use AI as a learning tool, not a shortcut — Socratic tutoring, spaced repetition, and a longitudinal learning graph, with parent, teacher, and director views.
 
-## 🎯 Mission
+## Why it's different
 
-Teach students to use AI as a **learning tool**, not a shortcut, while giving parents and teachers visibility into learning outcomes.
+Most AI tutoring products are a thin chat wrapper around a frontier model — a commodity that gets rebuilt by the next model release. The defensible part of Paideia is the **learning graph**: an append-only, per-student, per-concept history of every tutoring interaction, from which mastery is 100% recomputable. See `docs/LEARNING_GRAPH.md`.
 
-## 🚀 Quick Start
+## Product
 
-### For New Team Members
-1. Read `docs/SETUP.md` (developer onboarding)
-2. Read `CLAUDE.md` (project principles & decisions)
-3. Read `docs/ARCHITECTURE.md` (system design)
-4. Read `docs/PEDAGOGY.md` (how we teach)
+- **Student**: Socratic tutoring chatbot (guides with questions, never gives direct answers), spaced-repetition flashcards, gamification (coins, character customization)
+- **Parent**: Simplified performance dashboard — trends, not detailed wrong answers
+- **Teacher**: Detailed student insights, test generation from curriculum
+- **Director**: Aggregate school/staff performance metrics
 
-### To Start Development
+## Stack
+
+- **Framework**: Next.js 16 (App Router) + React 19, TypeScript
+- **Styling**: Tailwind CSS 4
+- **Backend/DB**: Supabase (Postgres, RLS, service-role writes for the learning graph)
+- **LLM**: Claude API (Anthropic) for Socratic tutoring and question tagging
+- **Testing**: Vitest
+
+## Getting started
+
 ```bash
 npm install
-npm run dev           # Start dev server
-npm run test          # Run all tests
-npm run test:pedagogy # Verify educational logic
-npm run code-review ultra  # Before merging
+npm run dev            # start dev server
+npm run test           # unit + integration tests
+npm run test:pedagogy  # verify Socratic method / tutoring logic
+npm run audit:security # row-level security isolation checks
 ```
 
-## 📋 Project Structure
+Copy `.env.example` to `.env.local` and fill in your own Supabase/Anthropic credentials — never commit secrets.
+
+## Project structure
 
 ```
-yellow-ai-1/
-├── CLAUDE.md              # Project guidelines (REQUIRED READING)
-├── Projeto de Startup.pdf # Original product brief
-├── src/                   # Source code
-├── docs/
-│   ├── SETUP.md          # Developer setup guide
-│   ├── ARCHITECTURE.md    # System design
-│   ├── PEDAGOGY.md        # Educational principles
-│   └── API.md            # API documentation
-├── .claude/
-│   └── settings.json     # Claude Code configuration
-└── README.md             # This file
+src/
+├── features/
+│   ├── tutoring/          # Socratic chatbot & RAG
+│   ├── learning-graph/    # Append-only evidence recorder (server-only writes)
+│   ├── spaced-repetition/ # Flashcard system
+│   ├── performance/       # Analytics for parents/teachers/directors
+│   ├── gamification/      # Coins, character customization
+│   └── user-profiles/     # Student/parent/teacher/director roles
+├── core/
+│   ├── ai-integration/    # LLM calls
+│   ├── personalization/   # User history, preference tracking
+│   └── auth/              # Role-based access control
+├── api/                   # Backend routes
+└── ui/                    # Frontend components (design system: kit.tsx)
+docs/
+├── ARCHITECTURE.md
+├── LEARNING_GRAPH.md
+├── PEDAGOGY.md
+└── SECURITY_REVIEW.md
+supabase/
+└── migrations/            # Schema, RLS policies
 ```
 
-## 🎓 Product Features
+## Core principles
 
-### For Students
-- **Socratic Tutoring Chatbot**: AI asks questions to guide learning, never gives answers
-- **Spaced Repetition**: Smart flashcard system (5-20 min daily)
-- **Gamification**: Earn coins, customize character
+- **Pedagogy over features** — if it compromises the Socratic method, it doesn't ship
+- **Privacy by default** — minors' data; row-level security, encrypted at rest, audited access
+- **No shortcuts for kids** — AI guides, never answers
+- **Learning events are append-only** — no update, no delete; mastery is derived, never authored directly
 
-### For Parents
-- **Performance Dashboard**: Subject-level insights + weak area recommendations
-- **Learning Analytics**: Track progress over time
-- **Tutoring Recommendations**: Get alerts if child needs support
-
-### For Teachers
-- **Student Insights**: Common misconceptions + performance trends
-- **Test Generation**: Auto-generate questions from curriculum
-- **Class Analytics**: Monitor class performance at a glance
-
-### For School Directors
-- **School Analytics**: Aggregate student performance metrics
-- **Staff Performance**: Monitor teacher effectiveness
-- **System Health**: Overall platform usage and engagement
-
-## 🛡️ Core Principles
-
-✓ **Pedagogy First**: Educational value > features  
-✓ **Privacy by Default**: Student data protection is non-negotiable  
-✓ **No Shortcuts**: Preserve critical thinking through socratic method  
-✓ **Personalization**: Adapt to each student's grade level and learning pace  
-✓ **Multi-Role Design**: Each stakeholder sees exactly what they need  
-
-## 🔄 Development Workflow
-
-### Before Coding
-- Use `/plan` for complex features
-- Use `/codebase-design` for architecture questions
-- Read relevant docs in `docs/`
-
-### During Coding
-- Follow decision rules in `CLAUDE.md`
-- Preserve socratic method in tutoring logic
-- Write tests for educational outcomes
-- Use `/diagnosing-bugs` for complex issues
-
-### Before Merging
-- Run `/code-review ultra` for comprehensive analysis
-- Verify no PII leaks
-- Confirm pedagogical logic is sound
-- Check all roles work correctly
-
-## 🗂️ Tech Stack (To Be Decided)
-
-- **Language**: [Core team to decide]
-- **Frontend**: [Multi-role UI framework TBD]
-- **Backend**: [Node/Python/Java TBD]
-- **Database**: [SQL/NoSQL based on needs]
-- **LLM**: Claude API (via Anthropic)
-- **Auth**: Role-based access control
-
-## 📚 Key References
-
-- **Project Brief**: `Projeto de Startup.pdf` (what we're building)
-- **Architecture**: `docs/ARCHITECTURE.md` (how it works)
-- **Pedagogy**: `docs/PEDAGOGY.md` (why we teach this way)
-- **Decisions**: `CLAUDE.md` (decision rules for this startup)
-- **Setup**: `docs/SETUP.md` (get started developing)
-
-## 🚨 Critical Success Factors
-
-1. ✓ Socratic method is preserved (AI guides, doesn't answer)
-2. ✓ Student data is protected (LGPD/GDPR compliant)
-3. ✓ Personalization works (right content for right student)
-4. ✓ All 4 roles work (student, parent, teacher, director)
-5. ✓ Educational outcomes are measurable
-
-## 🤝 Using Claude Code
-
-This project is designed to work with Claude Code as your senior engineer.
-
-**Claude Code Commands**:
-- `/plan` - Design new features or architecture
-- `/code-review ultra` - Comprehensive review before merging
-- `/codebase-design` - Evaluate architecture decisions
-- `/diagnosing-bugs` - Debug complex pedagogical issues
-- `/design` - Create UI mockups and flows
-
-**Custom Skills** (to be created):
-- `pedagogical-review` - Verify socratic method preserved
-- `privacy-audit` - Check for data leaks
-- `role-access-check` - Verify permission boundaries
-
-## 📞 Communication
-
-- **Questions?** Check `docs/` first
-- **Bug?** Use `/diagnosing-bugs`
-- **Architecture?** Use `/codebase-design`
-- **Code Review?** Use `/code-review ultra`
-- **Stuck?** Ask in team channel with context
-
----
-
-**Last Updated**: 2026-09-03  
-**Phase**: Foundation & Setup  
-**Status**: 🔨 Building Core Architecture
+See `CLAUDE.md` for the full set of engineering and product decision rules.

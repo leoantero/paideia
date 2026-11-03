@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Claude Code configuration for Yellow AI startup",
+  "description": "Claude Code configuration for Paideia startup",
   "hooks": {
     "PreToolUse": [
       {

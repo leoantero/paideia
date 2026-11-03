@@ -36,7 +36,7 @@
 ## 2. Project Structure
 
 ```
-yellow-ai-1/
+paideia/
 ├── src/
 │   ├── features/
 │   │   ├── tutoring/          # Socratic chatbot & RAG
